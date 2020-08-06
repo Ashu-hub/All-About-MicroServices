@@ -1,0 +1,6 @@
+WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
+;
+try {
+/* module-key = 'nl.avisi.confluence.plugins.numberedheadings:split_nh-macro-browser-plugin~nh-space-tools~nh-tinymce-plugin', location = 'nh-macro-browser-plugin~nh-space-tools~nh-tinymce-plugin.a63cfe0fa2bf2ddbd4a7.js' */
+(window.atlassianWebpackJsonp981e0f4effab173567f2d6cf31d7b23b=window.atlassianWebpackJsonp981e0f4effab173567f2d6cf31d7b23b||[]).push([[0],[function(a){a.exports=require("jquery")},function(a){a.exports=require("ajs")}]]);
+}catch(e){WRMCB(e)};

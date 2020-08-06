@@ -1,0 +1,31 @@
+WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
+;
+try {
+/* module-key = 'com.atlassian.confluence.extra.team-calendars:util', location = '/com/atlassian/confluence/extra/calendar3/util/util.js' */
+define("tc/util", [ "jquery" ], function ($) {
+    var module = {};
+
+    module.showDialogInUpdatedHeight = function(aDialog) {
+        // Such flashing is required so that the dialog resizes properly, and the stuff doesn't appear blank in IE7.
+        if (!aDialog.getCurrentPanel().body.is(":visible"))
+            aDialog.show();
+
+        aDialog.updateHeight();
+
+
+        // workaround AJS-627
+        aDialog.popup.element.css("height", "");
+        aDialog.popup.element.find("div.dialog-panel-body").css("height", "");
+        aDialog.popup.element.find("form, div.buttons-container").css("margin-bottom", "0");
+        aDialog.popup.changeSize(undefined, aDialog.popup.element.outerHeight());
+        aDialog.hide();
+        aDialog.show();
+    };
+
+    module.getRestBaseUrl = function() {
+        return Confluence.getContextPath() + "/rest/calendar-services/1.0";
+    };
+
+    return module;
+});
+}catch(e){WRMCB(e)};

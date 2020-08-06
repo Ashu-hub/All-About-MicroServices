@@ -1,0 +1,6 @@
+WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
+;
+try {
+/* module-key = 'com.atlassian.confluence.plugins.confluence-inline-tasks:space-page-picker-shim', location = 'js/space-page-picker-shim.js' */
+define("confluence-inline-tasks/space-page-picker-shim",["confluence-ui-components/js/space-page-picker"],function(d){function c(e){var g=e.space;var h=e.page;var f=[];if(g){f=f.concat(_.map(g.split(","),function(i){return"space:"+i}))}if(h){f=f.concat(_.map(h.split(","),function(i){return"page:"+i}))}return f.join(",")}function b(f){var e={page:[],space:[]};if(!f){return e}var g=f.split(",");g.forEach(function(h){var k=h.split(":");var j=k[0];var i=k[1];e[j].push(i)});return e}function a(e){return b(e.val())}return{build:function(e){return d.build(e)},setValue:function(f,e){return d.setValue(f,e)},splitStringToMap:b,combineMapToString:c,getValueAsMap:a}});
+}catch(e){WRMCB(e)};

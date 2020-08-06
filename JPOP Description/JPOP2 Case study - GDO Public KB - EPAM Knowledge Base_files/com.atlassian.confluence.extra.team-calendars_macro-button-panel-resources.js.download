@@ -1,0 +1,86 @@
+WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
+;
+try {
+/* module-key = 'com.atlassian.confluence.extra.team-calendars:macro-button-panel-resources', location = 'com/atlassian/confluence/extra/calendar3/js/calendar-macro-button-panel.js' */
+;(function($) {
+    AJS.bind("init.rte", function() {
+        var CalendarMacroButtonPanel = {
+            initViewButtons : function() {
+                $.each(CalendarMacroButtonPanel.getButtonIdToViewMap(), function(buttonId, buttonValue) {
+                    AJS.Confluence.PropertyPanel.Macro.registerButtonHandler(buttonId, function(e, macroNode) {
+                        var $macroContainer = $(macroNode);
+                        AJS.Rte.getEditor().selection.select($macroContainer[0]);
+                        AJS.Rte.BookmarkManager.storeBookmark();
+
+                        tinymce.confluence.MacroUtils.insertMacro({
+                            contentId: Confluence.Editor.getContentId(),
+                            macro: {
+                                name: CalendarMacroButtonPanel.getMacroName($macroContainer),
+                                params: $.extend(CalendarMacroButtonPanel.parseMacroParams($macroContainer), { "defaultView": buttonValue }),
+                                defaultParameterValue: "",
+                                body : ""
+                            }
+                        });
+                    });
+                });
+            },
+
+            initAddButton : function(){
+                AJS.Confluence.PropertyPanel.Macro.registerButtonHandler("add-subcalendar", function(e, macroNode) {
+                    var $macroContainer = $(macroNode);
+                    Confluence.TeamCalendars.Dialogs.getAddDialogForMacro({
+                            name: CalendarMacroButtonPanel.getMacroName($macroContainer),
+                            params: CalendarMacroButtonPanel.parseMacroParams($macroContainer),
+                            defaultParameterValue: "",
+                            body : ""
+                    });
+                });
+            },
+
+            parseMacroParams : function($macroContainer) {
+                var macroParamsString = $macroContainer.attr("data-macro-parameters") || "", valuePairs = macroParamsString.split("|"), macroParams = {};
+
+                if (valuePairs) {
+                    $.each(valuePairs, function(valuePairIdx, valuePair) {
+                        var valuePairTokens = valuePair.split("=", 2);
+                        if (valuePairTokens.length > 0)
+                            macroParams[valuePairTokens[0]] = valuePairTokens.length > 1 ? valuePairTokens[1] : "";
+                    });
+                }
+
+                return macroParams;
+            },
+
+            getMacroName : function($macroContainer) {
+                return $macroContainer.attr("data-macro-name");
+            },
+
+            getButtonIdToViewMap : function() {
+                return {
+                    "calendar-view-month" : "month",
+                    "calendar-view-week" : "week",
+                    "calendar-view-list" : "list",
+                    "calendar-view-upcoming" : "upcoming",
+                    "calendar-view-timeline" : "timeline"
+                };
+            },
+
+            initViewButtonHighlight : function() {
+                AJS.bind("created.property-panel", function (e, data) {
+                    var viewButtonToHighlight = CalendarMacroButtonPanel.parseMacroParams($(data.anchor))["defaultView"] || "month";
+                    if (viewButtonToHighlight === "upcoming")
+                        viewButtonToHighlight = "list";
+
+                    $(".macro-property-panel-calendar-view-" + viewButtonToHighlight, data.panel).addClass("selected");
+                });
+            }
+        };
+
+        CalendarMacroButtonPanel.initViewButtons();
+        CalendarMacroButtonPanel.initAddButton();
+        CalendarMacroButtonPanel.initViewButtonHighlight();
+    });
+
+})(jQuery);
+
+}catch(e){WRMCB(e)};

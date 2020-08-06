@@ -1,0 +1,6 @@
+/* module-key = 'org.swift.confluence.table:advanced-tables-editor-resources', location = 'scripts/table-editor/table-editor.css' */
+/* Image for Table Plus menu item in macro browser */
+#insert-menu .macro-table-plus .icon {
+    background: url(/s/en_US/8100/e6b42acaec191a9bce4ab234dae0b1b08af15496/8.0.3/_/download/resources/org.swift.confluence.table:advanced-tables-editor-resources/img/table-32x32.png) no-repeat scroll left center transparent;
+    background-size: 16px 16px;
+}

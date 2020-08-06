@@ -1,0 +1,15 @@
+/* module-key = 'onedrive-confluence:insert-menu-icons-resources', location = 'css/insert-menu-icons.css' */
+#insert-menu .aui-dropdown #lref-onedrive-file .icon {
+    background: url(/s/en_US/8100/e6b42acaec191a9bce4ab234dae0b1b08af15496/100/_/download/resources/onedrive-confluence:insert-menu-icons-resources/onedrive_80x80.png) no-repeat scroll left center transparent;
+    background-size: 16px 16px;
+}
+
+#insert-menu .aui-dropdown #lref-onedrive-files-list .icon {
+    background: url(/s/en_US/8100/e6b42acaec191a9bce4ab234dae0b1b08af15496/100/_/download/resources/onedrive-confluence:insert-menu-icons-resources/onedrive_80x80.png) no-repeat scroll left center transparent;
+    background-size: 16px 16px;
+}
+
+#insert-menu .aui-dropdown #lref-onedrive-embedded-file .icon {
+    background: url(/s/en_US/8100/e6b42acaec191a9bce4ab234dae0b1b08af15496/100/_/download/resources/onedrive-confluence:insert-menu-icons-resources/onedrive_80x80.png) no-repeat scroll left center transparent;
+    background-size: 16px 16px;
+}

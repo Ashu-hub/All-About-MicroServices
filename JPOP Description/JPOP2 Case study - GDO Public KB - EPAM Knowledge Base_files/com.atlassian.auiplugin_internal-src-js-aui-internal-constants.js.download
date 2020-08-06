@@ -1,0 +1,6 @@
+WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
+;
+try {
+/* module-key = 'com.atlassian.auiplugin:internal-src-js-aui-internal-constants', location = 'src/js/aui/internal/constants.js' */
+("undefined"===typeof window?global:window).__584af8690b0248d0ffcba682ccaa70ba=function(){var a={};"use strict";Object.defineProperty(a,"__esModule",{value:!0});a.INPUT_SUFFIX="-input";return a}.call(this);
+}catch(e){WRMCB(e)};

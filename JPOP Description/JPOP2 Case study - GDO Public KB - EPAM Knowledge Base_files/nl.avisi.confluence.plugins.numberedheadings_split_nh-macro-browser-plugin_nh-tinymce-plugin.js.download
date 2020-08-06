@@ -1,0 +1,6 @@
+WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
+;
+try {
+/* module-key = 'nl.avisi.confluence.plugins.numberedheadings:split_nh-macro-browser-plugin~nh-tinymce-plugin', location = 'nh-macro-browser-plugin~nh-tinymce-plugin.9ae303de21fb12d13a8e.js' */
+(window.atlassianWebpackJsonp981e0f4effab173567f2d6cf31d7b23b=window.atlassianWebpackJsonp981e0f4effab173567f2d6cf31d7b23b||[]).push([[1],{2:function(a,b,c){"use strict";c.d(b,"b",function(){return g}),c.d(b,"a",function(){return h}),c.d(b,"c",function(){return i});var d=c(51),e=c.n(d);window.nhLicenseStatus||(window.nhLicenseStatus=e.a.claim("nl.avisi.confluence.plugins.numberedheadings:nh-license-data.license-status"));var f=window.nhLicenseStatus,g=f.active||!1,h=f.expiresInDays||0,i=f.subscription||!1},51:function(a){a.exports=WRM.data}}]);
+}catch(e){WRMCB(e)};

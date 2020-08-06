@@ -1,0 +1,72 @@
+
+#header .aui-header {
+ border-bottom: 1px solid #2E3D54 !important;
+ background-color: #1A9CB0 !important;
+ color: #FFF !important;
+}
+.sso-kb-login-aui-button {
+                                    font-weight: bold;
+                                    position: relative;
+                                    display: inline-block;
+                                    box-sizing: border-box;
+                                    height: 30px;
+                                    padding: 4px 10px;
+                                    cursor: pointer;
+                                    text-decoration: none;
+                                    color: rgb(255, 255, 255) !important;
+                                    border: 1px solid rgb(142,36,77) !important;;
+                                    border-radius: 3px;
+                                    background: #8E244D;
+                                    background: -moz-linear-gradient(top, #852047 0, #8E244D 100%) !important;
+                                    background: -webkit-linear-gradient(top, #852047 0, #8E244D 100%) !important;
+                                    background: -o-linear-gradient(top, #852047 0, #8E244D 100%) !important;
+                                    background: -ms-linear-gradient(top, #852047 0, #8E244D 100%) !important;
+                                    background: linear-gradient(top, #852047 0, #8E244D 100%) !important;
+                                    text-shadow: rgb(32, 80, 129) 0 1px 0;
+                                }
+.sso-kb-login-aui-button:hover {
+  background-color: #8E244D;
+  background-image: -moz-linear-gradient(top, #741e3f, #8E244D) !important;
+  background-image: -ms-linear-gradient(top, #741e3f, #8E244D) !important;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#741e3f), to(#8E244D)) !important;
+  background-image: -webkit-linear-gradient(top, #741e3f, #8E244D) !important;
+  background-image: -o-linear-gradient(top, #741e3f, #8E244D) !important;
+  background-image: linear-gradient(top, #741e3f, #8E244D) !important;
+  text-decoration: none;
+}
+.sso-kb-login-aui-button:focus {
+  background-color: #8E244D;
+  background-image: -moz-linear-gradient(top, #7c2c4b, #8E244D) !important;
+  background-image: -ms-linear-gradient(top, #7c2c4b, #8E244D) !important;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#7c2c4b), to(#8E244D)) !important;
+  background-image: -webkit-linear-gradient(top, #7c2c4b, #8E244D) !important;
+  background-image: -o-linear-gradient(top, #7c2c4b, #8E244D) !important;
+  background-image: linear-gradient(top, #7c2c4b, #8E244D) !important;
+  text-decoration: none;
+}
+                             
+.aui.login-form-container  > p > font {
+  color:#B22746 !important;
+}
+.aui.login-form-container  > p {
+  color:#1A9CB0 !important;
+}
+.aui-button.aui-button-link:visited {
+  color:#1A9CB0 !important;
+}
+
+#title-heading > div.space-logo > a > img {
+    width: 48px;
+    height: 48px;
+}
+
+code {
+padding: 2px 4px;
+font-size: 90%;
+color: #c7254e;
+white-space: nowrap;
+background-color: #f9f2f4;
+border-radius: 4px;
+}
+
+

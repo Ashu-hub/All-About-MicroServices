@@ -1,0 +1,6 @@
+WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
+;
+try {
+/* module-key = 'com.atlassian.auiplugin:internal-src-js-aui-internal-select-suggestion-model', location = 'src/js/aui/internal/select/suggestion-model.js' */
+("undefined"===typeof window?global:window).__3612acbfe60f9cd2a88e38733670f664=function(){var a={};"use strict";Object.defineProperty(a,"__esModule",{value:!0});var b=__320e4ec293ac29d49b959aa9d46df68f;a.default=(b&&b.__esModule?b:{"default":b}).default.Model.extend({idAttribute:"label",getLabel:function(){return this.get("label")||this.get("value")}});return a=a["default"]}.call(this);
+}catch(e){WRMCB(e)};

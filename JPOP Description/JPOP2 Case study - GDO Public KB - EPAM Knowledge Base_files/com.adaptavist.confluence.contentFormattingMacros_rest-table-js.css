@@ -1,0 +1,183 @@
+/* module-key = 'com.adaptavist.confluence.contentFormattingMacros:rest-table-js', location = 'css/custom-macro-dialog.css' */
+/* styles for custom macro dialog: radio buttons, checkboxes */
+
+/* ## dialog box ## */
+
+#buttongroup-dialog .aui-dialog2-content {
+    padding-top: 10px;
+    overflow: hidden;
+}
+
+.custom-macro-dialog .tabs-pane {
+    padding: 10px;
+}
+
+/* ## form elements ## */
+
+.custom-macro-dialog .aui-item.align-left {
+    text-align: left;
+}
+
+.custom-macro-dialog input#restURL,
+.custom-macro-dialog input#group-name,
+.custom-macro-dialog input#group-rows,
+.custom-macro-dialog input#group-cols {
+    max-width: 66.4%;
+    min-width: 66.4%;
+    width: 66.4%;
+}
+
+.custom-macro-dialog .aui-item > label {
+    margin-right: 10px;
+    min-width: 120px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.custom-macro-dialog input#group-label,
+.custom-macro-dialog input#group-name {
+    min-width: 66.4%;
+    width: 66.4%;
+    max-width: 66.4%;
+}
+
+.aui-item.group-desc > input {
+    min-width: 84%;
+    width: 84%;
+    max-width: 84%;
+}
+
+.custom-macro-dialog .destinations .aui-item.group-desc > input {
+    width: 70%;
+    max-width: 70%;
+    min-width: 70%;
+}
+
+.custom-macro-dialog form.aui legend {
+    float: none;
+    font-weight: bold;
+    margin: 0;
+    width: auto;
+    display: inline-block;
+    text-align: left;
+}
+
+.custom-macro-dialog form.aui fieldset {
+    display: inline-block;
+}
+
+.custom-macro-dialog form.aui fieldset.details {
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 10px;
+}
+
+.custom-macro-dialog form.aui .icon-required-moved {
+    left: 5px;
+    position: relative;
+    top: 0px;
+}
+
+/* ## table for adding/removing rows ## */
+
+#dataTable thead,
+#dataTable tbody {
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+}
+
+#dataTable tbody {
+    height: 180px;
+}
+
+#dataTable th {
+    font-weight: normal;
+}
+
+#dataTable > tbody > tr {
+    border: 0 none;
+}
+
+#dataTable > tbody > tr:first-child > td,
+#dataTable > tbody > tr:first-child > th,
+#dataTable > tfoot > tr:first-child > td {
+    border-top: 0 none;
+}
+
+#dataTable .smallLabel {
+    min-width: 150px;
+}
+
+#dataTable .largeLabel {
+    min-width: 220px;
+}
+
+#dataTable .smallActions {
+    min-width: 100px;
+}
+
+#dataTable .destinationListSmall {
+    width: 150px;
+}
+
+#dataTable .destinationListLarge {
+    width: 220px;
+}
+
+#dataTable .smallButtonActions {
+    width: 100px;
+}
+
+#dataTable .buttonLabel,
+#dataTable .buttonValue {
+    min-width: 310px;
+}
+
+#dataTable .buttonInputLabel,
+#dataTable .buttonInputValue {
+    min-width: 280px;
+}
+
+#dataTable .buttonSelected,
+#dataTable .actions {
+    min-width: 110px;
+}
+
+form.rest-table #dataTable .actions {
+    padding-left: 142px;
+}
+
+#dataTable .buttonSelected {
+    text-align: center;
+}
+
+#dataTable td.actions {
+    width: 146px;
+}
+
+#dataTable td.actions .aui-button {
+    height: auto;
+    padding: 0 6px;
+}
+
+/* ## make the scrollbars show for the table body in chrome on mac ## */
+
+#dataTable tbody::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+
+#dataTable tbody::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    -webkit-box-shadow: 0 0 1px rgba(240, 240, 240, 1);
+}
+
+.hiddenButton {
+    display: none;
+}
+
+.documentationlink {
+    margin-right: 735px;
+}

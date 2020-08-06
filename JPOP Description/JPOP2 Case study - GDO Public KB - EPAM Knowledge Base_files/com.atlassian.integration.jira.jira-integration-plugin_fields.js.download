@@ -1,0 +1,203 @@
+WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
+;
+try {
+/* module-key = 'com.atlassian.integration.jira.jira-integration-plugin:fields', location = '/fields/fields.soy' */
+// This file was automatically generated from fields.soy.
+// Please don't edit this file by hand.
+
+/**
+ * @fileoverview Templates in namespace jiraIntegration.templates.fields.
+ */
+
+if (typeof jiraIntegration == 'undefined') { var jiraIntegration = {}; }
+if (typeof jiraIntegration.templates == 'undefined') { jiraIntegration.templates = {}; }
+if (typeof jiraIntegration.templates.fields == 'undefined') { jiraIntegration.templates.fields = {}; }
+
+
+jiraIntegration.templates.fields.stringField = function(opt_data, opt_ignored) {
+  return '' + jiraIntegration.templates.fields.fieldWithExtraAttributes(soy.$$augmentMap(opt_data, {extraFieldClasses: 'long-field'}));
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.stringField.soyTemplateName = 'jiraIntegration.templates.fields.stringField';
+}
+
+
+jiraIntegration.templates.fields.textareaField = function(opt_data, opt_ignored) {
+  return '<div class="field-group jira-field' + ((opt_data.extraClasses) ? ' ' + soy.$$escapeHtml(opt_data.extraClasses) : '') + '" data-jira-type="' + soy.$$escapeHtml(opt_data.jiraType) + '"><label for="' + soy.$$escapeHtml(opt_data.name) + '">' + soy.$$escapeHtml(opt_data.labelText) + ((opt_data.isRequired) ? '<span class="aui-icon icon-required"></span>' : '') + '</label><textarea rows="3" id="' + soy.$$escapeHtml(opt_data.name) + '" class="textarea long-field" data-name=' + soy.$$escapeHtml(opt_data.name) + ' name=' + soy.$$escapeHtml(opt_data.name) + ((opt_data.extraAttributes) ? ' ' + aui.renderExtraAttributes(opt_data) : '') + '>' + soy.$$escapeHtml(opt_data.value) + '</textarea>' + jiraIntegration.templates.fields.errors(opt_data) + '</div>';
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.textareaField.soyTemplateName = 'jiraIntegration.templates.fields.textareaField';
+}
+
+
+jiraIntegration.templates.fields.arrayField = function(opt_data, opt_ignored) {
+  return '' + jiraIntegration.templates.fields.fieldWithExtraAttributes(soy.$$augmentMap(opt_data, {extraFieldClasses: 'long-field'}));
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.arrayField.soyTemplateName = 'jiraIntegration.templates.fields.arrayField';
+}
+
+
+jiraIntegration.templates.fields.numberField = function(opt_data, opt_ignored) {
+  return '' + jiraIntegration.templates.fields.fieldWithExtraAttributes(soy.$$augmentMap(opt_data, {extraFieldClasses: 'medium-field'}));
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.numberField.soyTemplateName = 'jiraIntegration.templates.fields.numberField';
+}
+
+
+jiraIntegration.templates.fields.allowedValuesField = function(opt_data, opt_ignored) {
+  return '' + ((opt_data.options.length) ? jiraIntegration.templates.fields.fieldWithExtraAttributes(soy.$$augmentMap(opt_data, {type: 'select'})) : jiraIntegration.templates.fields.fieldWithExtraAttributes(soy.$$augmentMap(opt_data, {type: 'value', value: 'None'})));
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.allowedValuesField.soyTemplateName = 'jiraIntegration.templates.fields.allowedValuesField';
+}
+
+
+jiraIntegration.templates.fields.timeTrackingField = function(opt_data, opt_ignored) {
+  return '' + jiraIntegration.templates.fields.fieldWithExtraAttributes(soy.$$augmentMap(opt_data, {extraFieldClasses: 'medium-field'}));
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.timeTrackingField.soyTemplateName = 'jiraIntegration.templates.fields.timeTrackingField';
+}
+
+
+jiraIntegration.templates.fields.radioField = function(opt_data, opt_ignored) {
+  return '' + aui.form.radioField(soy.$$augmentMap(opt_data, {legendContent: opt_data.labelText, extraAttributes: {'data-name': opt_data.name, name: opt_data.name, 'data-jira-type': opt_data.jiraType}, extraClasses: 'jira-field'}));
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.radioField.soyTemplateName = 'jiraIntegration.templates.fields.radioField';
+}
+
+
+jiraIntegration.templates.fields.unrenderableTypeField = function(opt_data, opt_ignored) {
+  return '<div class="field-group jira-field jira-field-unrenderable' + ((opt_data.extraClasses) ? ' ' + soy.$$escapeHtml(opt_data.extraClasses) : '') + '"><label>' + soy.$$escapeHtml(opt_data.labelText) + ((opt_data.isRequired) ? '<span class="aui-icon icon-required"></span>' : '') + '</label>' + aui.form.value({content: opt_data.reasonContent}) + jiraIntegration.templates.fields.errors(opt_data) + '</div>';
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.unrenderableTypeField.soyTemplateName = 'jiraIntegration.templates.fields.unrenderableTypeField';
+}
+
+
+jiraIntegration.templates.fields.dateField = function(opt_data, opt_ignored) {
+  return '' + jiraIntegration.templates.fields.fieldWithExtraAttributes(soy.$$augmentMap(opt_data, {extraFieldClasses: 'medium-field'}));
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.dateField.soyTemplateName = 'jiraIntegration.templates.fields.dateField';
+}
+
+
+jiraIntegration.templates.fields.checkboxField = function(opt_data, opt_ignored) {
+  return '' + aui.form.checkboxField(soy.$$augmentMap(opt_data, {legendContent: opt_data.labelText, extraAttributes: {'data-name': opt_data.name, name: opt_data.name, 'data-jira-type': opt_data.jiraType}, extraClasses: 'jira-field'}));
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.checkboxField.soyTemplateName = 'jiraIntegration.templates.fields.checkboxField';
+}
+
+
+jiraIntegration.templates.fields.select2WithIconField = function(opt_data, opt_ignored) {
+  var output = '<div class="field-group jira-field' + ((opt_data.extraClasses) ? ' ' + soy.$$escapeHtml(opt_data.extraClasses) : '') + '" data-jira-type="' + soy.$$escapeHtml(opt_data.jiraType) + '"><label for="' + soy.$$escapeHtml(opt_data.name) + '">' + soy.$$escapeHtml(opt_data.labelText) + ((opt_data.isRequired) ? '<span class="aui-icon icon-required"></span>' : '') + '</label><select id="' + soy.$$escapeHtml(opt_data.name) + '" class="medium-field" name="' + soy.$$escapeHtml(opt_data.name) + '" data-name="' + soy.$$escapeHtml(opt_data.name) + '"' + ((opt_data.extraAttributes) ? ' ' + aui.renderExtraAttributes(opt_data) : '') + '>';
+  var optionList111 = opt_data.options;
+  var optionListLen111 = optionList111.length;
+  for (var optionIndex111 = 0; optionIndex111 < optionListLen111; optionIndex111++) {
+    var optionData111 = optionList111[optionIndex111];
+    output += '<option value="' + soy.$$escapeHtml(optionData111.value) + '" ' + ((optionData111.selected) ? 'selected' : '') + ' data-icon-url="' + soy.$$escapeHtml(optionData111.iconUrl) + '">' + soy.$$escapeHtml(optionData111.text) + '</option>';
+  }
+  output += '</select>' + jiraIntegration.templates.fields.errors(opt_data) + '</div>';
+  return output;
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.select2WithIconField.soyTemplateName = 'jiraIntegration.templates.fields.select2WithIconField';
+}
+
+
+jiraIntegration.templates.fields.select2WithIconOption = function(opt_data, opt_ignored) {
+  return ((opt_data.iconUrl) ? aui.avatar.avatar({avatarImageUrl: opt_data.iconUrl, size: 'xsmall', isProject: opt_data.isProject, extraClasses: 'select-option-image', tagName: 'span'}) : '') + '<span class="select-option" title="' + soy.$$escapeHtml(opt_data.optionValue) + '">' + soy.$$escapeHtml(opt_data.optionValue) + '</span>';
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.select2WithIconOption.soyTemplateName = 'jiraIntegration.templates.fields.select2WithIconOption';
+}
+
+
+jiraIntegration.templates.fields.labelFieldResult = function(opt_data, opt_ignored) {
+  return '' + ((opt_data.label.isNew) ? soy.$$escapeHtml(AJS.format('\x22{0}\x22 - (New label)',opt_data.label.labelName)) : soy.$$escapeHtml(opt_data.label.labelName));
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.labelFieldResult.soyTemplateName = 'jiraIntegration.templates.fields.labelFieldResult';
+}
+
+
+jiraIntegration.templates.fields.userOptionSelect = function(opt_data, opt_ignored) {
+  var output = '';
+  var userOption__soy149 = '' + soy.$$escapeHtml(opt_data.displayName) + ((! opt_data.isSystemOption) ? ' - (' + soy.$$escapeHtml(opt_data.name) + ')' : '');
+  output += '<span data-value="' + soy.$$escapeHtml(opt_data.name) + '" title="' + soy.$$filterNoAutoescape(userOption__soy149) + '">' + soy.$$filterNoAutoescape(userOption__soy149) + '</span>';
+  return output;
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.userOptionSelect.soyTemplateName = 'jiraIntegration.templates.fields.userOptionSelect';
+}
+
+
+jiraIntegration.templates.fields.sprintSelect = function(opt_data, opt_ignored) {
+  return '<span title="' + soy.$$escapeHtml(opt_data.name) + '">' + soy.$$escapeHtml(opt_data.name) + '<span class="sprint-detail">' + ((opt_data.state == 'FUTURE') ? soy.$$escapeHtml(AJS.format('(Future sprint in {0})',opt_data.board)) : '') + ((opt_data.state == 'ACTIVE') ? soy.$$escapeHtml(AJS.format('(Active sprint in {0})',opt_data.board)) : '') + '</span></span>';
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.sprintSelect.soyTemplateName = 'jiraIntegration.templates.fields.sprintSelect';
+}
+
+
+jiraIntegration.templates.fields.epicSelect = function(opt_data, opt_ignored) {
+  return '<span title="' + soy.$$escapeHtml(opt_data.name) + ' (' + soy.$$escapeHtml(opt_data.key) + ')">' + soy.$$escapeHtml(opt_data.name) + ((opt_data.key) ? '<span class="epic-detail">' + soy.$$escapeHtml(opt_data.key) + '</span>' : '') + '</span>';
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.epicSelect.soyTemplateName = 'jiraIntegration.templates.fields.epicSelect';
+}
+
+
+jiraIntegration.templates.fields.errors = function(opt_data, opt_ignored) {
+  opt_data = opt_data || {};
+  var output = '';
+  if (opt_data.errorTexts) {
+    var errorList194 = opt_data.errorTexts;
+    var errorListLen194 = errorList194.length;
+    for (var errorIndex194 = 0; errorIndex194 < errorListLen194; errorIndex194++) {
+      var errorData194 = errorList194[errorIndex194];
+      output += '<div class="error">' + soy.$$escapeHtml(errorData194) + '</div>';
+    }
+  }
+  return output;
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.errors.soyTemplateName = 'jiraIntegration.templates.fields.errors';
+}
+
+
+jiraIntegration.templates.fields.fieldWithExtraAttributes = function(opt_data, opt_ignored) {
+  var output = '<div class="field-group jira-field' + ((opt_data.extraClasses) ? ' ' + soy.$$escapeHtml(opt_data.extraClasses) : '') + '" data-jira-type=' + soy.$$escapeHtml(opt_data.jiraType) + '>' + aui.form.label({forField: opt_data.name, isRequired: opt_data.isRequired, content: '' + soy.$$escapeHtml(opt_data.labelText)});
+  switch (opt_data.type) {
+    case 'select':
+      output += aui.form.select({id: opt_data.name, name: opt_data.name, labelContent: '' + soy.$$escapeHtml(opt_data.labelText), options: opt_data.options, isRequired: opt_data.isRequired, isMultiple: opt_data.isMultiple, extraAttributes: soy.$$augmentMap({'data-name': opt_data.name}, opt_data.extraAttributes), extraClasses: opt_data.extraFieldClasses});
+      break;
+    case 'value':
+      output += aui.form.value({id: opt_data.name, content: '' + soy.$$escapeHtml(opt_data.value)});
+      break;
+    default:
+      output += aui.form.input({id: opt_data.name, name: opt_data.name, type: 'text', value: opt_data.value, extraAttributes: soy.$$augmentMap({'data-name': opt_data.name}, opt_data.extraAttributes), extraClasses: opt_data.extraFieldClasses});
+  }
+  output += jiraIntegration.templates.fields.errors(opt_data) + '</div>';
+  return output;
+};
+if (goog.DEBUG) {
+  jiraIntegration.templates.fields.fieldWithExtraAttributes.soyTemplateName = 'jiraIntegration.templates.fields.fieldWithExtraAttributes';
+}
+
+}catch(e){WRMCB(e)};
+;
+try {
+/* module-key = 'com.atlassian.integration.jira.jira-integration-plugin:fields', location = '/fields/fields.js' */
+window.jiraIntegration=window.jiraIntegration||{};window.jiraIntegration.fields=(function(U,ap){var t=window.jiraIntegration;var o="YYYY-MM-DD";var k={template:t.templates.fields.stringField,getContext:E,getValue:N};var ag={template:t.templates.fields.stringField,getContext:ah,getValue:N};var X={template:t.templates.fields.stringField,getContext:u,getInternalValue:y,getValue:w,behavior:j};var I={template:t.templates.fields.stringField,getContext:u,getValue:P,behavior:r};var D={template:t.templates.fields.arrayField,getContext:l,getValue:M,behavior:m};var B={template:t.templates.fields.textareaField,getContext:E,getValue:N};var R={template:t.templates.fields.numberField,getContext:ai,getValue:O};var e={template:t.templates.fields.arrayField,getContext:l,getValue:M};var am={template:t.templates.fields.allowedValuesField,getContext:i,getValue:ap.bind(c,null,"id"),behavior:ao};var ab={template:t.templates.fields.allowedValuesField,getContext:i,getValue:ap.bind(c,null,"id")};var aa={template:t.templates.fields.timeTrackingField,getContext:an,getValue:h};var W={template:t.templates.fields.dateField,getContext:J,getValue:x,behavior:H};var n={template:t.templates.fields.select2WithIconField,getContext:T,getValue:ap.bind(c,null,"id"),behavior:b};var v={template:t.templates.fields.unrenderableTypeField,getContext:f,};var aq={template:t.templates.fields.stringField,getContext:E,getInternalValue:y,getValue:O,behavior:Y,};var z={template:t.templates.fields.stringField,getContext:E,getInternalValue:y,getValue:Z,behavior:af,};var ae={template:t.templates.fields.checkboxField,getContext:ad,getValue:L,};var V={template:t.templates.fields.radioField,getContext:ad,getValue:d,};var p={"com.pyxis.greenhopper.jira:gh-epic-label":k,string:k,summary:k,"com.atlassian.jira.plugin.system.customfieldtypes:textfield":k,"com.atlassian.jira.plugin.system.customfieldtypes:url":ag,environment:B,"com.atlassian.jira.plugin.system.customfieldtypes:textarea":B,description:B,"com.atlassian.jira.plugin.system.customfieldtypes:float":R,array:e,"com.atlassian.jira.plugin.system.customfieldtypes:labels":e,labels:D,priority:n,resolution:am,fixVersions:am,versions:am,components:am,security:am,"com.atlassian.jira.plugin.system.customfieldtypes:version":am,"com.atlassian.jira.plugin.system.customfieldtypes:multiversion":am,"com.atlassian.jira.plugin.system.customfieldtypes:project":am,assignee:X,reporter:I,"com.atlassian.jira.plugin.system.customfieldtypes:userpicker":I,"com.atlassian.jira.plugin.system.customfieldtypes:multiuserpicker":I,timetracking:aa,duedate:W,"com.atlassian.jira.plugin.system.customfieldtypes:datepicker":W,"com.atlassian.jira.plugin.system.customfieldtypes:multiselect":ab,"com.atlassian.jira.plugin.system.customfieldtypes:select":ab,"com.pyxis.greenhopper.jira:gh-sprint":aq,"com.pyxis.greenhopper.jira:gh-epic-link":z,"com.atlassian.jira.plugin.system.customfieldtypes:multicheckboxes":ae,"com.atlassian.jira.plugin.system.customfieldtypes:radiobuttons":V,};var F={ignoreFieldsWithDefaultValue:false};function A(ay,aB,aC,az){var ar=aB.schema.system||"customfield_"+aB.schema.customId;var at=aB.schema.system||aB.schema.custom||aB.schema.customId;var au=p[at];var aA=Boolean(au&&(!au.canRender||au.canRender(aB)));var ax=Boolean(aB.operations&&aB.operations.length);var aD=aA&&ax?au:v;var aw=aB.required&&{"data-aui-validation-field":"",required:true};var av={labelText:aB.name,name:ar,isRequired:aB.required,value:aC[ar],errorTexts:az[ar],jiraType:at,isRenderable:aA,hasOperations:ax,handler:aD,extraAttributes:aw};return aD.getContext(av,aB,ay,aC)}function f(au,ar,at){if(!au.isRenderable){au.reasonContent=at?AJS.format("{0}Edit{1} this field in JIRA",'<a href="'+at.url+'">',"</a>"):AJS.escapeHtml("Edit this field in Jira after creation.")}else{if(!au.hasOperations){au.reasonContent=at?AJS.format("{0}Edit{1} this field in JIRA",'<a href="'+at.url+'">',"</a>"):AJS.escapeHtml("Edit this field in Jira after creation.")}else{au.reasonContent=null}}return au}function E(av,ar,at){var au=av.name;av.value=(U.isPlainObject(av.value)?av.value.name:av.value)||(at&&at.fields[au])||"";return av}function N(ar){return ar.val()}function ah(au,ar,at){var av={"data-aui-validation-field":"",pattern:"([a-zA-Z][a-zA-Z0-9-+.]*://.+)|^$","data-aui-validation-pattern-msg":"Enter a valid URL scheme"};return U.extend(true,{},E(au,ar,at),{extraAttributes:av})}function J(au,ar,at){var av={"data-aui-validation-field":"",pattern:"^([0-9]{2,4}-(0?[1-9]|10|11|12)-([0-2]?[1-9]|10|20|30|31))$|^$","data-aui-validation-pattern-msg":"Enter a valid date"};return U.extend(true,{},E(au,ar,at),{extraAttributes:av})}function x(ar){var at=ar.val();if(at===""){return null}else{return at}}function ai(au,ar,at){var av={"data-aui-validation-field":"",pattern:"(([0-9]*[.])?[0-9]+)|^$","data-aui-validation-pattern-msg":"Enter a valid number"};return U.extend(true,{},E(au,ar,at),{extraAttributes:av})}function O(ar){var at=ar.val();if(C(at)){return Number(at)}return at||null}function H(ar){var au=ar.find("input");if(!!navigator.userAgent.match(/Trident/)&&AJS.version<"5.3.5"){var at="placeholder" in document.createElement("input");au.attr("placeholder",o);if(!at){au.on("focus",function(){if(au.val()===au.attr("placeholder")){au.val("")}}).on("blur",function(){if(au.val()===""){au.val(au.attr("placeholder"))}}).blur()}}else{WRM.require("wr!com.atlassian.auiplugin:aui-date-picker").done(function(){au.datePicker({overrideBrowserDefault:true})})}}function l(av,ar,at){var au=av.name;av.value=(av.value&&av.value.join(","))||(at&&at.fields[au]&&at.fields[au].join(","));return av}function M(ar){return ap.map(ar.val().split(","),U.trim)}function i(ax,ar,at){var av=ax.name;var au=ax.value;var az=at&&at.fields[av];var aw;function ay(aA){if(Array.isArray(aA)){return aA.map(function(aB){return aB.name||aB.id})}else{return[aA.name||aA.id]}}if(au){aw=ay(au)}else{if(az){aw=ay(az)}else{aw=[]}}ax.options=ap.map(ar.allowedValues,function(aA){return{value:aA.id,text:aA.name||aA.value,selected:ap.contains(aw,aA.name||aA.id)}});if(!ar.required&&ar.schema.type==="option"){ax.options.unshift({value:-1,text:"None",selected:aw.length===0})}ax.isMultiple=ap.contains(ar.operations,"add");delete ax.value;return ax}function c(av,at){var aw=at.val();var ar=at.attr("multiple");var au=function(ay){var ax={};ax[av]=ay;return ax};if(ar){return Array.isArray(aw)?ap.map(aw,au):[au(aw)]}return au(aw)}function ao(ar){ar.find("select[multiple]").auiSelect2()}function u(av,ar,at){var au=av.name;av.value=(av.value&&av.value.name)||(at&&at.fields[au]&&at.fields[au].name)||(Q(ar)==="assignee"?-1:"");av.extraClasses=ar.schema.type==="array"?"multi-user-picker":"single-user-picker";return av}function P(at){var au=function(aw){return{name:aw}};var av=at.val();var ar=at.closest(".jira-field").is(".multi-user-picker");if(!av){return ar?[]:null}return ar?ap.map(av.split(","),au):au(av)}function w(ar){var at=ar.val();if(at==="-1"){return undefined}return{name:at}}function ad(au,ar,at){var av=au.value||(at&&at.fields[au.name]);au.fields=ap.map(ar.allowedValues,function(aw){return{value:aw.id,labelText:aw.name||aw.value,isChecked:Array.isArray(av)?av.some(function(ax){return ax.id===aw.id}):av&&av.id===aw.id,}});delete au.value;return au}function L(ar){return ar.find("input:checked").toArray().map(function(au){var at=U(au);return{id:at.attr("value"),value:at.parent().find("label").text()}})}function d(at){var ar=L(at);return ar.length===1?ar[0]:null}function al(az,ar,aw,ay,at){var ax=az.find("input");var aA=az.attr("name");ax.removeClass("text").removeClass("long-field").addClass("medium-long-field");var au={minimumInputLength:1,id:aA,name:aA,query:function(aC){function aB(aD){aC.callback({results:aD})}q(ar,aw,aC.term,ay).done(aB)}};ax.auiSelect2(U.extend(au,at));var av=ax.auiSelect2("data");if(av&&av.id!==-1){ax.auiSelect2("val",av.id)}az.find("div.aui-select2-container").addClass("jira-select2-drop-box")}function r(ar,aw,au,at,av){var ax=U.extend({},av,{multiple:au==="com.atlassian.jira.plugin.system.customfieldtypes:multiuserpicker",formatInputTooShort:function(){return "Find users..."},formatResult:function(ay){return t.templates.fields.userOptionSelect({name:ay.id,displayName:ay.text,isSystemOption:!!ay.isSystemOption})}});al(ar,aw,au,at,ax)}function j(ar,av,au,at){var aw={minimumInputLength:0,initSelection:ak(av,{id:-1,text:"Automatic",isSystemOption:true}),query:function(ay){function ax(az){if(ay.page===1){if(!ay.element.prop("required")){az.unshift({id:"",text:"Unassigned",isSystemOption:true})}az.unshift({id:-1,text:"Automatic",isSystemOption:true})}ay.callback({results:az})}if(ay.term.length>0){q(av,au,ay.term,at).done(ax)}else{ax([])}},};r(ar,av,au,at,aw)}function m(ar,av,au,at){var aw=ar.find("input");t.fields._labelPicker.build(aw,function(ax){return q(av,au,ax,at)})}function q(aw,au,av,at){var ar=U.extend({restType:au,issueKey:(at&&at.key)||"",term:av},aw);return U.ajax({type:"POST",timeout:0,contentType:"application/json",dataType:"json",url:AJS.contextPath()+"/rest/jira-integration/latest/fields/autocomplete",data:JSON.stringify(ar)})}function an(au,ar,at){var av={"data-aui-validation-field":"",pattern:"(([0-9]+w|[0-9]+d|[0-9]+m|[0-9]+h|[0-9]+)\\s*)*","data-aui-validation-pattern-msg":"Enter a valid time estimate (eg. 3w 4d 12h)"};au.value=(au.value&&au.value.remainingEstimate)||(at&&at.fields[name]&&at.fields[name].remainingEstimate)||"";return U.extend(true,{},au,{extraAttributes:av})}function h(ar){return{remainingEstimate:ar.val()}}function T(aw,ar,at){var av=aw.name;var ax=(aw.value&&aw.value.id)||"";var au=(aw.value&&aw.value.name)||(at&&at.fields&&at.fields[av]&&at.fields[av].name)||"";delete aw.value;aw.options=ap.map(ar.allowedValues,function(ay){return{value:ay.id,text:ay.name,selected:au===ay.name||ax===ay.id,iconUrl:ay.iconUrl}});return aw}function K(at){var ar;if(at.id){ar=U(at.element).attr("data-icon-url")}return t.templates.fields.select2WithIconOption({optionValue:at.text,iconUrl:ar})}function b(aw,av,at,ar){if(!U.fn.auiSelect2){AJS.log("AUI version 5.2 or greater is required as this plugin needs the .auiSelect2() jQuery plugin.");return}var au=aw.find("select");au.addClass("jira-select2-drop-box");au.auiSelect2({hasAvatar:true,minimumResultsForSearch:-1,formatSelection:K,formatResult:K})}function Y(ar,aw,au,at){var av={minimumInputLength:0,formatResult:function(ax){return t.templates.fields.sprintSelect({name:ax.text,state:ax.state,board:ax.board})},query:function(ax){q(aw,au,ax.term,at).done(function(aA){var az=ap.groupBy(aA,function(aB){return aB.suggestion?"suggestions":"all"});var ay=["suggestions","all"].filter(function(aB){return az[aB]&&az[aB].length>0}).map(function(aB){return{text:aB==="suggestions"?"Suggestions":"All sprints",children:az[aB]}});ax.callback({results:ap.compact(ay)})})},initSelection:ak(aw,{id:-1,text:"Select a sprint"}),};return al(ar,aw,au,at,av)}function af(ar,aw,au,at){var av={minimumInputLength:0,formatResult:function(ax){return t.templates.fields.epicSelect({name:ax.text,key:ax.id})},query:function(ax){q(aw,au,ax.term,at).done(function(az){var ay=ap.uniq(az.map(function(aA){return aA.list})).map(function(aA){return{text:aA,children:az.filter(function(aB){return aB.list===aA})}});ax.callback({results:ay})})},initSelection:ak(aw,{id:-1,text:"Select an epic"}),};return al(ar,aw,au,at,av)}function Z(ar){var at=N(ar);return at&&at!==""?at:undefined}function y(ar){var at=ar.auiSelect2("data");return at&&at.id===-1?undefined:at}function s(at,ar){if(ap.has(p,at)&&console&&console.warn){console.warn("Redefining handler for type "+at+".")}p[at]=ar}function Q(ar){return ar.schema?(ar.schema.system||ar.schema.custom||ar.schema.customId):ar}function aj(ar){return p[Q(ar)]}function G(ar){var at=g(ar);return at&&aj(at)}function g(ar){return ar.closest(".jira-field").attr("data-jira-type")}function S(at,ar){return U.ajax({type:"GET",timeout:0,url:AJS.contextPath()+"/rest/jira-integration/1.0/servers/"+at.serverId+"/projects/"+at.projectKey+"/issue-types/"+at.issueType+"/fields-meta"}).pipe(function(av){var au=[];ap.each(av.fields,function(ax){var aw=Q(ax);if(ax.required&&!ap.contains(ar.excludedFields,aw)){au.push(ax)}});return au})}function C(ar){return/\d/.test(ar)&&/^-?\d*\.?\d*$/.test(ar)}function a(at,au,ar){var aw=g(at);var av=aw&&aj(aw);var ax=av&&av.behavior;if(ax){ax(at,au,aw,ar)}}function ac(ar){var at=G(ar);return at&&at.getValue&&at.getValue(ar)}function ak(at,ar){return function(au,aw){var av=at[au.attr("id")];aw(av||ar)}}return{addFieldHandler:s,getFieldHandler:aj,getFieldType:Q,isKnownRestType:function(ar){return p.hasOwnProperty(ar)},canRender:function(ar){var au=Q(ar);var at=p[au];if(!at){return false}return ar.operations&&ar.operations.length&&(!at.canRender||at.canRender(ar))},getContext:function(at,ar,au,av){return A(at,ar,au||{},av||{})},renderField:function(at,ar,au,aw){var av=A(at,ar,au||{},aw||{});return av.handler.template(av)},getInternalJSON:function(ar){var at=G(ar);return at&&at.getInternalValue&&at.getInternalValue(ar)||ac(ar)},getJSON:ac,attachFieldBehavior:a,attachFieldBehaviors:function(au,at,ar){au.find(".jira-field").each(function(ax,aw){var av=U(aw);a(av,at,ar)})},setFieldError:function(at,av){var ar=at.find(".error");ar.remove();if(!av){return}var au=t.templates.fields.errors({errorTexts:av});at.append(au)},renderCreateRequiredFields:function(aw,av,au,at,ar){at=ap.extend({},F,at);function ax(ay){if(at.ignoreFieldsWithDefaultValue){ay=ap.filter(ay,function(aA){return !aA.hasDefaultValue})}var az=ap.filter(ay,function(aA){return !t.fields.canRender(aA)});if(az.length){if(ar){ar(az)}return}aw.html(ap.map(ay,function(aA){return t.fields.renderField(null,aA,null,null)}).join(""));t.fields.attachFieldBehaviors(aw,{serverId:au.serverId,projectKey:au.projectKey},null)}if(at.requiredFields){ax(at.requiredFields)}else{S(au,at).done(ax)}}}}(AJS.$,window._));
+}catch(e){WRMCB(e)};
+;
+try {
+/* module-key = 'com.atlassian.integration.jira.jira-integration-plugin:fields', location = '/fields/label-picker.js' */
+var jiraIntegration=window.jiraIntegration||{};jiraIntegration.fields=jiraIntegration.fields||{};jiraIntegration.fields._labelPicker=function(a){var b=function(d,c){d.auiSelect2({tags:true,multiple:true,tokenSeparators:[","," "],createSearchChoice:function(e){if(!e){return null}return{id:e,text:e,isNew:true}},query:function(f){var e=function(g){f.callback({results:g})};c(f.term).done(e)},formatResult:function(e){return jiraIntegration.templates.fields.labelFieldResult({label:{labelName:e.text,isNew:e.isNew}})},initSelection:function(e,g){var f=d.auiSelect2("val").map(function(h){return{id:h,text:h,}});g(f)}})};return{build:b}}(AJS.$);
+}catch(e){WRMCB(e)};

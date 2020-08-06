@@ -1,0 +1,25 @@
+/* module-key = 'com.atlassian.confluence.extra.team-calendars:helptip-resources', location = 'com/atlassian/confluence/extra/calendar3/components/helptip/helptip-component.less' */
+/* TODO: Remove this once helptips are provided by confluence. */
+.tc-aui-help-tip.aui-inline-dialog  > .contents {
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 16px;
+  position: relative;
+}
+.tc-aui-help-tip.aui-inline-dialog .tc-helptip-title,
+.tc-aui-help-tip.aui-inline-dialog .tc-helptip-body,
+.tc-aui-help-tip.aui-inline-dialog .tc-helptip-link {
+  margin-bottom: 0.5em;
+}
+.tc-aui-help-tip.aui-inline-dialog .tc-helptip-body {
+  color: #292929;
+}
+.tc-aui-help-tip.aui-inline-dialog .tc-helptip-title {
+  color: #292929;
+  font-weight: normal;
+  margin: 0;
+}
+.tc-aui-help-tip.aui-inline-dialog .tc-helptip-body h3 {
+  margin-top: 0;
+}

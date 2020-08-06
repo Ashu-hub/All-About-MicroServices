@@ -1,0 +1,6 @@
+WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
+;
+try {
+/* module-key = 'ch.bitvoodoo.confluence.plugins.viewtracker:viewtracker-auto-tracking-web-resource', location = 'ch/bitvoodoo/confluence/plugins/viewtracker/scripts/viewtracker-auto-tracking.js' */
+require(["ajs","jquery","bitvoodoo/viewtracker/namespaces"],function(c,d,b){var f=b.Configuration.desktopTrackingEnabled;var e=b.Configuration.isViewsCounterEnabled;function a(){var g=c.Meta.get("page-id");if(b.Configuration.hasOwnProperty("Viewport")){var h=b.Configuration.Viewport.contentId;g=parseInt(h)}return g}c.toInit(function(j){var g=a();var k={pageId:g};if(!g||isNaN(g)){return}var h=j("#reporting-single-content-link-wrapper");var i=h.find("#reporting-single-content-link span");i.html("");function l(n){var m=n.count;if(m){i.html(m.toLocaleString()+" "+"view(s)")}i.removeClass("bv-spinner")}if(f&&e){if(i.size()===0){Bitvoodoo.Viewtracker.VisitsService.trackVisit(undefined,undefined,k)}else{i.addClass("bv-spinner");Bitvoodoo.Viewtracker.VisitsService.trackVisit(Bitvoodoo.Viewtracker.VisitsService.getVisitsTotal,l,k)}}else{if(f){Bitvoodoo.Viewtracker.VisitsService.trackVisit(undefined,undefined,k)}else{if(e){i.addClass("bv-spinner");Bitvoodoo.Viewtracker.VisitsService.getVisitsTotal(l,k)}}}})});
+}catch(e){WRMCB(e)};

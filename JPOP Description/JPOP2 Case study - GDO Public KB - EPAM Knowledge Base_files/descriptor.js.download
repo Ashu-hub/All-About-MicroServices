@@ -1,0 +1,145 @@
+(function () {
+    if (!window.lrefDescriptor) {
+        window.lrefDescriptor = {}
+    }
+    window.lrefDescriptor['onedrive-confluence'] = {
+ "baseUrl": "/plugins/servlet/lref/onedrive-confluence",
+ "key": "onedrive-confluence",
+ "modules": {
+  "adminPages": [{
+   "name": {"value": "OneDrive"},
+   "key": "admin-page",
+   "url": "/view?id=admin_page&provider=onedrive&bundle=onedrive-confluence"
+  }],
+  "dynamicContentMacros": [
+   {
+    "bodyType": "none",
+    "editor": {
+     "insertTitle": {"value": "Insert OneDrive Live Link Macro"},
+     "editTitle": {"value": "Edit OneDrive Live Link Macro"},
+     "width": "600px",
+     "url": "/view?id=conf_ref_link_macro_editor&provider=onedrive&bundle=onedrive-confluence&macro_id=conf_ref_link_macro",
+     "height": "350px"
+    },
+    "featured": true,
+    "hidden": false,
+    "name": {"value": "OneDrive Live Link"},
+    "icon": {
+     "width": 80,
+     "url": "/static/img/onedrive_80x80.png",
+     "height": 80
+    },
+    "description": {"value": "Live Link to OneDrive file, folder or document"},
+    "outputType": "INLINE",
+    "categories": ["external-content"],
+    "parameters": [{
+     "identifier": "url",
+     "name": {"value": "url"},
+     "type": "string",
+     "required": true
+    }],
+    "key": "lref-onedrive-file",
+    "url": "/view?id=conf_ref_link_macro&provider=onedrive&bundle=onedrive-confluence&url={url}&page_id={page.id}&page_version={page.version}&macro_id={macro.id}&space_id={space.id}"
+   },
+   {
+    "bodyType": "none",
+    "editor": {
+     "insertTitle": {"value": "Insert Embedded OneDrive Folder Macro"},
+     "editTitle": {"value": "Edit Embedded OneDrive Folder Macro"},
+     "width": "600px",
+     "url": "/view?id=conf_ref_list_macro_editor&provider=onedrive&bundle=onedrive-confluence&macro_id=conf_ref_list_macro",
+     "height": "350px"
+    },
+    "featured": true,
+    "hidden": false,
+    "name": {"value": "Embedded OneDrive Folder"},
+    "icon": {
+     "width": 80,
+     "url": "/static/img/onedrive_80x80.png",
+     "height": 80
+    },
+    "description": {"value": "Content of OneDrive folder"},
+    "outputType": "BLOCK",
+    "categories": ["external-content"],
+    "parameters": [
+     {
+      "identifier": "url",
+      "name": {"value": "url"},
+      "type": "string",
+      "required": true
+     },
+     {
+      "identifier": "limit",
+      "name": {"value": "limit"},
+      "type": "string",
+      "required": false
+     },
+     {
+      "identifier": "sort",
+      "name": {"value": "sort"},
+      "type": "string",
+      "required": false
+     }
+    ],
+    "key": "lref-onedrive-files-list",
+    "url": "/view?id=conf_ref_list_macro&provider=onedrive&bundle=onedrive-confluence&url={url}&limit={limit}&sort={sort}&page_id={page.id}&page_version={page.version}&macro_id={macro.id}&space_id={space.id}"
+   },
+   {
+    "bodyType": "none",
+    "editor": {
+     "insertTitle": {"value": "Insert Embedded OneDrive File Macro"},
+     "editTitle": {"value": "Edit Embedded OneDrive File Macro"},
+     "width": "600px",
+     "url": "/view?id=conf_ref_preview_macro_editor&provider=onedrive&bundle=onedrive-confluence&macro_id=conf_ref_preview_macro",
+     "height": "350px"
+    },
+    "featured": true,
+    "hidden": false,
+    "name": {"value": "Embedded OneDrive File"},
+    "icon": {
+     "width": 80,
+     "url": "/static/img/onedrive_80x80.png",
+     "height": 80
+    },
+    "description": {"value": "Preview of OneDrive file or document"},
+    "outputType": "BLOCK",
+    "categories": ["external-content"],
+    "parameters": [
+     {
+      "identifier": "url",
+      "name": {"value": "url"},
+      "type": "string",
+      "required": true
+     },
+     {
+      "identifier": "width",
+      "name": {"value": "width"},
+      "type": "string",
+      "required": true
+     },
+     {
+      "identifier": "height",
+      "name": {"value": "height"},
+      "type": "string",
+      "required": true
+     }
+    ],
+    "key": "lref-onedrive-embedded-file",
+    "url": "/view?id=conf_ref_preview_macro&provider=onedrive&bundle=onedrive-confluence&url={url}&width={width}&height={height}&page_id={page.id}&page_version={page.version}&macro_id={macro.id}&space_id={space.id}"
+   }
+  ],
+  "dialogs": [
+   {
+    "options": {"header": {"value": "Fullscreen Preview"}},
+    "key": "fullscreen-preview",
+    "url": "/view?id=fullscreen-preview&provider=onedrive&bundle=onedrive-confluence"
+   },
+   {
+    "options": {"header": {"value": "OneDrive"}},
+    "key": "picker",
+    "url": "/view?id=picker&provider=onedrive&bundle=onedrive-confluence&picker_id=onedrive_file_picker"
+   }
+  ]
+ }
+}
+}())

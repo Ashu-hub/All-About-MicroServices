@@ -1,0 +1,6 @@
+WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
+;
+try {
+/* module-key = 'com.comalatech.workflow:workflow-rte-resources', location = 'templates/com/comalatech/workflow/rte/js/workflows-rte.js' */
+var AWP=AWP||{};var requirejs=require||requirejs;AWP.BlueprintsHelper=(function(){requirejs(["cw","jquery"],function(a,b){a.toInit(function(){var f="#editor-messages";if(b("#editor-messages").length<=0){f="#all-messages"}var e=b("meta[name=ajs-blueprint-module-complete-key]").attr("content");var c="";if(a.getParam("pageId")=="0"){if(!e||e.length===0){if(b("#createPageLabelsString").val().length){c="?label="+b("#createPageLabelsString").val()}}else{c="?blueprintKey="+e}var d=a.contextPath+"/rest/adhocworkflows/latest/workflow/"+a.getParam("spaceKey")+"/instructions/create"+c;a.request({url:d,type:"get",cache:false,contentType:"application/json; charset=utf-8",success:function(g,i,h){if(g){setTimeout(function(){var j={title:g.title?g.title:"",body:g.body,closeable:true};a.message(g.style,f,j)},500)}}})}})})})();
+}catch(e){WRMCB(e)};

@@ -1,0 +1,243 @@
+WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
+;
+try {
+/* module-key = 'com.adaptavist.confluence.contentFormattingMacros:rest-table-js', location = 'soy/common.soy' */
+// This file was automatically generated from common.soy.
+// Please don't edit this file by hand.
+
+/**
+ * @fileoverview Templates in namespace ContentFormatting.Macro.Common.
+ */
+
+if (typeof ContentFormatting == 'undefined') { var ContentFormatting = {}; }
+if (typeof ContentFormatting.Macro == 'undefined') { ContentFormatting.Macro = {}; }
+if (typeof ContentFormatting.Macro.Common == 'undefined') { ContentFormatting.Macro.Common = {}; }
+
+
+ContentFormatting.Macro.Common.requiredIcon = function(opt_data, opt_ignored) {
+  return '<span class="aui-icon icon-required icon-required-moved"> required</span>';
+};
+if (goog.DEBUG) {
+  ContentFormatting.Macro.Common.requiredIcon.soyTemplateName = 'ContentFormatting.Macro.Common.requiredIcon';
+}
+
+
+ContentFormatting.Macro.Common.descriptionDesc = function(opt_data, opt_ignored) {
+  return '<div class="description">' + soy.$$escapeHtml('Displayed below the field') + '</div>';
+};
+if (goog.DEBUG) {
+  ContentFormatting.Macro.Common.descriptionDesc.soyTemplateName = 'ContentFormatting.Macro.Common.descriptionDesc';
+}
+
+
+ContentFormatting.Macro.Common.velocityValueLink = function(opt_data, opt_ignored) {
+  return '' + soy.$$escapeHtml('ID (relating to data attribute)');
+};
+if (goog.DEBUG) {
+  ContentFormatting.Macro.Common.velocityValueLink.soyTemplateName = 'ContentFormatting.Macro.Common.velocityValueLink';
+}
+
+
+ContentFormatting.Macro.Common.footerContent = function(opt_data, opt_ignored) {
+  return '<div class="custom-macro-footer"><div class="aui-group aui-group-split"><div class="aui-item"><a class="" href="' + soy.$$escapeHtml(opt_data.docHrefHtml) + '" target="_blank">' + soy.$$escapeHtml('Documentation') + '</a></div><div class="aui-item"><button class="aui-button aui-button-primary button-panel-button ok" id="insertButtonGroup" type="submit">' + soy.$$escapeHtml(opt_data.buttonTitle) + '</button><a class="aui-button aui-button-link" href="#" id="cancelButtonGroup">' + soy.$$escapeHtml('Cancel') + '</a></div></div></div>';
+};
+if (goog.DEBUG) {
+  ContentFormatting.Macro.Common.footerContent.soyTemplateName = 'ContentFormatting.Macro.Common.footerContent';
+}
+
+}catch(e){WRMCB(e)};
+;
+try {
+/* module-key = 'com.adaptavist.confluence.contentFormattingMacros:rest-table-js', location = 'soy/rest-table-macro.soy' */
+// This file was automatically generated from rest-table-macro.soy.
+// Please don't edit this file by hand.
+
+/**
+ * @fileoverview Templates in namespace ContentFormatting.Macro.RestTable.
+ */
+
+if (typeof ContentFormatting == 'undefined') { var ContentFormatting = {}; }
+if (typeof ContentFormatting.Macro == 'undefined') { ContentFormatting.Macro = {}; }
+if (typeof ContentFormatting.Macro.RestTable == 'undefined') { ContentFormatting.Macro.RestTable = {}; }
+
+
+ContentFormatting.Macro.RestTable.dialog = function(opt_data, opt_ignored) {
+  return '' + aui.dialog.dialog2({id: 'buttongroup-dialog', titleText: opt_data.title, modal: true, size: 'xlarge', content: '' + ContentFormatting.Macro.RestTable.content(opt_data), footerActionContent: '' + ContentFormatting.Macro.Common.footerContent(soy.$$augmentMap(opt_data, {docHrefHtml: 'https://www.adaptavist.com/doco/display/CFP/Restful+Table', buttonTitle: opt_data.buttonTitle}))});
+};
+if (goog.DEBUG) {
+  ContentFormatting.Macro.RestTable.dialog.soyTemplateName = 'ContentFormatting.Macro.RestTable.dialog';
+}
+
+
+ContentFormatting.Macro.RestTable.content = function(opt_data, opt_ignored) {
+  var output = '<div class="module custom-macro-dialog"><form id="buttonGroupForm" class="aui rest-table"><div role="application" class="aui-tabs horizontal-tabs"><ul role="tablist" class="tabs-menu"><li role="presentation" class="menu-item active-tab"><a aria-selected="true" role="tab" id="link-details" href="#tabs-details"><strong>' + soy.$$escapeHtml('Macro Options') + '</strong></a></li></ul><div aria-hidden="false" role="tabpanel" class="tabs-pane active-pane" id="tabs-details"><input id="avst-custom-dialog-macro-name" type="hidden" value="rest-table"><fieldset class="details"><legend>' + soy.$$escapeHtml('Rest Table Details') + '</legend><div class="aui-group aui-group-split"><div class="aui-item group-label"><label for="restURL">' + soy.$$escapeHtml('Resource URL') + '</label><input id="restURL" name="restURL" type="text" value="' + soy.$$escapeHtml(opt_data.restURL ? opt_data.restURL : '') + '" class="text" required="required"/><div class="description">' + soy.$$escapeHtml('URL of json data for table') + '</div></div></div></fieldset><fieldset class="rows"><legend>' + soy.$$escapeHtml('Add Table Column') + '</legend><div class="aui-group"><div class="aui-item create-button-rows"><table class="aui" id="dataTable"><thead><tr><th class="buttonLabel">' + soy.$$escapeHtml('Header') + '</th><th class="buttonValue">' + ContentFormatting.Macro.Common.velocityValueLink(null) + '</th><th class="actions">' + soy.$$escapeHtml('Actions') + '</th></tr></thead><tbody>';
+  var valueList34 = opt_data.values;
+  var valueListLen34 = valueList34.length;
+  for (var valueIndex34 = 0; valueIndex34 < valueListLen34; valueIndex34++) {
+    var valueData34 = valueList34[valueIndex34];
+    output += ContentFormatting.Macro.RestTable.addRestTableRow({rowIndex: valueIndex34, size: opt_data.values.length, label: valueData34.label, value: valueData34.value});
+  }
+  output += '</tbody></table></div></div></fieldset></div></div><button class="hiddenButton" id="hiddenButton" type="submit"></button></form></div>';
+  return output;
+};
+if (goog.DEBUG) {
+  ContentFormatting.Macro.RestTable.content.soyTemplateName = 'ContentFormatting.Macro.RestTable.content';
+}
+
+
+ContentFormatting.Macro.RestTable.addRestTableRow = function(opt_data, opt_ignored) {
+  return '<tr id="groupRow' + soy.$$escapeHtml(opt_data.rowIndex) + '"><td class="buttonLabel"><input class="text buttonInputLabel" name="buttonLabel" type="text" value="' + soy.$$escapeHtml(opt_data.label) + '"/></td><td class="buttonValue"><input class="text buttonInputValue" name="buttonValue" type="text" value="' + soy.$$escapeHtml(opt_data.value) + '"/></td><td class="actions"><input onclick="addRestTableRow(' + soy.$$escapeHtml(opt_data.rowIndex) + ')" type="button" class="aui-button" value="+"/><input onclick="removeRestTableGroupRow(' + soy.$$escapeHtml(opt_data.rowIndex) + ')" id="removeButton-' + soy.$$escapeHtml(opt_data.rowIndex) + '" type="button" class="aui-button" value="-" ' + ((opt_data.size == 1) ? 'disabled' : '') + '/></td></tr>';
+};
+if (goog.DEBUG) {
+  ContentFormatting.Macro.RestTable.addRestTableRow.soyTemplateName = 'ContentFormatting.Macro.RestTable.addRestTableRow';
+}
+
+}catch(e){WRMCB(e)};
+;
+try {
+/* module-key = 'com.adaptavist.confluence.contentFormattingMacros:rest-table-js', location = 'js/rest-table-macro.js' */
+AJS.bind("init.rte", function () {
+
+    //Model for a Rest Table
+    function RestTable(params) {
+
+        this.getRestURL = function () {
+            return params === undefined ? '' : params.restURL;
+        };
+
+
+        this.getValues = function () {
+            if (params === undefined) {
+                return [{
+                    label: '',
+                    value: ''
+                }];
+            } else {
+                var counter = Number(params['counter']);
+                var values = [];
+
+                //Unfortunately, Confluence cannot parse a JSON string, so one needs to write each parameter individually
+                for (var i = 0; i < counter; i++) {
+                    values.push({
+                        label: params[i.toString() + '_label'] === undefined ? "" : params[i.toString() + '_label'],
+                        value: params[i.toString() + '_value'] === undefined ? "" : params[i.toString() + '_value']
+                    });
+                }
+                return values;
+            }
+        };
+    }
+
+    //Fetches all Label/Values from each row, plus if it's selected.
+    function getRowValues(values) {
+        var counter = 0;
+
+        //Unfortunately, Confluence cannot parse a JSON string, so one needs to write each parameter individually
+        AJS.$('[id^="groupRow"]').each(function () {
+            var label = $(this).find("input[name='buttonLabel']").val();
+            var value = $(this).find("input[name='buttonValue']").val();
+
+            values[counter + '_label'] = label;
+            values[counter + '_value'] = value;
+
+            counter++;
+        });
+
+        values['counter'] = counter;
+
+        return values;
+    }
+
+    function getRestTableParams() {
+        var values = {
+            restURL: AJS.$('#restURL').val()
+        };
+
+        return getRowValues(values);
+    }
+
+    function setupEvents() {
+        // Setups Tabs in AJS
+        AJS.tabs.setup();
+
+        //Hooks up the Cancel Button
+        AJS.$('#cancelButtonGroup').click(function (e) {
+            e.preventDefault();
+            AJS.dialog2('#buttongroup-dialog').remove();
+        });
+
+        //Hooks up the Insert Button
+        // The hidden button is required to submit the form because the dialog submit button is outside the form element.
+        AJS.$('#insertButtonGroup').click(function () {
+            AJS.$('#buttonGroupForm').submit();
+        });
+    }
+
+    function createRestTable(macro) {
+
+        //Creates a new Rest Table object that holds the parameters
+        var restTable = new RestTable(macro.params);
+
+        var dialogAndButtonTitle = macro.body === undefined ?
+            "Insert" :
+            "Save";
+        //Calls the dialog with Edit or Insert accordingly.
+        AJS.dialog2(ContentFormatting.Macro.RestTable.dialog({
+            title: dialogAndButtonTitle + ' ' + "\u0027Restful Table\u0027 Macro",
+            buttonTitle: dialogAndButtonTitle,
+            restURL: restTable.getRestURL(),
+            values: restTable.getValues()
+        })).show();
+
+        AJS.$('#insertButtonGroup').on('click', function (event) {
+            AJS.$('#hiddenButton').click();
+        });
+
+        AJS.$('#buttonGroupForm').on('submit', function (e) {
+            e.preventDefault();
+
+                var t = tinymce.confluence.macrobrowser;
+
+                AJS.Rte.BookmarkManager.restoreBookmark();
+
+                if (t.editedMacroDiv) {
+                    delete t.editedMacroDiv;
+                }
+
+                //Saves the Macro. Since the values is an array, it needs to convert it to JSON and then parse it back to display.
+                tinymce.confluence.macrobrowser.macroBrowserComplete({
+                    name: "rest-table",
+                    "bodyHtml": undefined,
+                    "params": getRestTableParams(),
+                    "values": restTable.getValues()
+                });
+
+                AJS.dialog2('#buttongroup-dialog').remove();
+        });
+
+        setupEvents();
+    }
+
+    AJS.MacroBrowser.setMacroJsOverride('rest-table', {opener: createRestTable});
+});
+
+//Adds a new row Macro
+function addRestTableRow(rowIndex) {
+    AJS.$('#dataTable > tbody > tr#groupRow' + rowIndex).after(ContentFormatting.Macro.RestTable.addRestTableRow({
+        rowIndex: AJS.$('[id^="groupRow"]').length,
+        label: '',
+        value: ''
+    }));
+
+    AJS.$('[id^="removeButton-"]')[0].disabled = false;
+}
+//Removes a row from Macro
+function removeRestTableGroupRow(rowIndex) {
+    AJS.$('#groupRow' + rowIndex).remove();
+
+    if (AJS.$('[id^="removeButton-"]').length == 1) {
+        AJS.$('[id^="removeButton-"]')[0].disabled = true;
+    }
+}
+
+}catch(e){WRMCB(e)};

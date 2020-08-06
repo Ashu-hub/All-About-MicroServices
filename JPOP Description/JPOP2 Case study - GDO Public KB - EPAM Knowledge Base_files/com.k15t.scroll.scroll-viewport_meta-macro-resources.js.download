@@ -1,0 +1,65 @@
+WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
+;
+try {
+/* module-key = 'com.k15t.scroll.scroll-viewport:meta-macro-resources', location = '/com/k15t/scroll/viewport/themes/infra/macro/metatag/metatag.js' */
+/**
+ * This file handles the attachment picker in the Meta Tag Macro UI.
+ * It does two things:
+ * 1. Make the attachment picker work, as a workaround is required for that, see
+ *      https://community.developer.atlassian.com/t/confluence-plugin-macro-attachment-field-empty/8570.
+ * 2. It enables/disables the attachment picker when the "use attachment" checkbox is enabled or disabled.
+ *      This is needed because the attachment picker will always pre-select an attachment if there is one on the page and make it
+ *      impossible to select none. That's why a second parameter has to be used for that.
+ *
+ *  The Click handler for the checkbox is only added when opening the Meta Tag macro dialog and removed when closing it.
+ */
+require('confluence/module-exporter').safeRequire('confluence/macro-js-overrides', function(MacroJsOverrides) {
+
+    var checkboxSelector = '#macro-browser-dialog #macro-param-useAttachment';
+    var dropdownSelector = '#macro-browser-dialog #macro-param-name';
+
+    var AJS = require('ajs');
+    var macroName = "viewport-meta";
+    var attachmentFileTypes = ["png", "jpg", "svg"];
+
+    // Unfortunately this function internally already adds an override for the macro, making the following hassle with assignFunction()
+    // necessary.
+    AJS.MacroBrowser.activateSmartFieldsAttachmentsOnPage(macroName, attachmentFileTypes);
+
+    var onClick = function(e) {
+        var attachmentDropdown = AJS.$(dropdownSelector);
+        if (e.target.checked) {
+            attachmentDropdown.removeAttr('disabled');
+        } else {
+            attachmentDropdown.propAttr('disabled', true);
+        }
+    };
+
+    var override = {};
+
+    // this gets called whenever the preview is loaded/refreshed. This seems to be the only way to ensure that the code is run whenever the
+    // macro editor is opened (a "opener" would require a complete custom UI as the opener is expected to build the UI).
+    override.postPreview = function(macro) {
+        // setting dropdown state in initial opening, unfortunately has a small delay
+        var attachmentDropdown = AJS.$(dropdownSelector);
+        var checkbox = AJS.$(checkboxSelector);
+        if (checkbox.is(':checked')) {
+            attachmentDropdown.removeAttr('disabled');
+        } else {
+            attachmentDropdown.propAttr('disabled', true);
+        }
+
+        // remove the event handler first to ensure that it is only ever registered once
+        AJS.$(document).off('click', checkboxSelector, onClick);
+        AJS.$(document).on('click', checkboxSelector, onClick);
+    };
+
+    // Called when dialog is closed by Inserting/Saving.
+    override.manipulateMarkup = function(macro) {
+        AJS.$(document).off('click', checkboxSelector, onClick);
+    };
+
+    MacroJsOverrides.assignFunction(macroName, override);
+});
+
+}catch(e){WRMCB(e)};
