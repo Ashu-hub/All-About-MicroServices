@@ -25,7 +25,12 @@
 	This is used on Component classes. BY Default all autowired dependencies are created  and configured startup, but if you to initialize bean lazyly, you can use this.
 
 8. @Value:-
-	This is used with field, constructor or method parameter. It signifies the default value experssion for the feild/constructor/parameter.
+	//This is used with field, constructor or method parameter. It signifies the default value experssion for the feild/constructor/parameter.
+	This is used to read the application appplication property.
+	like - @Value("${spring.application.name}")
+			OR
+	give default values as :
+	@Value("${spring.application.name:defaultName}")
 
 # Spring Framework Stereotype Annotations
 1. @Component:-

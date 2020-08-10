@@ -1,18 +1,18 @@
 # Scale Quebe:
 	1) X-axis = Horizental duplication/scale by cloning:
 		It means simple running multiple copies of same application behind load balancer. So if there are N copies then each copies hanlde 1/N requests
-		Prob:-
+		Problems:-
 		* Because each copies potentially access all data,cache requires more memory
 		* Does not tackle the problem of increasing development and appication complexity.
 	
-	2. Y-axis = Vertical scaling/Functional Decomposition/ Scale by spliting different thing
+	2. Y-axis = Vertical scaling/Functional Decomposition/ Scale by spliting different things
 		It basciallly split the application into multiple different services. Each Service is related to one or more closely related functions.
 		Types:
 		Verb Based decomposition:- Decompisiton of services that implements a single use case or particular action such as checkout or Shipping Services.
 		Noun Based decomposition:- Decompisiton of Service that is responsible for all operations related to particular entity like customer Management
 		Decompose by business capability and define services corresponding to business capabilities. like Delivery Management, Inventory mangement, Order management.
 		Decompose by domain-driven design subdomain
-		An Effective application must use both verb and noun based decomposition or .
+		An Effective application must use both verb and noun based decomposition.
 		
 	3. Z-axis:- In this each Server runs identical copy of code. Similar to X-axis each server is responsible fo ronly one subset of data.
 		Z-axis splits are commonly used to scale databases.
@@ -45,7 +45,7 @@
 #Drawbacks:
 		
 		Developers must deal with the additional complexity of creating a distributed system:
-		Developers must implement the inter-service communication mechanism and deal with partial failure
+		Developers must implement the inter-service communication mechanism and deal with partial failure.
 		Implementing requests that span multiple services is more difficult
 		Testing the interactions between services is more difficult
 		Implementing requests that span multiple services requires careful coordination between the teams
@@ -105,7 +105,7 @@
 		1) The OrderService receives the post/order request and created an order in a pending state.
 		2) It then emits an Ordere created event.
 		3) The Customer's Service event handler attempts to reserve credit.
-		4) It then emits the event indication the outcome.
+		4) It then emits the event indicating the outcome.
 		5) The Order Service'sevent handler either approves or reject the order.
 		
 		Example of Orchestrator based Saga:
@@ -140,7 +140,7 @@
 			
 # [Event Sourcing](https://microservices.io/patterns/data/event-sourcing.html)
 		A Service Command need to typically update a database and sends events. In Saga, a service need to atomically update a DB and sends events.
-		The Db update and seding messages/ events must be atomic in order to avoid dat inconsistancy or bugs.
+		The Db update and seding messages/ events must be atomic in order to avoid data inconsistancy or bugs.
 		
 		Problem:- How to atomically update a DB?
 		
@@ -188,7 +188,8 @@
 		The number of services instances might vary dynamically. For example, an EC2 Autoscaling Group adjusts the number of instances based on load.
 		
 		Solution:
-		When making a request to a service, the client obtains the location of a service instance by querying a Service Registry, which knows the locations of all service instances.
+		When making a request to a service, the client obtains the location of a service instance **by querying a Service Registry, which knows the locations of all service instances.**
+		The client also responsible for managing load balancing requests across services.
 		eg: Eureka Service-Discovery
 		
 		Benefits:
@@ -197,11 +198,16 @@
 		Drawbacks:
 		This pattern couples the client to the Service Registry
 		You have to implement discovery logic for each service because the services may use different programming language.
-
+	
+		[More to read](https://www.dineshonjava.com/microservice-discovery-patterns-and-registry/)
+		
 ##[Server Side Discovery](https://microservices.io/patterns/server-side-discovery.html)	
 		When making a request to a service, the client makes a request via a router (a.k.a load balancer) that runs at a well known location. 
 		The router queries a service registry, which might be built into the router, and forwards the request to an available service instance.
 		Example of Server side Discovery router - AWS Elastic Load Balancer (ELB)
+		
+		In this Pattern the client is not aware of the service registry. The client request service using a load balancer, which then queries the Service- Registry.
+		In this pattern, the client is not worry about manginf the load balancing.
 		
 		An AWS Elastic Load Balancer (ELB) is an example of a server-side discovery router. A client makes HTTP(s) requests (or opens TCP connections) to the ELB, which load balances the traffic amongst a set of EC2 instances. An ELB can load balance either external traffic from the Internet or, when deployed in a VPC, load balance internal traffic. An ELB also functions as a Service Registry.
 		EC2 instances are registered with the ELB either explicitly via an API call or automatically as part of an auto-scaling group.
