@@ -60,6 +60,8 @@
 	@EnableAutoConfiguration
 	@Configuration
 
+3. [@ResponseBody:](https://www.baeldung.com/spring-request-response-body)
+	
 # Spring MVC and Rest Annotations:-
 1. @RequestMapping:
 	

@@ -1,4 +1,4 @@
-# Scale Quebe:
+# Scale Quebe(The book, The Art of Scalability):
 	1) X-axis = Horizental duplication/scale by cloning:
 		It means simple running multiple copies of same application behind load balancer. So if there are N copies then each copies hanlde 1/N requests
 		Problems:-
@@ -8,13 +8,13 @@
 	2. Y-axis = Vertical scaling/Functional Decomposition/ Scale by spliting different things
 		It basciallly split the application into multiple different services. Each Service is related to one or more closely related functions.
 		Types:
-		Verb Based decomposition:- Decompisiton of services that implements a single use case or particular action such as checkout or Shipping Services.
+		Verb Based decomposition:- Decompisiton of services that implements a single use case or particular action such as **scheckout or Shipping Services.
 		Noun Based decomposition:- Decompisiton of Service that is responsible for all operations related to particular entity like customer Management
-		Decompose by business capability and define services corresponding to business capabilities. like Delivery Management, Inventory mangement, Order management.
+		Decompose by business capability and define services corresponding to business capabilities. like **Delivery Management, Inventory mangement, Order management.
 		Decompose by domain-driven design subdomain
 		An Effective application must use both verb and noun based decomposition.
 		
-	3. Z-axis:- In this each Server runs identical copy of code. Similar to X-axis each server is responsible fo ronly one subset of data.
+	3. Z-axis:- In this each Server runs identical copy of code. Similar to X-axis each server is responsible fo running **one subset of data.
 		Z-axis splits are commonly used to scale databases.
 		
 		Z-axis scaling has a number of benefits.
@@ -57,14 +57,14 @@
 # Decomposition Patterns:
 		1. Decompose by business capability
 		2. Decompose by subdomain
-		3. Self-contained Servicenew
-		4. Service per teamnew
+		3. Self-contained Service new
+		4. Service per team new
 
-#	Refactoring Patterns
-		1. Strangler Application
+# Refactoring Patterns
+ 		1. Strangler Application
 		2. Anti-corruption layer
 
-## [Strangler application](https://microservices.io/patterns/refactoring/strangler-application.html)
+##	 [Strangler application](https://microservices.io/patterns/refactoring/strangler-application.html)
 		Problem:- How do you migrate a legacy monolithic application to a microservice architecture?
 		
 		Solution:
@@ -86,10 +86,11 @@
 		In order to ensure loose coupling, each service has its own database. Maintaining data consistency between services is a challenge because 2 phase-commit/distributed transactions is not an option for many applications.
 		An application must instead use the Saga pattern. A service publishes an event when its data changes. Other services consume that event and update their data. There are several ways of reliably updating data and publishing events including Event Sourcing and Transaction Log Tailing.
 
-# [SAGA Pattern](https://microservices.io/patterns/data/saga.html)
+## [SAGA Pattern](https://microservices.io/patterns/data/saga.html)
 
-		In microservice architecture,we have databases per service pattern. i.e Each Service has its own databases. But some businees transactions span multiple service.
-		so we need a mechanism to implement transactions that span multiple services.
+		In microservice architecture, we have databases per service pattern. i.e Each Service has its own databases. But some businees transactions **span multiple service.**
+		so we need a mechanism to implement **transactions that span multiple services.**
+		
 		For example :- while building an e-commerce store where a customer has credit limit. The application must ensures that the order does not exceeds the Credit limits.
 		Since Order and Cutomer are two different databases so cant use local ACID transactions.
 		
@@ -110,8 +111,8 @@
 		
 		Example of Orchestrator based Saga:
 		1) The OrderService receives the post/order request, it then creates Create Order Saga Orchestrator
-		2) This saga Orchestrator created an order in PEnding State.
-		3) It then sends REserve Credit command to Customer Service.
+		2) This saga Orchestrator created an order in Pending State.
+		3) It then sends Reserve Credit command to Customer Service.
 		4) Customer Service attempt to reseve credit
 		5) It then reply with a message indicatng an Outcome.
 		6) The Saga Orchestrator either Approves or reject the order.
@@ -120,16 +121,16 @@
 		It 	enabales an application to maintain data consistency across Services.
 		
 		Drawbacks:-
-		The programming model is more complex. eg a developer 	must design a transaction for explicitly undo changes made earlier in saga.
+		The programming model is more complex. eg a developer must design a transaction for explicitly **undo changes made earlier in saga**.
 		There are also the following issues to address:
 		In order to be reliable, a service must atomically update its database and publish a message/event. It cannot use the traditional mechanism of a distributed transaction that spans the database and the message broker
 		The following patterns are ways to atomically update state and publish messages/events:
 		Event sourcing, Transactional Outbox
 
-# [API Composition](https://microservices.io/patterns/data/api-composition.html)
+## [API Composition](https://microservices.io/patterns/data/api-composition.html)
 		Problem: How to implement queries in a microservice architecture?
 		
-		Solution :- Implement a query by defining an API Composer, which invoking the services that own the data and performs an in-memory join of the results.
+		Solution :- Implement a query by defining an **API Composer**, which invoking the services that own the data and performs an in-memory join of the results.
 		An API Gateway often does API composition.
 		
 		This pattern has the following benefits:
@@ -138,17 +139,17 @@
 		This pattern has the following drawbacks:
 		Some queries would result in inefficient, in-memory joins of large datasets.
 			
-# [Event Sourcing](https://microservices.io/patterns/data/event-sourcing.html)
+## [Event Sourcing](https://microservices.io/patterns/data/event-sourcing.html)
 		A Service Command need to typically update a database and sends events. In Saga, a service need to atomically update a DB and sends events.
 		The Db update and seding messages/ events must be atomic in order to avoid data inconsistancy or bugs.
 		
 		Problem:- How to atomically update a DB?
 		
 		Ans: Event Sourcing:-
-		Event Sourcing persists the state of business entity(such as ORder or Customer ) as a sequence of state-changing events. Wheneever the state of buisness entity changes, a new event is appended in the list of Events.
+		Event Sourcing persists the state of business entity(such as ORder or Customer ) as a **sequence of state-changing events.** Whenever the state of buisness entity changes, a **new event is appended in the list of Events.**
 		Since saving the state is a single operation, it is inhrently atomic. The application reconstructs the entity's current state by replying the events.
-		An Application persists a event in a event store, which is a database of Events. The store has an API for adding and retriving an event. It behaves like a message broker.
-		It also provide an API that enables services to Subscribe them, so when a service saves an event in the event store. it is delivered to all intended Subscriber.
+		An Application persists a event in a **event store**, which is a database of Events. The store has an API for adding and retriving an event. It behaves like a message broker.
+		It also provide an API that enables **services to Subscribe them,** so when a service saves an event in the event store. it is delivered to all intended Subscriber.
 		
 		
 # [CQRS](https://microservices.io/patterns/data/cqrs.html)
@@ -157,8 +158,8 @@
 		Problem- How to implement a query that retrive data from multiple services in MS architecture?
 		
 		solution:
-		Define a view database, which is a read-only replica(of that service) that is designed to support that query.
-		The application keeps the replica up to data by subscribing to Domain events published by the service that own the data.
+		Define a **view database,** which is a read-only replica(of that service) that is designed to support that query.
+		The application keeps the replica up to data by **subscribing to Domain events** published by the service that own the data.
 		
 		This pattern has the following benefits:
 		Supports multiple denormalized views that are scalable and performant
@@ -195,6 +196,7 @@
 		Benefits:
 		Simple and straightforward implementation
 		Fewer moving parts and network hops compared to Server-side Discovery
+		
 		Drawbacks:
 		This pattern couples the client to the Service Registry
 		You have to implement discovery logic for each service because the services may use different programming language.
@@ -207,7 +209,7 @@
 		Example of Server side Discovery router - AWS Elastic Load Balancer (ELB)
 		
 		In this Pattern the client is not aware of the service registry. The client request service using a load balancer, which then queries the Service- Registry.
-		In this pattern, the client is not worry about manginf the load balancing.
+		In this pattern, the client is not worry about managing the load balancing.
 		
 		An AWS Elastic Load Balancer (ELB) is an example of a server-side discovery router. A client makes HTTP(s) requests (or opens TCP connections) to the ELB, which load balances the traffic amongst a set of EC2 instances. An ELB can load balance either external traffic from the Internet or, when deployed in a VPC, load balance internal traffic. An ELB also functions as a Service Registry.
 		EC2 instances are registered with the ELB either explicitly via an API call or automatically as part of an auto-scaling group.
