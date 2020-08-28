@@ -1,6 +1,0 @@
-WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
-;
-try {
-/* module-key = 'confluence.extra.jira:editor-resources-v4-exporter', location = 'editor-plugins/tinymce-exporter.js' */
-try{require("confluence-editor-v4/build/editor")}catch(e){};
-}catch(e){WRMCB(e)};

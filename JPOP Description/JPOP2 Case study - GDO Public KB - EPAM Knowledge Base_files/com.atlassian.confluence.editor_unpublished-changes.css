@@ -1,9 +1,0 @@
-/* module-key = 'com.atlassian.confluence.editor:unpublished-changes', location = 'unpublished-changes/unpublished-changes.less' */
-#unpublished-changes-lozenge {
-  margin-left: 5px;
-  .active-preview & {
-    display: none !important;
-  }
-}
-
-

@@ -1,6 +1,0 @@
-WRMCB=function(e){var c=console;if(c&&c.log&&c.error){c.log('Error running batched script.');c.error(e);}}
-;
-try {
-/* module-key = 'com.atlassian.confluence.plugins.profile-picture:profile-picture-editor_resources', location = 'js/profile-picture.js' */
-AJS.bind("init.rte",function(){AJS.Confluence.PropertyPanel.Macro.registerButtonHandler("viewProfile",function(c,a){var b=AJS.$(a);var d={};if(b.attr("data-macro-parameters")){AJS.$.each(b.attr("data-macro-parameters").split("|"),function(e,f){var g=f.split("=");d[g[0]]=g[1]})}window.open(AJS.Confluence.getBaseUrl()+"/display/~"+d.user)})});
-}catch(e){WRMCB(e)};
