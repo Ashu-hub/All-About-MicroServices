@@ -60,13 +60,43 @@
 	@EnableAutoConfiguration
 	@Configuration
 
+
 3. [@ResponseBody:](https://www.baeldung.com/spring-request-response-body)
+	The @ResponseBody annotation tells a controller that the object returned is automatically serialized into JSON and passed back into the HttpResponse object.
+
+4. @RestController - 
+	Class LEvel Annotation. Makes a class Rest Controller. 
+	@RestController = @Controller + @ResponseBody
+	
+	
 	
 # Spring MVC and Rest Annotations:-
 1. @RequestMapping:
 	
 	
-
+- **Differenc between @PathVariable and @RequestParam**
+	
+	**@RequestParam** - It is used to extract query parameters.
+		example -  http://localhost:8080/eportal/trades?tradeId=2001
+		
+		@RequestMapping("/trades")
+		public String showTradeDetails(@RequestParam String tradeId,
+                               Model model){
+							   ...
+		}
+	
+	**@PathVariable **- It is used to extract values from URI
+	example - http://localhost:8080/book/9783827319333
+	
+	RequestMapping(value="/book/{ISBN}", method= RequestMethod.GET)
+	public String showBookDetails(@PathVariable("ISBN") String id,
+                              Model model){
+							  ..
+							  }
+	
+	
+	
+	
 ### Ref:- https://springframework.guru/spring-framework-annotations/
 		  https://howtodoinjava.com/spring-core/spring-annotations/
 		  

@@ -7,7 +7,7 @@
 	Pros: 
 		* Improved falut tolerance- Larger application can remian mostly unaffected by the failure of single module.
 		* Ease of Understanding -With added simpicity, developer can have better understandibilty of the funtionality.
-		* Eliminate Technolofy lock in- MS provide flexibilty to use different technology stack in different services.
+		* Eliminate Technology lock in- MS provide flexibilty to use different technology stack in different services.
 		* Smaller and faster development- smallar and disintegreated codebase = quicker development
 		* Scalability- Since your application is small you can scale it seperately, whenever needed.
 		
@@ -21,7 +21,7 @@
 	But we should not use them as it has boilerplate-code(lot of code needs to write for a small work) to call and get the response.
 	Insted we should use Feign client to use for communication.
 
-4. how to maintain logs in microservices architecture
+4. How to maintain logs in microservices architecture
 	ans:- By using Correlate Requests With a Unique ID
 	
 5. Discuss Eureka:
@@ -33,7 +33,7 @@
 			
 	Eureka Server - Add Dependency to the pom..xml called "spring-cloud-starter-netflix-eureka-server" and add eureka.client.fetch-Regisry = false and eureka.client.register-with-eureka =false
 	Eureka Client - Add Dependency to the pom..xml called "spring-cloud-starter-netflix-eureka-client" and add eureka.client.service-url.defaultZone =  http://localhost:5001/eureka (Address of Eureka Server)
-	Client usually cached the regostry server details.
+	Client usually cached the registry server details.
 	
 	Eureka Client sends HeartBeats singals every 30 Ses to Eureka Server. This is basically Put Requests to Eureka Server with Delta. 
 	If There is no HeartBeats till 90 Seconds , then server marks the entry as Ready for Eviction.(Eviction Timer Thread, runs for every 60 sec). 
@@ -45,11 +45,12 @@
 	
 	**Cluster of Eureka Server:**
 	Cluster is set of nodes which behaves as Single Node. Generally Eureka Cluster is deployed zone wise.
+	
 	How to do Configuration for clusters:-
 	- Create 3 diff active. profile in localhost with diff port.
 	- Add in prop file -   eureka.client.fetch-Regisry = true and eureka.client.register-with-eureka =false, eureka.client.service-url = {Other two Eureka's address}
 	Cluster automatically syncup between them.
-	So If a service is register in  e1 Eureka, e2,e3 eureka will have its information too. All the REpicas can be seen in DS REplica section of Eureka UI.
+	So If a service is register in  e1 Eureka, e2,e3 eureka will have its information too. All the Repicas can be seen in DS REplica section of Eureka UI.
 	
 	** Lookup for the service**
 	- In Controller autowire DiscoveryClient and then get the SereviceInstance and from there get the URI.
@@ -61,7 +62,7 @@
 	List<ServiceInstance> serviceInstance = discoveryClient.getInstance("Book-Service");
 	URI uri = 	serviceInstance.get(0).getUri();
 ```	
-	- Difference between @EnableEurekaClient and @EnableDiscoveryClient.
+- 	Difference between @EnableEurekaClient and @EnableDiscoveryClient.
 	@EnableDiscoveryClient is generic annotation to discover any Discovery Clients, be  it Eureka or Consul, while @EnableEurekaClient is specific to Eureka
 	
 ## Ribbon:

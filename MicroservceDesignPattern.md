@@ -68,7 +68,7 @@
 		Problem:- How do you migrate a legacy monolithic application to a microservice architecture?
 		
 		Solution:
-		Modernize an application by incrementally developing new(Strangler) application around the legacy application. In this Strangler application has a microservice architecture.
+		Modernize an application by incrementally developing new(Strangler) application around the legacy application. The new Strangler application has a microservice architecture.
 		The Strangler application consists of two types of Services:
 		1st Services that already resides in the old monolithic application
 		2nd services that implements new features. The Latter are useful as they demonstrate to buisness the value of using microservices.
@@ -104,13 +104,13 @@
 		
 		Example Choreography based Saga:-
 		1) The OrderService receives the post/order request and created an order in a pending state.
-		2) It then emits an Ordere created event.
+		2) It then emits an Order created event.
 		3) The Customer's Service event handler attempts to reserve credit.
 		4) It then emits the event indicating the outcome.
 		5) The Order Service'sevent handler either approves or reject the order.
 		
 		Example of Orchestrator based Saga:
-		1) The OrderService receives the post/order request, it then creates Create Order Saga Orchestrator
+		1) The OrderService receives the post/order request, it then creates Order Saga Orchestrator
 		2) This saga Orchestrator created an order in Pending State.
 		3) It then sends Reserve Credit command to Customer Service.
 		4) Customer Service attempt to reseve credit
@@ -146,18 +146,18 @@
 		Problem:- How to atomically update a DB?
 		
 		Ans: Event Sourcing:-
-		Event Sourcing persists the state of business entity(such as ORder or Customer ) as a **sequence of state-changing events.** Whenever the state of buisness entity changes, a **new event is appended in the list of Events.**
+		Event Sourcing persists the state of business entity(such as Order or Customer ) as a **sequence of state-changing events.** Whenever the state of buisness entity changes, a **new event is appended in the list of Events.**
 		Since saving the state is a single operation, it is inhrently atomic. The application reconstructs the entity's current state by replying the events.
 		An Application persists a event in a **event store**, which is a database of Events. The store has an API for adding and retriving an event. It behaves like a message broker.
 		It also provide an API that enables **services to Subscribe them,** so when a service saves an event in the event store. it is delivered to all intended Subscriber.
 		
 		
-# [CQRS](https://microservices.io/patterns/data/cqrs.html)
+## [CQRS](https://microservices.io/patterns/data/cqrs.html)
 		It Stands for Command Query Responsibility Seperation
 		
 		Problem- How to implement a query that retrive data from multiple services in MS architecture?
 		
-		solution:
+		Solution:
 		Define a **view database,** which is a read-only replica(of that service) that is designed to support that query.
 		The application keeps the replica up to data by **subscribing to Domain events** published by the service that own the data.
 		
@@ -178,7 +178,7 @@
 		4. Self registration
 		5. 3rd party registration	
 
-## [Client-side Discovery](https://microservices.io/patterns/client-side-discovery.html):-
+## [Client-side Discovery](https://microservices.io/patterns/client-side-discovery.html ):-
 		A modern microservice-based application typically runs in a virtualized or containerized environments where the number of instances of a service and their locations changes dynamically
 		How does the client of a service - the API gateway or another service - discover the location of a service instance?
 		
@@ -203,15 +203,17 @@
 	
 		[More to read](https://www.dineshonjava.com/microservice-discovery-patterns-and-registry/)
 		
-##[Server Side Discovery](https://microservices.io/patterns/server-side-discovery.html)	
+##  [Server Side Discovery](https://microservices.io/patterns/server-side-discovery.html )
+	
 		When making a request to a service, the client makes a request via a router (a.k.a load balancer) that runs at a well known location. 
 		The router queries a service registry, which might be built into the router, and forwards the request to an available service instance.
 		Example of Server side Discovery router - AWS Elastic Load Balancer (ELB)
 		
-		In this Pattern the client is not aware of the service registry. The client request service using a load balancer, which then queries the Service- Registry.
+		In this Pattern the **client is not aware of the service registry.** The client request service using a load balancer, which then queries the Service- Registry.
 		In this pattern, the client is not worry about managing the load balancing.
 		
-		An AWS Elastic Load Balancer (ELB) is an example of a server-side discovery router. A client makes HTTP(s) requests (or opens TCP connections) to the ELB, which load balances the traffic amongst a set of EC2 instances. An ELB can load balance either external traffic from the Internet or, when deployed in a VPC, load balance internal traffic. An ELB also functions as a Service Registry.
+		An AWS Elastic Load Balancer (ELB) is an example of a server-side discovery router. A client makes HTTP(s) requests (or opens TCP connections) to the ELB, which load balances the traffic amongst a set of EC2 instances. 
+		An ELB can load balance either external traffic from the Internet or, when deployed in a VPC, load balance internal traffic. An ELB also functions as a Service Registry.
 		EC2 instances are registered with the ELB either explicitly via an API call or automatically as part of an auto-scaling group.
 		
 		Server-side service discovery has a number of benefits:
@@ -232,8 +234,8 @@
 			It is a standarized protocol that ensures that databased commit is implementated in such way that commit happen into two seperate steps.
 			A Special object known as Coordinator is required in a distributed transactions.
 			A Cordinator arranges activity and syncronizes between different distributed Servers/dbs.
-			The two phase commit is implemented in 2 steps:-
-			1)  Prepare Phase - in which the transaction mangers(cordinator )cordinates with all the transaction resources to commit.
+			The two phase commit is implemented in transaction2 steps:-
+			1)  Prepare Phase - in which the  mangers(cordinator )cordinates with all the transaction resources to commit.
 				This phase requires OK or ABORT response from resources.
 			2) Commit phase- If It receives OK ,IT commits and IF it receives ABORT IT rollbacks,
 			
