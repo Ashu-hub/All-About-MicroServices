@@ -28,6 +28,26 @@
 		We need to implement a partitioning scheme, which can be tricky especially if we ever need to repartition the data.
 		Another drawback of Z-axis scaling is that doesn’t solve the problems of increasing development and application complexity. To solve those problems we need to apply Y-axis scaling.
 
+# Real Life Example:-
+ Let Say you want to scale a Pizza parlour.
+ There is only one chef. As the number of order increases, this single chef can't handle all the order.
+ In order to deal this situations:
+ 1st thing:-
+ 	Increase the salary of chef and tell him to manager all the orders. Putting more money --> More Output.
+	**Optimise process and increase throughput using same resource.**  ---> *Vertical Scaling*
+	**Optimise process include making Pizza base before hand at non peak hours.**
+	
+	All Good! All done. But say one day	you chef falls ill. Business is in trouble?
+	
+	**How to make application Resilience(Recovery from failure quickly)**
+	Have one or more backup chef. If Chef does not come for that day, hire them for that day only.
+	**Keep backup and avioid sigle point of failure**/ Buying more resource of similar types--> *Horizontal Scaling*
+	
+	Ohhwow. All done. 
+	
+	Say you have more and more number of Orders which are pilling up.
+	you would like to divide that between different cateogry say one for garlic bread only, other for Pizza only. -->**Z axis scaling**
+	
 #Benefits:
 
 		Enables the continuous delivery and deployment of large, complex applications.
@@ -44,7 +64,7 @@
 
 #Drawbacks:
 		
-		Developers must deal with the additional complexity of creating a distributed system:
+		Developers must deal with the additional complexity of creating a distributed system.
 		Developers must implement the inter-service communication mechanism and deal with partial failure.
 		Implementing requests that span multiple services is more difficult
 		Testing the interactions between services is more difficult
@@ -96,9 +116,9 @@
 		
 		Solution:
 		Saga, implements each business transactions thats spans multiple services.
-		A Saga is a sequence of local transactions.
+		**A Saga is a sequence of local transactions.**
 		
-		There are two ways of Coordination sagas:-
+		There are two ways of **Coordination sagas**:-
 		1) Choreography:- each local transactions publishes domains events that triggers local transaction in other Service.
 		2) Orchestration:-  an Orchestrater tells the participants about what local transaction to executes.
 		
@@ -246,3 +266,19 @@
 				1. Can Commit
 				2. Pre Commit
 				3. Do Commit 
+				
+# 12 factor App:-
+	Best practises in building Cloud native application:- 
+	
+		1) CodeBase -One CodeBase tracked in revisioin control and many deploys. VCS(git)
+		2) Dependencies - Explicitly declare and isolate dependencies. Can be easily switch between dependencies
+		3) Config - Store Config in the env.
+		4) Backing Services:- Treat backing services as attached resources
+		5) Build, release, run- Strictly separate build and run stages.
+		6) Processes - Execute the app as one or more stateless processes
+		7) Port binding- Export services via port binding
+		8) Concurrency - Scale out via the process model( X-axis Scaling).
+		9) Disposability - Maximize robustness with fast startup and graceful shutdown.
+		10) Dev/prod parity - Keep development, staging, and production as similar as possible.
+		11) Logs -Treat logs as event streams.
+		12)  Admin processes - Run admin/management tasks as one-off processes.

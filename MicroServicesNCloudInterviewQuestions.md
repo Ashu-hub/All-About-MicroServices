@@ -17,12 +17,12 @@
 		* Deployment challenges- One need to deploy every service and it becomes challenging sometimes like generating war and deploying it in server.
 		
 3. How micro services interact with each other?
-	We can use RestTeplate or Webclient-builder. 
+	We can use RestTemplate or Webclient-builder. 
 	But we should not use them as it has boilerplate-code(lot of code needs to write for a small work) to call and get the response.
 	Insted we should use Feign client to use for communication.
 
 4. How to maintain logs in microservices architecture
-	ans:- By using Correlate Requests With a Unique ID
+	ans:- By using Correlate Requests With a Unique ID (Sleuth)
 	
 5. Discuss Eureka:
 
@@ -35,7 +35,7 @@
 	Eureka Client - Add Dependency to the pom..xml called "spring-cloud-starter-netflix-eureka-client" and add eureka.client.service-url.defaultZone =  http://localhost:5001/eureka (Address of Eureka Server)
 	Client usually cached the registry server details.
 	
-	Eureka Client sends HeartBeats singals every 30 Ses to Eureka Server. This is basically Put Requests to Eureka Server with Delta. 
+	Eureka Client sends HeartBeats singals every 30 Sec to Eureka Server. This is basically Put Requests to Eureka Server with Delta. 
 	If There is no HeartBeats till 90 Seconds , then server marks the entry as Ready for Eviction.(Eviction Timer Thread, runs for every 60 sec). 
 	So If client does not sends HeartBeats for (90+60)150 sec then server going to Evict this Service form Service Registry.
 	
@@ -90,3 +90,6 @@
 		Book-Service.ribbon.ConnectionTimeOut = 1000
 		Book-Service.ribbon.MaxAutoRetiresNextServer = 4
 		Book-Service.ribbon.MaxAutoReties = 2
+		
+# How do you secure your microservices?
+https://dzone.com/articles/how-do-you-secure-microservices		
