@@ -35,7 +35,7 @@
  1st thing:-
  	Increase the salary of chef and tell him to manager all the orders. Putting more money --> More Output.
 	**Optimise process and increase throughput using same resource.**  ---> *Vertical Scaling*
-	**Optimise process include making Pizza base before hand at non peak hours.**
+	**Optimise process include making Pizza base before hand at non peak hours.** - this Also include functional decomposition(like making pizza base beforehand)
 	
 	All Good! All done. But say one day	you chef falls ill. Business is in trouble?
 	
@@ -77,8 +77,8 @@
 # Decomposition Patterns:
 		1. Decompose by business capability
 		2. Decompose by subdomain
-		3. Self-contained Service new
-		4. Service per team new
+		3. Self-contained Service 
+		4. Service per team 
 
 # Refactoring Patterns
  		1. Strangler Application
@@ -103,7 +103,7 @@
 		7. Event sourcing
 		
 # How to maintain data consistency?
-		In order to ensure loose coupling, each service has its own database. Maintaining data consistency between services is a challenge because 2 phase-commit/distributed transactions is not an option for many applications.
+		In order to ensure *loose coupling*, each service has its own database. Maintaining data consistency between services is a challenge because 2 phase-commit/distributed transactions is not an option for many applications.
 		An application must instead use the Saga pattern. A service publishes an event when its data changes. Other services consume that event and update their data. There are several ways of reliably updating data and publishing events including Event Sourcing and Transaction Log Tailing.
 
 ## [SAGA Pattern](https://microservices.io/patterns/data/saga.html)
@@ -175,7 +175,7 @@
 ## [CQRS](https://microservices.io/patterns/data/cqrs.html)
 		It Stands for Command Query Responsibility Seperation
 		
-		Problem- How to implement a query that retrive data from multiple services in MS architecture?
+		Problem- How to implement a query that *retrive data* from multiple services in MS architecture?
 		
 		Solution:
 		Define a **view database,** which is a read-only replica(of that service) that is designed to support that query.
@@ -268,16 +268,18 @@
 				3. Do Commit 
 				
 # 12 factor App:-
-	Best practises in building Cloud native application:- 
+	**Best practises in building Cloud native application:- **
 	
-		1) CodeBase -One CodeBase tracked in revisioin control and many deploys. VCS(git)
+		1) CodeBase - One CodeBase tracked in revisioin control and many deploys. VCS(git)
 		2) Dependencies - Explicitly declare and isolate dependencies. Can be easily switch between dependencies
 		3) Config - Store Config in the env.
-		4) Backing Services:- Treat backing services as attached resources
+		4) Backing Services:- Treat backing services as attached resources(You should able to switch between backing services. Backing services examole could be databases.)
+		
 		5) Build, release, run- Strictly separate build and run stages.
-		6) Processes - Execute the app as one or more stateless processes
+		6) Processes/Statelessness - Execute the app as one or more stateless processes
 		7) Port binding- Export services via port binding
 		8) Concurrency - Scale out via the process model( X-axis Scaling).
+		
 		9) Disposability - Maximize robustness with fast startup and graceful shutdown.
 		10) Dev/prod parity - Keep development, staging, and production as similar as possible.
 		11) Logs -Treat logs as event streams.
