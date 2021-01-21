@@ -209,7 +209,7 @@
 		The number of services instances might vary dynamically. For example, an EC2 Autoscaling Group adjusts the number of instances based on load.
 		
 		Solution:
-		When making a request to a service, the client obtains the location of a service instance **by querying a Service Registry, which knows the locations of all service instances.**
+		When making a request to a service, the *client obtains the location of a service instance* **by querying a Service Registry, which knows the locations of all service instances.**
 		The client also responsible for managing load balancing requests across services.
 		eg: Eureka Service-Discovery
 		
@@ -229,7 +229,7 @@
 		The router queries a service registry, which might be built into the router, and forwards the request to an available service instance.
 		Example of Server side Discovery router - AWS Elastic Load Balancer (ELB)
 		
-		In this Pattern the **client is not aware of the service registry.** The client request service using a load balancer, which then queries the Service- Registry.
+		In this Pattern the **client is not aware of the service registry.** The client request service using a **load balancer**, which then queries the Service- Registry.
 		In this pattern, the client is not worry about managing the load balancing.
 		
 		An AWS Elastic Load Balancer (ELB) is an example of a server-side discovery router. A client makes HTTP(s) requests (or opens TCP connections) to the ELB, which load balances the traffic amongst a set of EC2 instances. 
