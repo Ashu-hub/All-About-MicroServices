@@ -127,7 +127,7 @@
 		2) It then emits an Order created event.
 		3) The Customer's Service event handler attempts to reserve credit.
 		4) It then emits the event indicating the outcome.
-		5) The Order Service' sevent handler either approves or reject the order.
+		5) The Order Service's event handler either approves or reject the order.
 		
 		Example of Orchestrator based Saga:
 		1) The OrderService receives the post/order request, it then creates Order Saga Orchestrator

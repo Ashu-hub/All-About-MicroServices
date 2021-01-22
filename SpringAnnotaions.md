@@ -55,7 +55,7 @@
 
 8. @Value:-
 	//This is used with field, constructor or method parameter. It signifies the default value experssion for the feild/constructor/parameter.
-	This is used to read the application appplication property.
+	This is used to read the appplication property.
 	like - @Value("${spring.application.name}")
 			OR
 	give default values as :
@@ -104,7 +104,8 @@
 		
 - **Differenc between @PathVariable and @RequestParam**
 	
-	**@RequestParam** - It is used to extract query parameters.
+	**@RequestParam** -
+	1.	It is used to extract query parameters.
 		example -  http://localhost:8080/eportal/trades?tradeId=2001
 		
 		@RequestMapping("/trades")
@@ -112,8 +113,10 @@
                                Model model){
 							   ...
 		}
+	2. Secondly, the query parameters are used to sort/filter resources. 
 	
-	**@PathVariable **- It is used to extract values from URI
+	**@PathVariable **- 
+	1.It is used to extract values from URI
 	example - http://localhost:8080/book/9783827319333
 	
 	RequestMapping(value="/book/{ISBN}", method= RequestMethod.GET)
@@ -124,7 +127,7 @@
 	
 	
 	
-	
+	2. path parameters are used to identify a specific resource or resources.
 ### Ref:- https://springframework.guru/spring-framework-annotations/
 		  https://howtodoinjava.com/spring-core/spring-annotations/
 		  
