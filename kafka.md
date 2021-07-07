@@ -40,6 +40,11 @@ Remember that Kafka is only used as a transportation mechanism.
 - Decoupling of system dependency.
 
 
+## Kafka Ecosystem:
+
+![App Screenshot](https://github.com/Ashu-hub/All-About-MicroServices/blob/master/images/Kafka-Architecture.png)
+
+
 ## Key terminology:
 - Data pipelines:- Communication is required between different system in real time scenario, which is done using Data pipelines.
 - Event streaming:- Event streaming is the practice of capturing data in real-time from event sources like databases, sensors, mobile devices, cloud services etc. 
@@ -66,15 +71,9 @@ Remember that Kafka is only used as a transportation mechanism.
 
   
 
-![TopicPartitionsReplicas](https://github.com/Ashu-hub/All-About-MicroServices/blob/master/images/TopicPartitionsReplicas.png)
+![TopicPartitionsReplicas](https://github.com/Ashu-hub/All-About-MicroServices/blob/master/images/TopicPartitionsReplicas.jpg)
 
   
-
-
-## Kafka Ecosystem:
-
-![App Screenshot](https://github.com/Ashu-hub/All-About-MicroServices/blob/master/images/Kafka-Architecture.png)
-
   
 ## Difference between JMS and Kafka:-
 
