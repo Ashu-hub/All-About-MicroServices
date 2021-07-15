@@ -64,10 +64,15 @@ Remember that Kafka is only used as a transportation mechanism.
 - **Offset** - Each messages in a Partition is assigned a sequential id called an Offset
 - **Configurable time** - Even of the record does not have any consumer, kafka will retain it. Default time of retention is 7 days.
 
-
+- Role of Partition -
+    Partitions are the main concurrency mechanism in Kafka. A topic is divided into 1 or more partitions, enabling producer and consumer loads to be scaled.
+    Specifically, a consumer group supports as many consumers as partitions for a topic.(1 Consumer = 1 partition)
+     The consumers are shared evenly across the partitions, allowing for the consumer load to be linearly scaled by increasing both consumers and partitions.
+     You can have fewer consumers than partitions, but if you have more consumers than partitions some of the consumers will be “starved” and not receive any messages until the number of consumers drops to (or below) the number of partitions. i.e. consumers don’t share partitions (unless they are in different consumer groups). 
+    Partitions can have copies to increase durability and availability and enable Kafka to failover to a broker with a replica of the partition if the broker with the leader partition fails. This is called the Replication Factor and can be 1 or more.
 ## Kafka Components:
 
-![Kafka Components](https://github.com/Ashu-hub/All-About-MicroServices/blob/master/images/KafkaComponents.png)
+![Kafka Components](https://github.com/Ashu-hub/All-About-MicroServices/blob/master/images/KafkaComponents.jpg)
 
   
 
@@ -77,6 +82,69 @@ Remember that Kafka is only used as a transportation mechanism.
   
 ## Difference between JMS and Kafka:-
 
-Any additional information goes here
 
-  
+## Spring Boot with Kafka Producer Example:
+###  Start Zookeeper
+    - bin/zookeeper-server-start.sh config/zookeeper.properties
+### Start Kafka Server
+    - bin/kafka-server-start.sh config/server.properties
+### Create Kafka Topic
+    - bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Kafka_Example
+### Consume from the Kafka Topic via Console
+    - bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic Kafka_Example --from-beginning
+### Publish message via WebService
+    - http://localhost:8081/kafka/publish/Sam
+    - http://localhost:8081/kafka/publish/Peter
+
+## Start Kafka on Windows :
+    1. Go to \config\server.properties -> change the log file dir, if you want.
+    2. Go to \config\zookeeper.properties -> Change the dataDirextory if you want.
+    3. Run Zookeeper:- In windows bat file is there for the at location, Run it like :- .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+    4. Run Apache Kafka - .\bin\windows\kafka-server-start.bat .\config\server.properties
+    5. Create Kafka Topic like - .\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic KAFKA_EXAMPLE
+    6. Consume from the Kafka Topic via Console - .\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:8081 --topic KAFKA_EXAMPLE --from-beginning
+
+
+### Kafka Producer :-
+    
+    1. Create Spring boot with Kafka and web dependecy
+    2. Create a resouce to produce kafka message:
+    ```java
+    @RestController
+    @RequestMapping("kafka")
+    public class UserResource {
+
+    @Autowired
+    private KafkaTemplate<String, User> kafkaTemplate;
+
+    private static final String TOPIC = "Kafka_Example";
+
+    @GetMapping("/publish/{name}")
+    public String post(@PathVariable("name") final String name) {
+
+        kafkaTemplate.send(TOPIC, new User(name, "Technology", 12000L));
+
+        return "Published successfully";
+    }
+    ```
+    3. Write configuratin for the json message
+    ```java
+     @Bean
+    public ProducerFactory<String, User> producerFactory() {
+        Map<String, Object> config = new HashMap<>();
+
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+        return new DefaultKafkaProducerFactory<>(config);
+    }
+
+
+    @Bean
+    public KafkaTemplate<String, User> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
+    }
+    ```
+    
+------------------------------------------------------------------------------
