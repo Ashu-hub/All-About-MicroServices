@@ -139,3 +139,16 @@
 	Based on the results of smoke-test, newer version can be released to become the live version.
 # How do you secure your microservices?
 https://dzone.com/articles/how-do-you-secure-microservices		
+
+# On what principle microservices are build upon?
+
+# What is RATE Limiting/ API Throttling?
+
+	Rate Limiting is a technique that allow a service to control the consumption of resources used by an application instance.
+	eg:
+	If you exceeds twitter API limit:
+	It will shows somethinglike: 
+	```json
+	{"errors":[{"code:88, "message": "Rate limit is exceeded" "}]}
+	```
+	Within API we can send Repsonse code 429- Too Many Requests.

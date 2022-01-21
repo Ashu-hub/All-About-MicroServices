@@ -2,7 +2,7 @@
 2. Intercommunication b/w them
 3. Service Registry using Eureka
 4. Circuit breaker using Hystrix
-4. Sring cloud config for strict seperation of config from code/
+4. Sring cloud config for strict seperation of config from code.
 
 	Need to Implement:-
 5. Api Gateway(ZUUL) - Single entry point into the system, used to handle request by routing them to appropriate service.		(Reverse proxy??) allow/ block
@@ -11,19 +11,34 @@
 	Gateway can use a client side load balancer library (Ribbon) to distribute load across instances based on round-robin fashion
 			
 	Reverse Proxy:-
-	It hides the services the rest of the world. It recieves the requests on behalf of Server from  the client.
+	It hides the services/servers the rest of the world. It recieves the requests on behalf of Server from the client.
 	It is responsibility of reverse proxy to delegate the client requests to the relevant service/server.
 
-	Sometimes there may be case that serveral instance is running for a server behind the reverse proxy which is known as Clustering.In this case the reverse proxy determine the appropriate instance by something called load balancing.
+	Sometimes there may be case that serveral instance is running for a server behind the reverse proxy which is known as Clustering. In this case the reverse proxy determine the appropriate instance by something called load balancing.	
 
 	Regarding the differences(Api getway and reverse proxy), they are very similar. It's just nomenclature. As you take a basic reverse proxy setup and start bolting on more pieces like authentication, rate limiting, dynamic config updates, and service discovery, 
 	people are more likely to call that an API gateway.
 
+- Advantages of API gateway-
+	1. Authentication- Instead of having authentication for every services we can have authentication only @ API.
+	2. SSL Termination- We can use ALL interrnal calls to use HTTP/Web Socket/rPC etc, no need for HTTPS call from API Gateway to services.
+	3. Load Balncce- It can also act as a load balancer to balanced the load between diff service instances.
+	4. Insulation- No client can access any service directly. It makes system to be loosely couple.
+	
+-Disadvantages- 
+	1. Increased no of hops -> Increased Latency
+	2. System becomes complicated.
+	
+	
 6. Hystrix:- It is implementation of Circuit breaker pattern, which gives you control over latency and failures ouccuring in the appication.
 			The main idea is to stop cascading failure in the distributed enviornment in a large number of Microservices application. This helps in fail- fast and recover asap.
 			It also provides one to add fallback methods that can be called in case of command failures.	
+			
+	Feature of Circuit Breaker: Cached Response, Fallback-mechnaism(3rd party microservices), give time to Recover
 
-	configuration:
+	Half open state: After a threshold time the circuit breaker will check if the service is up or not. This state is called as half open state.
+	
+	Configuration:
 	How Hystrix Circuit-Breaker operates: Hystrix does not offer a circuit breaker which breaks after a given number of failures. The Hystrix circuit will break if:
 	within a timespan of duration metrics.rollingStats.timeInMilliseconds, the percentage of actions resulting in a handled exception exceeds errorThresholdPercentage
 	
@@ -37,8 +52,11 @@
 	 @HystrixCommand(commandProperties=Array(new HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds", value="800")))
 	 
 7. Eureka(Netflix) as a service discovery:- 
-	It allows automatic detection of network locations for each service instance.
+	It allows automatic detection of network locations for each service instance. Service Discovery is a pattern to identifythe network address of all instances of services.
 	Eureka is a good example of client side discovery pattern, where the client is reponsible for detemining the location of available services(using a registry servers).and load balancing(by default Ribbon setting) the requests between them,
+	
+	Server Side Discovery Pattern:- When making a request to a service, the client makes a request via a router (a.k.a load balancer) that runs at a well known location. The router queries a service registry, which might be built into the router, and forwards the request to an available service instance.
+	example- An AWS Elastic Load Balancer (ELB) is an example of a server-side discovery router. A client makes HTTP(s) requests (or opens TCP connections) to the ELB, which load balances the traffic amongst a set of EC2 instances
 	
 	@LaodBalanced :- this is default Ribbon Setting in Eureka, used as a marker annotation that defines annotated RestTemplate should use RibbonloadBanlacer Client for interacting with the server
 			
@@ -47,6 +65,41 @@
 		
 6. Feign Client - You have a full suite of a load balancer, circuit breaker, and HTTP client with a sensible ready-to-go default configuration.
 7. Ribbon - client side load balancer(Diff bet client and server side load balancer)
+
+8. Inter- Service communication:
+	It can be using any protocol like HTTP/HTTPS/rPC/WebSocket.
+	It can be synchronous or asynchoronous.
+	
+	Synchronous Communication:
+	Advantages: Simple,Easy, Realtime.
+	Disadvantages: Service Availability, respsonse Time(if hop is too many, latency is increased).
+	
+	Asynchronous Communication:
+	Using queues. 
+	Advantages: Faster way of communication, loosely coupled, works even service are down, No need of service Discovery.
+	Disadvantages: Complex design, Process Latency, Monitoring calls(Increase cost for queues).
+	
+
+9. Service Mesh:
+	A service mesh is an abstracted layer which sits on top of the microservices and handles service-to-service communication. Service Mesh Implements Proxy and Side Car Pattern, which means for every MicroService Instance there will be a service Mesh Instance.
+	The mesh tracks, secures, and relays all data flow between services.
+	It helps in :
+	a. Load Balancing.
+	b. Service Discovery.
+	c. Metrics.
+	d. Retries.
+	e. Circuit Braker.
+	f. TimeOut.
+
+	In Service mesh there are 2 major components- 1. Control Pane 2. Data Pane.
+	1. Control PAne- It is a central palce where we can acutally load all the configurations or all of the proxies which are side loaded alaong with every instance.
+	2. Data Pane: Is a group of all these proxies. The important poitn is every proxy does not have idea about other proxy in the same cluster.
+	Proxy are the one which does all of the functions metioned above like load balancing.
+
+
+
+10. Deployemnt Patterns:
+
 
 ###How did you do in Jpop Project?
 

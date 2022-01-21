@@ -2,26 +2,26 @@
 	1) X-axis = Horizental duplication/scale by cloning:
 		It means simple running multiple copies of same application behind load balancer. So if there are N copies then each copies hanlde 1/N requests
 		Problems:-
-		* Because each copies potentially access all data,cache requires more memory
+		* Because each copies potentially access all data, cache requires more memory
 		* Does not tackle the problem of increasing development and appication complexity.
 	
-	2. Y-axis = Vertical scaling/Functional Decomposition/ Scale by spliting different things
-		It basciallly split the application into multiple different services. Each Service is related to one or more closely related functions.
+	2. Y-axis = Vertical scaling/Functional Decomposition/ Scale by spliting different things.
+		It bascially split the application into multiple different services. Each Service is related to one or more closely related functions.
 		Types:
-		Verb Based decomposition:- Decompisiton of services that implements a single use case or particular action such as **scheckout or Shipping Services.
-		Noun Based decomposition:- Decompisiton of Service that is responsible for all operations related to particular entity like customer Management
+		Verb Based decomposition:- Decompositon of services that implements a single use case or particular action such as **checkout or Shipping Services.
+		Noun Based decomposition:- Decompositon of Service that is responsible for all operations related to particular entity like customer Management
 		Decompose by business capability and define services corresponding to business capabilities. like **Delivery Management, Inventory mangement, Order management.
 		Decompose by domain-driven design subdomain
 		An Effective application must use both verb and noun based decomposition.
 		
-	3. Z-axis:- In this each Server runs identical copy of code. Similar to X-axis each server is responsible fo running **one subset of data.
-		Z-axis splits are commonly used to scale databases.
+	3. Z-axis:- In this each Server runs identical copy of code. Similar to X-axis each server is responsible fo running **one subset of data.**
+		Z-axis splits are commonly used to **scale databases.**
 		
 		Z-axis scaling has a number of benefits.
 		Each server only deals with a subset of the data.
 		This improves cache utilization and reduces memory usage and I/O traffic.
 		It also improves transaction scalability since requests are typically distributed across multiple servers.
-		Also, Z-axis scaling improves fault isolation since a failure only makes part of the data in accessible.
+		Also, Z-axis scaling improves *fault isolation* since a failure only makes part of the data in-accessible.
 	
 		Z-axis scaling has some drawbacks.
 		One drawback is increased application complexity.
@@ -33,7 +33,7 @@
  There is only one chef. As the number of order increases, this single chef can't handle all the order.
  In order to deal this situations:
  1st thing:-
- 	Increase the salary of chef and tell him to manager all the orders. Putting more money --> More Output.
+ 	Increase the salary of chef and tell him to manage all the orders. Putting more money --> More Output.
 	**Optimise process and increase throughput using same resource.**  ---> *Vertical Scaling*
 	**Optimise process include making Pizza base before hand at non peak hours.** - this Also include functional decomposition(like making pizza base beforehand)
 	
@@ -43,7 +43,7 @@
 	Have one or more backup chef. If Chef does not come for that day, hire them for that day only.
 	**Keep backup and avioid sigle point of failure**/ Buying more resource of similar types--> *Horizontal Scaling*
 	
-	Ohhwow. All done. 
+	Ohh wow. All done. 
 	
 	Say you have more and more number of Orders which are pilling up.
 	you would like to divide that between different cateogry say one for garlic bread only, other for Pizza only. -->**Z axis scaling**
@@ -104,7 +104,7 @@
 		
 # How to maintain data consistency?
 		In order to ensure *loose coupling*, each service has its own database. Maintaining data consistency between services is a challenge because 2 phase-commit/distributed transactions is not an option for many applications.
-		An application must instead use the Saga pattern. A service publishes an event when its data changes. Other services consume that event and update their data. There are several ways of reliably updating data and publishing events including Event Sourcing and Transaction Log Tailing.
+		An application must instead use the Saga pattern. A service **publishes an event when its data changes**. Other services consume that event and update their data. There are several ways of reliably updating data and publishing events including Event Sourcing and Transaction Log Tailing.
 
 ## [SAGA Pattern](https://microservices.io/patterns/data/saga.html)
 
@@ -284,3 +284,56 @@
 		10) Dev/prod parity - Keep development, staging, and production as similar as possible.
 		11) Logs -Treat logs as event streams.
 		12)  Admin processes - Run admin/management tasks as one-off processes.
+	
+# Deployment Pattern:
+	 We tend to acheive:
+	 1) Scalability & throughput.
+	 2) Relaiable & Available.
+	 3) Isolation.
+	 4) Resource Limit.
+	 5) Monitor.
+	 6) Cost  Effective.
+
+## 1. Multiple Service per host.
+	
+	In tihs we run multiple services in say one virtual machine. This pattern is used earlier.
+	How to scale:
+	Just add another VM. Load Balance bet them.
+	
+	Adv:
+	Effective resource utilization.
+	Fast Deployement.
+	
+	DisAdv:
+	1) Poor Isolation
+	2) No Resource limit- say one service is using all the resouces(say CPU), so another services does not have anything to use. 
+	3) Dependency conflict
+
+##	2. Service per VM/container:
+	Deploy every service in one VM/container
+	
+	Adv:
+	1. Isolation and Secure
+	2. Mangeable
+	3. Fast
+	4. Auto Scaling:
+		
+	DisAdv:
+	1. Slow(VM only).
+	2. Not efficient in utilization(VM only)
+	3. Not so secure(container)
+	
+## 3.ServerLess
+	JUst worry about your own code and cloud provider will do everything for you. Like AWS/ GC/ Azure
+	
+	Adv:
+	1. Focus on code.
+	2. No worries about scaling
+	3. pay as you go.
+	
+	DisAdv:
+	1. Runtime Support.
+	2. Expensive
+	3. Vendor lock- SOme Code configurtion is provider specific, like AWS config might not be used in GC or Azure
+	4. Debugging pain
+	5. stateless $ hout running process only.
