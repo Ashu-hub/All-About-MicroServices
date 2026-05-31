@@ -4,6 +4,7 @@
 	It is architectural pattern, which defines services as small, loosely coupled, distributed service.
 
 2. What are the pros/cons. of the Microservices architecture style?
+	
 	Pros: 
 		* Loose Coupling - Autonomous - the ability to deploy different services independently, and reliability, due to the ability for a service to run even if another service is down.*
 		* Improved falut tolerance- Larger application can remian mostly unaffected by the failure of single module.
