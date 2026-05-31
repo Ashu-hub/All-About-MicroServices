@@ -36,10 +36,10 @@
 	5. Uses protocols like SOAP and AMQP
 	6. Better for large scale integrations
 
-2.2. SOA is best suited for?
+## 2.2. SOA is best suited for?
 		SOA is better suited for **large and complex business application** environments that require integration with many heterogeneous application.
 	
-2.3. Domain Driven Design (DDD) is a modelling technique for organized decomposition of complex problem domains.
+## 2.3. Domain Driven Design (DDD) is a modelling technique for organized decomposition of complex problem domains.
 	DDD technique can be used while partitioning a monolith application into microservices architecture.
 	Bounded Context is a central pattern in Domain Driven Design. In Bounded Context, everything related to the domain is visible within context internally but opaque to other bounded contexts.
 	
@@ -49,22 +49,22 @@
 	 3. Bounded Context:- Design Solution to our identified Business DOmains. It is decided by the Cohesiveness betw your B domains and betw your sub domains.
 		For Each Sub domain there is a bOunded Context
 	
-3. How micro services interact with each other?
+## 3. How micro services interact with each other?
 	We can use RestTemplate or Webclient-builder. 
 	But we should not use them as it has boilerplate-code(lot of code needs to write for a small work) to call and get the response.
 	Insted we should use Feign client to use for communication.
 
-3.1	Isn’t in process communication in monolithic application faster than tons of remote network calls in microservices architecture?
+### 3.1	Isn’t in process communication in monolithic application faster than tons of remote network calls in microservices architecture?
 	Network communication brings some sort of latency to api calls, but that’s not a hurdle for developing a scalable distributed system anymore. VPC (Virtual Private Cloud) can now have inhouse Optical Fibre network with speed of petabyte per second supporting millions of API calls per second between two microservices.
 
-**3.2 What is difference between small-services and microservices?**
+##  **3.2 What is difference between small-services and microservices?**
 	Microservices are usually small but not all small services are microservices. If any service is not following **Bounded Context Principle, Single Responsibility Principle, ** etc. then it is not a microservice irrespective of its size. So the size is not the only eligibility criteria for a service to become microservice.
 	
 
-4. How to maintain logs in microservices architecture
+##  4. How to maintain logs in microservices architecture
 	ans:- By using Correlate Requests With a Unique ID (Sleuth)
 	
-5. Discuss Eureka:
+##  5. Discuss Eureka:
 
 	Eureka(Netflix) as a service discovery:- 
 			It allows automatic detection of network locations for each service instance.
@@ -138,8 +138,9 @@
 	Once the newer version is tested to the required satisfaction level, you can switch from older version to newer version.
 	You can run a smoke-test suite to verify that the functionality is running correctly in the newly deployed version. 
 	Based on the results of smoke-test, newer version can be released to become the live version.
-# How do you secure your microservices?
-https://dzone.com/articles/how-do-you-secure-microservices		
+
+## How do you secure your microservices?
+	https://dzone.com/articles/how-do-you-secure-microservices		
 
 # On what principle microservices are build upon?
 
