@@ -48,6 +48,23 @@
 	 2.	Identify Subdomains. - eg - Billing, products, Claims
 	 3. Bounded Context:- Design Solution to our identified Business DOmains. It is decided by the Cohesiveness betw your B domains and betw your sub domains.
 		For Each Sub domain there is a bOunded Context
+	Simple Defination:
+	A bounded context is a clearly defined area of responsibility where specific business rules and meanings apply.
+	A microservice is a small independent application that is usually built around one bounded context.
+		Imagine a School
+		A school has different departments:
+		Library
+		Accounts Office
+		Sports Department
+		Examination Department
+		Each department has its own job and own information.
+		For example:
+		The Library cares about books, borrowing, and returns.
+		The Accounts Office cares about fees and payments.
+		The Sports Department cares about teams and tournaments.
+		Even though all departments belong to the same school, they don't manage each other's work.
+		What is a Bounded Context?
+		A bounded context is like one department in the school.
 	
 ## 3. How micro services interact with each other?
 	We can use RestTemplate or Webclient-builder. 
