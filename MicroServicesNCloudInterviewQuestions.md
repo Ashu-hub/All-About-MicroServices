@@ -461,6 +461,7 @@
 	In Kubernetes environments, a service mesh such as Istio or Linkerd can automatically enable mTLS between services, so developers often don't need to modify application code.
 	
 # On what principle microservices are build upon?
+ "Microservices are built around business capabilities and follow principles such as the Single Responsibility Principle, loose coupling, and high cohesion. Each service owns its own data, communicates through APIs or asynchronous events, and can be developed, deployed, and scaled independently. They also emphasize fault isolation, decentralized governance, and observability to ensure resilience and maintainability in distributed systems."
 
 # What is RATE Limiting/ API Throttling?
 
