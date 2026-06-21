@@ -158,7 +158,308 @@
 
 ## How do you secure your microservices?
 	https://dzone.com/articles/how-do-you-secure-microservices		
+		Securing microservices requires a defense-in-depth approach because each service becomes a potential attack surface.
 
+	1. Secure Service-to-Service Communication
+	Use TLS/mTLS (Mutual TLS) between services.
+	Encrypt all traffic in transit.
+	Verify both client and server identities.
+	Common tools:
+	Istio
+	Linkerd
+	Consul
+	2. Centralized Authentication & Authorization
+	Authenticate users via:
+	OAuth 2.0
+	OpenID Connect (OIDC)
+	SAML (enterprise environments)
+	Issue short-lived JWT access tokens.
+	Each service should validate tokens independently.
+	Implement:
+	Role-Based Access Control (RBAC)
+	Attribute-Based Access Control (ABAC) for finer permissions
+	3. API Gateway Security
+
+	Place an API gateway in front of external-facing services.
+
+	Responsibilities:
+
+	Authentication
+	Rate limiting
+	Request validation
+	Logging
+	DDoS protection
+
+	Examples:
+
+	Kong
+	NGINX
+	Apigee
+	4. Apply Zero Trust Principles
+
+	Assume:
+
+	No service is automatically trusted.
+	Internal networks are not safe by default.
+
+	Every request should be:
+
+	Authenticated
+	Authorized
+	Audited
+	5. Protect Secrets
+
+	Never hardcode:
+
+	Passwords
+	API keys
+	Certificates
+	Database credentials
+
+	Use secret managers:
+
+	HashiCorp Vault
+	AWS Secrets Manager
+	Azure Key Vault
+	6. Secure Containers and Kubernetes
+
+	If using containers:
+
+	Use minimal base images.
+	Scan images for vulnerabilities.
+	Run containers as non-root.
+	Enforce pod security policies.
+	Limit container capabilities.
+	Keep images patched.
+
+	Useful scanners:
+
+	Trivy
+	Snyk
+	7. Network Segmentation
+
+	Restrict communication:
+
+	Service A should only talk to required services.
+	Use network policies/firewall rules.
+	Deny-by-default networking.
+
+	In Kubernetes:
+
+	Use Network Policies.
+	Separate environments (dev/test/prod).
+	8. Validate All Inputs
+
+	Protect against:
+
+	SQL injection
+	NoSQL injection
+	Command injection
+	Deserialization attacks
+	Cross-site scripting (for frontend-facing APIs)
+
+	Best practices:
+
+	Input validation
+	Parameterized queries
+	Schema validation
+	9. Logging, Monitoring, and Auditing
+
+	Collect:
+
+	Authentication events
+	Authorization failures
+	API requests
+	Configuration changes
+
+	Monitor with:
+
+	Prometheus
+	Grafana
+	Elastic Stack
+	10. Rate Limiting and Abuse Protection
+
+	Implement:
+
+	Per-user limits
+	Per-IP limits
+	API quotas
+	Bot detection
+
+	This helps prevent:
+
+	Credential stuffing
+	Brute-force attacks
+	Resource exhaustion
+
+# Difference bet TLS and mTLS?
+ 	Think of TLS and mTLS like entering a secure office building.
+
+	What is TLS?
+
+	Imagine you call your bank.
+
+	You ask, "Are you really the bank?"
+	The bank shows its official ID.
+	You verify it.
+	Now you talk over a private line that no one else can hear.
+
+	That's exactly what TLS (Transport Layer Security) does.
+
+	In microservices
+
+	Suppose you have:
+
+	Order Service  ----->  Payment Service
+
+	Without TLS:
+
+	Order Service ----(plain text)----> Payment Service
+
+	Someone on the network could potentially read:
+
+	Credit card number
+	Customer details
+	JWT token
+	Passwords
+
+	With TLS:
+
+	Order Service ====(encrypted)===> Payment Service
+
+	Even if someone intercepts the traffic, it appears as unreadable encrypted data.
+
+	What is mTLS (Mutual TLS)?
+
+	TLS only verifies the server.
+
+	With mTLS, both sides verify each other.
+
+	Imagine entering a secure office.
+
+	TLS
+
+	You ask the receptionist:
+
+	"Are you really from Company ABC?"
+
+	The receptionist shows an ID card.
+
+	You trust them and enter.
+
+	But the receptionist never checks who you are.
+
+	mTLS
+
+	Now both sides verify identity.
+
+	You show your employee badge.
+
+	The receptionist also shows their badge.
+
+	Only if both are valid can you enter.
+
+	You  <----verify----> Receptionist
+
+	This is Mutual TLS.
+
+	Microservice Example
+
+	Suppose you have:
+
+	Order Service
+	Inventory Service
+	Payment Service
+	Notification Service
+
+	Only the Order Service should be allowed to call the Payment Service.
+
+	With mTLS:
+
+	Order Service
+	   |
+	   |  "Here's my certificate."
+	   |
+	Payment Service
+	   |
+	   |  "Certificate verified."
+	   |
+	"Access granted."
+
+	If an attacker creates a fake service:
+
+	Fake Payment Service
+
+	The conversation becomes:
+
+	Fake Service
+	   |
+	   | "Trust me."
+	   |
+	Payment Service
+	   |
+	   | "Show your certificate."
+	   |
+	Fake Service
+	   |
+	   | "I don't have one."
+	   |
+	Connection rejected.
+
+	The attacker cannot communicate because it doesn't have a valid certificate.
+
+	What is a Certificate?
+
+	A certificate is like a digital ID card.
+
+	It contains:
+
+	The service's identity (e.g., "Payment Service")
+	A public key used for encryption
+	A trusted authority's digital signature proving the certificate is genuine
+
+	When another service receives the certificate, it checks:
+
+	Is it issued by a trusted authority?
+	Has it expired?
+	Does it belong to the expected service?
+
+	If all checks pass, the connection proceeds.
+
+	TLS vs mTLS
+	Feature	TLS	mTLS
+	Server proves identity	✅	✅
+	Client proves identity	❌	✅
+	Data encrypted	✅	✅
+	Prevents fake server	✅	✅
+	Prevents fake client/service	❌	✅
+	Why is mTLS important in microservices?
+
+	In a large system with dozens or hundreds of services, you don't want any internal service to call every other service.
+
+	For example:
+
+	Order Service  ---> Payment Service   ✅
+
+	Inventory Service ---> Payment Service   ❌
+
+	Random Pod ---> Payment Service   ❌
+
+	Compromised Service ---> Payment Service   ❌
+
+	With mTLS, only services with valid identities can communicate, significantly reducing the risk of unauthorized access.
+
+	How is this implemented in Spring Boot?
+
+	You usually don't write TLS or mTLS logic yourself. Instead:
+
+	Each service gets a certificate.
+	Services are configured to use HTTPS.
+	The server is configured to require client certificates (client-auth=need).
+	During the TLS handshake, both services exchange and verify certificates before any application data is sent.
+
+	In Kubernetes environments, a service mesh such as Istio or Linkerd can automatically enable mTLS between services, so developers often don't need to modify application code.
+	
 # On what principle microservices are build upon?
 
 # What is RATE Limiting/ API Throttling?
