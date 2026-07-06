@@ -1,8 +1,10 @@
 # Inversion of Control:-
-
+	[https://www.tutorialspoint.com/spring/spring_overview.htm]
 	It means giving the control of **creating and instantiating** the spring beans to the Spring IOC container and the only work the developer does is configuring the beans in the spring xml file.
 
 # Dependency Injection:-
+
+	Dependency Injection (DI) is a design pattern in which the dependencies required by a class are provided from the outside rather than being created by the class itself. In Spring, the IoC container creates the required beans and injects them into dependent classes, promoting loose coupling, easier testing, and better maintainability
 	 
 	..* Spring helps in the creation of loosely coupled applications because of Dependency Injection. 
 	..* In Spring Objects defined their association(dependencies) and do not worry how they will get those dependencies. It is the responsibility of Spring to provide the required dependencies for creating objects. 
@@ -47,7 +49,50 @@
 	Creating an ApplicationContext Instance:
 	In most application scenarios, explicit user code is not required to instantiate a Spring IoC container. It is handled by the framework itself during the component scanning at the application startup.
 	After creating the ApplicationContext, we can use getBean() to retrieve instances of the beans. Ideally, we should not getBean() at all, rather use @Autowired annotation for bean autowiring.
+
+# Spring AOP:
+		AOP facilitates the development process by segregating Cross-Cutting Concerns into Aspects, achieving a distinct sepration of modules. 
+		It's and interceptor to intercept some processes, for example when a method is executed Spring AOP can hijak the executing method and add extra funtionalitu before and after the method execution.
+		For example : Logging, Transaction, cahing, security etc
+
+# Beans:
+	Beans are objects that are managed by Spring Ioc Container.
+
+	These beans are created with the configuration metadata that we supply to the container. 
+	Following are 3 way to provide configuration metadata to the spring container:
+	1. XML based Configuration file
+	2. Annotation based Configuration
+	3. Java based configuration
+
+# Bean scopes:
+	When defining a bean you have the option of declaring a scope for that bean. For example, to force Spring to produce a new bean instance wach time one is needed , you should declare the bean as PROTOTYPE. Similarly if you want Spring to return the same bean instance each time one is needed, you should declare the bean's scope as Singleton
+	- Singleton:
+	This scopes the bean defination to a single instance perSpring IOC container(default)
+	- Prototype:
+	This scopes a single bean defination to have any number of object instances
+	-Request:
+	This scopes a bean defination to an HTTP request. Only valid for web aware Srping Application context
+	- Session
+	this scopes a bean defination to a HTTP session.
+	-Global session:
+	This scopes a bean to a global HTTP session.
+	-Applicaiton:
+	This scopes a bean to a entire web application.
 	
+	
+# Bean Life cycle:
+	1. Instantiation
+	2. Populate properties
+	3. BeanNameAware(setBeanName())
+	4. BeanFactoryAware(setBeanFactory())
+	5. Pre-Initialization BeanPostProcessor
+	6. InitializingBean(after property set)
+	7. Custom Init-method
+	8. Post-initialization BeanPostProcessor
+	9. Bean is ready to use
+	10. Destruction
+	
+
 # Spring Core Framework Annotations:-
 1.	@Required:-
 	This is applied on bean setter method. This enforces that affected bean must be populated at configuration time.
