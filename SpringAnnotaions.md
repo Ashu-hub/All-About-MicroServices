@@ -91,6 +91,8 @@
 	8. Post-initialization BeanPostProcessor
 	9. Bean is ready to use
 	10. Destruction
+-- -----------------------------------------
+## Transaction propagation:
 	
 `@Transactional` **Propagation** defines **what should happen if a method annotated with `@Transactional` is called when another transaction already exists**.
 
@@ -535,6 +537,7 @@ Existing Transaction = T1
 
 ---
 
+
 # Which ones are used most in real projects?
 
 For most enterprise Spring Boot applications, you'll primarily see:
@@ -550,6 +553,8 @@ The remaining propagation types (`MANDATORY`, `NOT_SUPPORTED`, `NEVER`, `NESTED`
 ## Interview Answer (30 seconds)
 
 > **Transaction propagation in Spring defines how a transactional method behaves when it is invoked by another transactional method. It determines whether the method joins the existing transaction, creates a new one, executes without a transaction, or throws an exception based on the presence of an existing transaction. The most commonly used propagation is `REQUIRED`, which joins an existing transaction if one exists or creates a new transaction otherwise.**
+
+-- -----------------------
 
 
 # Spring Core Framework Annotations:-
