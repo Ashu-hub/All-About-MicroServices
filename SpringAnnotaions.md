@@ -27,6 +27,27 @@
 	
 	Constructor-based and Setter-based DI but it is a good rule of thumb to use constructor arguments for mandatory dependencies and setters for optional dependencies.
 
+# Spring IOC Container:
+	Spring IOC container is at core of spring framework as it creates the object, wires them, configure them and manages their complete life cycle from creation to destruction.
+	org.springframework.beans & org.springframeword.context are two base packages.
+
+	2 interface at the heart of spring container:
+	1) Bean factory: provides basic configuration framework and basic funtionality capable of managing any type of objects.
+	2) Aplication context: extends Beanfactory and adds more enterprise specific funationality such as intergration with Spring AOP, message resource handling, event publication etc.
+
+	The ApplicationContext interface represents the Spring IoC container and is responsible for instantiating, configuring, and assembling the beans by reading configuration metadata. 
+	The most commonly used ApplicationContext implementation that use XML configuration sources are:
+	- FileSystemXMLApplicationContext
+	- ClassPathApplicationContext
+	- WebXMLApplicaitonContext
+	In case of Annotation based configuration classes:
+	- AnnotationConfigApplicationContext: accepts component classes as input- in particular @Configuration annotation classes.
+	- AnnotationConfigWebApplicationContext: 
+
+	Creating an ApplicationContext Instance:
+	In most application scenarios, explicit user code is not required to instantiate a Spring IoC container. It is handled by the framework itself during the component scanning at the application startup.
+	After creating the ApplicationContext, we can use getBean() to retrieve instances of the beans. Ideally, we should not getBean() at all, rather use @Autowired annotation for bean autowiring.
+	
 # Spring Core Framework Annotations:-
 1.	@Required:-
 	This is applied on bean setter method. This enforces that affected bean must be populated at configuration time.
