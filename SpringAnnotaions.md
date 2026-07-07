@@ -639,7 +639,13 @@ The remaining propagation types (`MANDATORY`, `NOT_SUPPORTED`, `NEVER`, `NESTED`
 	Offset pagination uses LIMIT and OFFSET to skip a specific number of rows before returning the next page. It's simple and allows users to jump to any page, but it becomes slower as the offset grows and can produce duplicate or missing records when data changes.
 
 	Keyset (cursor) pagination uses the last record's unique, ordered value (such as id or transaction_date) as a cursor. Instead of skipping rows, it fetches records after or before that cursor, making it much faster and more consistent for large, frequently updated datasets. That's why cursor pagination is commonly used for transaction histories, activity logs, and social media feeds.
-	
+
+# Bean vs Java Object:
+	Every bean is a Java object but every object is not a bean.
+## Ways to create a bean:
+	1. Stereotype Annotations (Automatic) - @Component, @Service, @Repository, or @Controller 
+	2. @Bean Annotation inside @Configuration (Manual) : You explicitly write a method that creates the object and tell Spring to manage the returned instance.
+	3.  XML Configuration (Legacy)
 	
 # Spring Core Framework Annotations:-
 1.	@Required:-
