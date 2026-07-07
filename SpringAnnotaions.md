@@ -556,6 +556,49 @@ The remaining propagation types (`MANDATORY`, `NOT_SUPPORTED`, `NEVER`, `NESTED`
 
 -- -----------------------
 
+# What is N+1 problem:
+	The N+1 problem occurs when Hibernate first executes one query to fetch a list of parent entities and then executes an additional query for each parent entity to fetch its related data, typically because of lazy loading. For example, fetching 100 employees and then accessing each employee's department can result in 101 SQL queries. This causes unnecessary database round trips and poor performance. We can solve it using JOIN FETCH, @EntityGraph, DTO projections, or Hibernate batch fetching to reduce the number of queries.
+	
+		Imagine you're a teacher.
+
+	You ask the office:
+
+	"Give me all 100 students."
+
+	The office gives you the list.
+
+	Now for each student, you ask:
+
+	"Give me this student's marks."
+
+	So you make:
+
+	1 request to get students
+	100 more requests to get marks
+
+	Total:
+
+	1 + 100 = 101 requests
+
+	Instead, you could have asked:
+
+	"Give me all students with their marks."
+
+## JOIN FETCH:
+	The JOIN FETCH in your query helps the hibernate N+1 problem by ensuring that all required data is fetched in a single query instead of multiple queries.
+	eg:
+	@Query("SELECT p from Purchase p JOIN FETCH p.material WHERE p.id = :id")
+	Purchase findPurchaseWithMaterial(@Param("id") Long id);
+
+	Generated query:
+	Select p.*, m** FROM Purchase p JOIN Material m on p.id = m.purchase_id where p.id = ?;
+
+## @EntityGraph
+	@EntityGraph(attributePaths = {"materials"})
+	@Query("SELECT p from Purchase p WHERE p.id = :id")
+	Purchase findPurchaseWithMaterial(@Param("id") Long id);
+
+	@EntityGraph optimizes fetching by forcing Hibernate to fetch entity in a single query. Instead of trigerring multiple lazy loading queries(N+1) problems.
 
 # Spring Core Framework Annotations:-
 1.	@Required:-
