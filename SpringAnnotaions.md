@@ -600,6 +600,47 @@ The remaining propagation types (`MANDATORY`, `NOT_SUPPORTED`, `NEVER`, `NESTED`
 
 	@EntityGraph optimizes fetching by forcing Hibernate to fetch entity in a single query. Instead of trigerring multiple lazy loading queries(N+1) problems.
 
+
+# How would you reduce latency in a GET API returning large transaction history for a dashboard without pagination?
+	A GET API returns a customer's transaction history for a dashboard. It is slow because the customer has millions of transactions. How would you reduce latency?
+
+	| Layer          | Optimization                                  |
+	| -------------- | --------------------------------------------- |
+	| API            | Database pagination, cursor pagination        |
+	| Database       | Composite indexes, query tuning, partitioning |
+	| ORM            | DTO projections, avoid N+1 queries            |
+	| Cache          | Redis for frequently requested pages          |
+	| Network        | Response compression                          |
+	| Infrastructure | Proper connection pool sizing and monitoring  |
+
+	"To reduce latency, I'd first ensure that pagination is implemented in the database rather than in memory. For large datasets, I'd prefer keyset (cursor) pagination over offset pagination because it scales much better. I'd create a composite index on (customer_id, transaction_date) to support the filter and sort efficiently. Instead of returning full entities, I'd use DTO projections to fetch only the required columns. I'd review the query execution plan using EXPLAIN ANALYZE and optimize indexes if needed. For frequently accessed pages, such as the most recent transactions, I'd introduce Redis caching. I'd also avoid N+1 query issues by using fetch joins or projections where appropriate, enable GZIP compression for large responses, and tune the database connection pool. For very large transaction tables, I'd consider partitioning the data to reduce scan times."
+
+# Offset vs Keyset?
+	Offset: GET /transactions?page=2&size=20
+	KeySet: 
+	GET /transactions?cursor=496
+	Response: 	{
+	  "transactions": [
+	    ...
+	  ],
+	  "nextCursor": 476
+	}
+	The client sends 476 in the next request
+
+	| Feature                     | Offset Pagination             | Keyset (Cursor) Pagination                     |
+	| --------------------------- | ----------------------------- | ---------------------------------------------- |
+	| Performance                 | Slower as offset increases    | Nearly constant                                |
+	| Large datasets              | Poor                          | Excellent                                      |
+	| Index usage                 | Less efficient for deep pages | Very efficient                                 |
+	| Stable with inserts/deletes | No                            | Yes                                            |
+	| Jump to page 100            | Yes                           | No (must follow cursors)                       |
+	| Best use case               | Admin/reporting UIs           | Feeds, transaction history, infinite scrolling |
+
+	Offset pagination uses LIMIT and OFFSET to skip a specific number of rows before returning the next page. It's simple and allows users to jump to any page, but it becomes slower as the offset grows and can produce duplicate or missing records when data changes.
+
+	Keyset (cursor) pagination uses the last record's unique, ordered value (such as id or transaction_date) as a cursor. Instead of skipping rows, it fetches records after or before that cursor, making it much faster and more consistent for large, frequently updated datasets. That's why cursor pagination is commonly used for transaction histories, activity logs, and social media feeds.
+	
+	
 # Spring Core Framework Annotations:-
 1.	@Required:-
 	This is applied on bean setter method. This enforces that affected bean must be populated at configuration time.
