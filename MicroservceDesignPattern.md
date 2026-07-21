@@ -94,6 +94,413 @@
 | **Idempotency** | ⭐⭐⭐⭐⭐ | Ensures that processing the same request multiple times produces the same result without duplicate side effects. | A customer clicks **Pay** twice; the same Idempotency-Key ensures only one payment is processed. | Payments and duplicate requests |
 | **Distributed Tracing** | ⭐⭐⭐⭐ | Tracks a single request across multiple microservices using a shared Trace ID. | A request flows through Gateway → Order → Payment → Inventory with Trace ID `abc123`, allowing easy debugging in Zipkin or Jaeger. | End-to-end observability |
 
+
+# Saga Design Pattern
+
+## What is the Saga Pattern?
+
+The **Saga Pattern** is a design pattern used to manage **distributed transactions** across multiple microservices.
+
+Unlike a monolithic application, where a single database transaction can be rolled back atomically, each microservice in a microservices architecture has its own database. Therefore, a transaction cannot span multiple services.
+
+The Saga Pattern solves this problem by breaking a business transaction into multiple **local transactions**. If one transaction fails, **compensating transactions** are executed to undo the previously completed steps.
+
+---
+
+## Why Do We Need Saga?
+
+Let's take the example of **Swiggy** or **Zomato**.
+
+### User Journey
+
+1. Choose your dishes.
+2. Add them to the cart.
+3. Checkout.
+4. Make payment.
+5. Order gets delivered.
+6. Order is marked as **Completed**.
+
+---
+
+## In a Monolithic Application
+
+This is not a problem because there is:
+
+- One application
+- One database
+- Multiple tables such as:
+  - Orders
+  - Payments
+  - Delivery
+
+Everything happens within **one ACID transaction**.
+
+```text
+BEGIN TRANSACTION
+
+Create Order
+Process Payment
+Assign Delivery Partner
+Update Order Status
+
+COMMIT
+```
+
+If payment fails:
+
+```text
+ROLLBACK
+```
+
+Everything is rolled back automatically.
+
+---
+
+## Problem in Microservices
+
+Now suppose we split the application into independent microservices.
+
+```text
+Order Service
+Payment Service
+Delivery Service
+```
+
+Each service owns **its own database**.
+
+### Happy Flow
+
+```text
+Customer
+
+    |
+    v
+
+Order Service
+(Order Created)
+
+    |
+    v
+
+Payment Service
+(Payment Successful)
+
+    |
+    v
+
+Delivery Service
+(Order Delivered)
+
+    |
+    v
+
+Order Status = COMPLETED
+```
+
+Everything works as expected.
+
+---
+
+## Failure Scenario
+
+Now imagine the following sequence:
+
+- Order created successfully.
+- Payment completed successfully.
+- No delivery partner is available.
+- Delivery fails.
+
+Current situation:
+
+- ✅ Money deducted.
+- ✅ Order created.
+- ❌ Food not delivered.
+
+This leaves the system in an inconsistent state.
+
+The payment should be refunded, and the order should be cancelled.
+
+However, the transaction rollback only affects the **Delivery Service** because every microservice manages only its own local transaction.
+
+There is **no global transaction** across all services.
+
+This is exactly the problem that the **Saga Pattern** solves.
+
+---
+
+# Ways to Implement Saga
+
+There are two approaches:
+
+1. **Choreography**
+2. **Orchestration**
+
+---
+
+# Choreography Saga Pattern
+
+## What is Choreography?
+
+Choreography is a decentralized approach where **each microservice communicates by publishing and consuming events**.
+
+There is **no central coordinator**.
+
+Each microservice:
+
+- Executes its own local transaction.
+- Publishes an event.
+- Other interested services react to that event.
+
+### Example Flow
+
+```text
+Order Service
+      |
+      | OrderCreated
+      v
+Kafka / RabbitMQ
+      |
+      +--------------------+
+      |                    |
+      v                    v
+Payment Service      Notification Service
+      |
+      | PaymentCompleted
+      v
+Kafka
+      |
+      v
+Delivery Service
+```
+
+Every service listens for the events it is interested in.
+
+---
+
+## Advantages
+
+- Excellent for simple workflows.
+- No central coordinator required.
+- Easy to scale.
+- No single point of failure.
+- Services remain loosely coupled.
+
+---
+
+## Disadvantages
+
+- Workflow becomes difficult to understand as the number of services increases.
+- Hard to identify which service consumes which event.
+- Debugging becomes challenging.
+- Risk of cyclic dependencies between services.
+
+---
+
+# Orchestration Saga Pattern
+
+## What is Orchestration?
+
+Orchestration uses a **central coordinator** called the **Saga Orchestrator**.
+
+Instead of services reacting independently, the orchestrator decides which service should execute next.
+
+### Example Flow
+
+```text
+           Saga Orchestrator
+                  |
+        -------------------------
+        |           |           |
+        v           v           v
+   Order Service Payment Service Delivery Service
+```
+
+### Execution Flow
+
+```text
+Create Order
+
+↓
+
+Payment Successful?
+
+↓
+
+Yes
+
+↓
+
+Reserve Inventory
+
+↓
+
+Assign Delivery Partner
+
+↓
+
+Delivery Successful?
+
+↓
+
+Yes
+    ↓
+Order Completed
+
+No
+    ↓
+Refund Payment
+    ↓
+Cancel Order
+```
+
+The orchestrator controls the entire workflow.
+
+---
+
+## Advantages
+
+- Best suited for complex business workflows.
+- Easier to understand and debug.
+- No cyclic dependencies.
+- Business flow is maintained in one place.
+- Easier to introduce new participants.
+
+---
+
+## Disadvantages
+
+- Additional implementation complexity.
+- Requires a dedicated orchestration service.
+- Introduces a potential single point of failure (can be mitigated using clustering/high availability).
+
+---
+
+# Choreography vs Orchestration
+
+| Feature | Choreography | Orchestration |
+|----------|--------------|---------------|
+| Control | Distributed | Centralized |
+| Coordinator | ❌ No | ✅ Yes (Saga Orchestrator) |
+| Communication | Events | Commands + Events |
+| Complexity | Low for small systems | Better for large systems |
+| Scalability | High | High |
+| Debugging | Difficult | Easier |
+| Coupling | Loosely coupled | Slightly more controlled |
+| Single Point of Failure | No | Yes (unless orchestrator is highly available) |
+| Best For | Simple workflows | Complex business workflows |
+
+---
+
+# Real-World Example
+
+## Choreography
+
+```text
+OrderCreated
+
+↓
+
+Payment Service
+
+↓
+
+PaymentCompleted
+
+↓
+
+Inventory Service
+
+↓
+
+InventoryReserved
+
+↓
+
+Delivery Service
+
+↓
+
+DeliveryAssigned
+
+↓
+
+Notification Service
+```
+
+Each service independently reacts to events.
+
+---
+
+## Orchestration
+
+```text
+Saga Orchestrator
+
+↓
+
+Create Order
+
+↓
+
+Call Payment Service
+
+↓
+
+Payment Success?
+
+↓
+
+Yes
+
+↓
+
+Call Inventory Service
+
+↓
+
+Inventory Reserved?
+
+↓
+
+Yes
+
+↓
+
+Call Delivery Service
+
+↓
+
+Delivery Failed
+
+↓
+
+Refund Payment
+
+↓
+
+Release Inventory
+
+↓
+
+Cancel Order
+```
+
+The orchestrator manages the complete workflow.
+
+---
+
+# Interview Summary
+
+- **Saga Pattern** solves the problem of **distributed transactions** in a microservices architecture.
+- A Saga consists of multiple **local transactions**.
+- If any step fails, **compensating transactions** undo the previously completed work.
+- **Choreography** is event-driven and decentralized.
+- **Orchestration** uses a central coordinator to manage the workflow.
+- **Choreography** is suitable for simple workflows.
+- **Orchestration** is preferred for large and complex enterprise applications.
+
+> **Most enterprise applications (banking, e-commerce, insurance, fintech) prefer the Orchestration Saga Pattern because it provides better visibility, monitoring, and control over complex business transactions.**
+
 # Decomposition Patterns:
 		1. Decompose by business capability - 
 		2. Decompose by subdomain - 
