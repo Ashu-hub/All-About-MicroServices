@@ -160,6 +160,11 @@
 		Some queries would result in inefficient, in-memory joins of large datasets.
 			
 ## [Event Sourcing](https://microservices.io/patterns/data/event-sourcing.html)
+	Event Sourcing records every change as an event instead of just storing the current state, creating a complete history of data changes. The current state can be rebuilt anytime by replaying these events, helping track how data evolved over time.
+	Eg: Order status in Myntra. 
+		One can create a EVENTS table can record all events there to replay later.
+		One can use Kafka to produce and consume events.
+
 		A Service Command need to typically update a database and sends events. In Saga, a service need to atomically update a DB and sends events.
 		The Db update and seding messages/ events must be atomic in order to avoid data inconsistancy or bugs.
 		
@@ -244,6 +249,26 @@
 		Unless it’s part of the cloud environment, the router must is another system component that must be installed and configured. It will also need to be replicated for availability and capacity.
 		The router must support the necessary communication protocols (e.g HTTP, gRPC, Thrift, etc) unless it is TCP-based router
 		More network hops are required than when using Client Side Discovery.
+
+# Summary: 
+	| Pattern                   | Importance | Common Use Case                 |
+	| ------------------------- | ---------- | ------------------------------- |
+	| API Gateway               | ⭐⭐⭐⭐⭐      | Authentication, routing         |
+	| Service Discovery         | ⭐⭐⭐⭐       | Dynamic service lookup          |
+	| Database per Service      | ⭐⭐⭐⭐⭐      | Loose coupling                  |
+	| Saga                      | ⭐⭐⭐⭐⭐      | Distributed transactions        |
+	| Circuit Breaker           | ⭐⭐⭐⭐⭐      | Fault tolerance                 |
+	| Retry + Timeout           | ⭐⭐⭐⭐⭐      | Handling transient failures     |
+	| Bulkhead                  | ⭐⭐⭐⭐       | Isolating failures              |
+	| CQRS                      | ⭐⭐⭐⭐       | Read/write optimization         |
+	| Event Sourcing            | ⭐⭐⭐        | Audit trails                    |
+	| Outbox                    | ⭐⭐⭐⭐⭐      | Reliable event publishing       |
+	| Event-Driven Architecture | ⭐⭐⭐⭐⭐      | Asynchronous communication      |
+	| Strangler Fig             | ⭐⭐⭐⭐       | Monolith migration              |
+	| Sidecar                   | ⭐⭐⭐        | Kubernetes/service mesh         |
+	| Idempotency               | ⭐⭐⭐⭐⭐      | Payments and duplicate requests |
+	| Distributed Tracing       | ⭐⭐⭐⭐       | End-to-end observability        |
+
 		
 # Cross cutting concerns Patterns:
 
