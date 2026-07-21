@@ -74,9 +74,29 @@
 		Increased memory consumption. The microservice architecture replaces N monolithic application instances with NxM services instances. If each service runs in its own JVM (or equivalent), which is usually necessary to isolate the instances, then there is the overhead of M times as many JVM runtimes. Moreover, 
 		if each service runs on its own VM (e.g. EC2 instance), as is the case at Netflix, the overhead is even higher.
 
+# MicroService Design Pattern summary:
+		| Pattern                       | Importance | What is it?                                                                                                      | Example                                                                                                                                     | Common Use Case                 |
+	| ----------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+	| **API Gateway**               | ⭐⭐⭐⭐⭐      | A single entry point for all client requests that handles authentication, routing, rate limiting, and logging.   | A mobile app calls `/orders`; the gateway validates the JWT and routes the request to the Order Service.                                    | Authentication, routing         |
+	| **Service Discovery**         | ⭐⭐⭐⭐       | Allows services to find each other dynamically instead of using hardcoded IPs or URLs.                           | Order Service asks Eureka/Kubernetes DNS for the Payment Service location before making a call.                                             | Dynamic service lookup          |
+	| **Database per Service**      | ⭐⭐⭐⭐⭐      | Each microservice owns its own database; no other service accesses it directly.                                  | Order Service has `OrderDB`, Payment Service has `PaymentDB`, and they communicate via APIs/events instead of SQL joins.                    | Loose coupling                  |
+	| **Saga**                      | ⭐⭐⭐⭐⭐      | Coordinates a business transaction across multiple services using local transactions and compensating actions.   | Order Created → Inventory Reserved → Payment Failed → Inventory Released → Order Cancelled.                                                 | Distributed transactions        |
+	| **Circuit Breaker**           | ⭐⭐⭐⭐⭐      | Stops calling a failing service after repeated failures and returns a fallback response.                         | Payment Service is down; Circuit Breaker opens, so Order Service immediately returns "Payment unavailable" instead of waiting for timeouts. | Fault tolerance                 |
+	| **Retry + Timeout**           | ⭐⭐⭐⭐⭐      | Retries temporary failures and stops waiting after a defined timeout.                                            | Payment API times out after 3 seconds; retry 3 times with exponential backoff before failing.                                               | Handling transient failures     |
+	| **Bulkhead**                  | ⭐⭐⭐⭐       | Isolates resources (threads/connections) so one failing service doesn't impact others.                           | Payment Service uses its own thread pool; if it hangs, Inventory Service continues working normally.                                        | Isolating failures              |
+	| **CQRS**                      | ⭐⭐⭐⭐       | Separates write operations (Commands) from read operations (Queries), often using different models/databases.    | Orders are written to PostgreSQL but customer dashboards read from Elasticsearch for faster searches.                                       | Read/write optimization         |
+	| **Event Sourcing**            | ⭐⭐⭐        | Stores every state change as an immutable event instead of storing only the latest state.                        | Instead of `Status=Delivered`, store `OrderCreated → Paid → Packed → Shipped → Delivered`.                                                  | Audit trails                    |
+	| **Outbox Pattern**            | ⭐⭐⭐⭐⭐      | Stores events in an Outbox table within the same database transaction, then publishes them asynchronously.       | Save Order and Outbox record together; a background process later publishes `OrderCreated` to Kafka.                                        | Reliable event publishing       |
+	| **Event-Driven Architecture** | ⭐⭐⭐⭐⭐      | Services communicate by publishing and consuming events instead of direct synchronous API calls.                 | Order Service publishes `OrderCreated`; Inventory, Shipping, Notification, and Analytics services react independently.                      | Asynchronous communication      |
+	| **Strangler Fig**             | ⭐⭐⭐⭐       | Gradually replaces parts of a monolithic application with microservices instead of rewriting everything at once. | Product module is moved to a new Product Service while the rest of the application remains in the monolith.                                 | Monolith migration              |
+	| **Sidecar**                   | ⭐⭐⭐        | A helper container deployed alongside the application container to provide shared capabilities.                  | An Envoy sidecar handles mTLS, logging, and traffic management while the application focuses only on business logic.                        | Kubernetes/service mesh         |
+	| **Idempotency**               | ⭐⭐⭐⭐⭐      | Ensures the same request can be processed multiple times without changing the result after the first execution.  | A customer clicks "Pay" twice; using the same Idempotency-Key ensures only one payment is processed.                                        | Payments and duplicate requests |
+	| **Distributed Tracing**       | ⭐⭐⭐⭐       | Tracks a single request across multiple microservices using a shared Trace ID.                                   | A request flows Gateway → Order → Payment → Inventory with Trace ID `abc123`, making debugging easy in Zipkin or Jaeger.                    | End-to-end observability        |
+
+
 # Decomposition Patterns:
-		1. Decompose by business capability
-		2. Decompose by subdomain
+		1. Decompose by business capability - 
+		2. Decompose by subdomain - 
 		3. Self-contained Service 
 		4. Service per team 
 
@@ -249,26 +269,6 @@
 		Unless it’s part of the cloud environment, the router must is another system component that must be installed and configured. It will also need to be replicated for availability and capacity.
 		The router must support the necessary communication protocols (e.g HTTP, gRPC, Thrift, etc) unless it is TCP-based router
 		More network hops are required than when using Client Side Discovery.
-
-# Summary: 
-	| Pattern                   | Importance | Common Use Case                 |
-	| ------------------------- | ---------- | ------------------------------- |
-	| API Gateway               | ⭐⭐⭐⭐⭐      | Authentication, routing         |
-	| Service Discovery         | ⭐⭐⭐⭐       | Dynamic service lookup          |
-	| Database per Service      | ⭐⭐⭐⭐⭐      | Loose coupling                  |
-	| Saga                      | ⭐⭐⭐⭐⭐      | Distributed transactions        |
-	| Circuit Breaker           | ⭐⭐⭐⭐⭐      | Fault tolerance                 |
-	| Retry + Timeout           | ⭐⭐⭐⭐⭐      | Handling transient failures     |
-	| Bulkhead                  | ⭐⭐⭐⭐       | Isolating failures              |
-	| CQRS                      | ⭐⭐⭐⭐       | Read/write optimization         |
-	| Event Sourcing            | ⭐⭐⭐        | Audit trails                    |
-	| Outbox                    | ⭐⭐⭐⭐⭐      | Reliable event publishing       |
-	| Event-Driven Architecture | ⭐⭐⭐⭐⭐      | Asynchronous communication      |
-	| Strangler Fig             | ⭐⭐⭐⭐       | Monolith migration              |
-	| Sidecar                   | ⭐⭐⭐        | Kubernetes/service mesh         |
-	| Idempotency               | ⭐⭐⭐⭐⭐      | Payments and duplicate requests |
-	| Distributed Tracing       | ⭐⭐⭐⭐       | End-to-end observability        |
-
 		
 # Cross cutting concerns Patterns:
 
