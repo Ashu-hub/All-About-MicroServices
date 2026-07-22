@@ -93,17 +93,37 @@ public class UserService {
 # 5. Explain Bean Lifecycle
 
 ```
-Bean Instantiation
-        ↓
-Dependency Injection
-        ↓
-@PostConstruct
-        ↓
-Bean Ready
-        ↓
+Application Starts
+        │
+        ▼
+Instantiate Bean
+        │
+        ▼
+Populate Dependencies (Dependency Injection)
+        │
+        ▼
+Aware Interfaces (Optional)
+        │
+        ▼
+BeanPostProcessor (Before Initialization)
+        │
+        ▼
+@PostConstruct / afterPropertiesSet() / initMethod()
+        │
+        ▼
+BeanPostProcessor (After Initialization)
+        │
+        ▼
+Bean Ready for Use
+        │
+        ▼
 Application Running
-        ↓
-@PreDestroy
+        │
+        ▼
+@PreDestroy / destroy() / destroyMethod()
+        │
+        ▼
+Bean Destroyed
 ```
 
 ### Lifecycle Callbacks
