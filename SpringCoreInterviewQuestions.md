@@ -48,8 +48,31 @@ Dependency Injection is the process where Spring injects required dependencies i
 - Field Injection (Avoid)
 
 ### Why Constructor Injection?
+ex:
+```
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+}
+```
+
+- Constructor Injection is preferred because it makes dependencies mandatory, creates immutable objects, improves testability, avoids NullPointerException, and follows SOLID principles. It also ensures that an object is always created in a valid state.
 
 - Mandatory dependencies
+  ```
+  public Car(Engine engine) {
+    this.engine = engine;
+        }
+  ```
+  The compiler forces anyone creating a Car to provide an Engine.
+
+  With Setter Injection, someone could forget to set the engine.
+  
 - Immutable objects
 - Easy unit testing
 - No reflection
