@@ -65,7 +65,469 @@
 		Even though all departments belong to the same school, they don't manage each other's work.
 		What is a Bounded Context?
 		A bounded context is like one department in the school.
-	
+---	
+## 12 Factor app:
+# 12-Factor App Methodology
+
+The **12-Factor App** is a set of **12 best practices** for building modern cloud-native applications that are:
+
+- Scalable
+- Portable
+- Maintainable
+- Resilient
+- Easy to deploy
+
+It was introduced by **Heroku** and is widely followed in **Spring Boot**, **Docker**, **Kubernetes**, **AWS ECS**, and **Microservices** architectures.
+
+---
+
+# Why do we need the 12-Factor App?
+
+Traditional applications often suffer from:
+
+- Environment-specific configurations
+- Manual deployments
+- Difficult scaling
+- Tight coupling
+- Inconsistent environments
+
+The 12-Factor methodology solves these problems by standardizing how applications are built and deployed.
+
+---
+
+# The 12 Factors
+
+## 1. Codebase
+
+### Principle
+
+One codebase tracked in version control, with many deployments.
+
+Example
+
+```
+Git Repository
+      │
+      ├── Dev
+      ├── QA
+      └── Production
+```
+
+**Best Practice**
+
+- Single Git repository
+- Different environments use the same codebase
+
+---
+
+## 2. Dependencies
+
+### Principle
+
+Explicitly declare and isolate dependencies.
+
+Spring Boot Example
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+Avoid relying on libraries installed on the server.
+
+---
+
+## 3. Config
+
+### Principle
+
+Store configuration in the environment, **not in the code**.
+
+❌ Bad
+
+```properties
+db.password=admin123
+```
+
+✅ Good
+
+```properties
+db.password=${DB_PASSWORD}
+```
+
+Set via environment variable
+
+```bash
+export DB_PASSWORD=secret
+```
+
+Spring Boot
+
+```properties
+spring.datasource.password=${DB_PASSWORD}
+```
+
+---
+
+## 4. Backing Services
+
+Treat external services as attached resources.
+
+Examples
+
+- MySQL
+- PostgreSQL
+- Redis
+- RabbitMQ
+- Kafka
+- S3
+
+Application should only know
+
+```
+DATABASE_URL
+```
+
+Changing MySQL to PostgreSQL shouldn't require code changes.
+
+---
+
+## 5. Build, Release, Run
+
+Separate these three stages.
+
+```
+Code
+   ↓
+Build
+   ↓
+JAR File
+   ↓
+Release
+   ↓
+Deploy
+   ↓
+Run
+```
+
+Example
+
+```
+mvn clean package
+
+↓
+
+user-service.jar
+
+↓
+
+Docker Image
+
+↓
+
+Deploy to ECS
+
+↓
+
+Application Running
+```
+
+---
+
+## 6. Processes
+
+Run the application as one or more **stateless processes**.
+
+Don't store user session in memory.
+
+❌ Bad
+
+```
+User Session
+↓
+
+Java Memory
+```
+
+✅ Good
+
+```
+User Session
+
+↓
+
+Redis
+```
+
+Stateless applications scale much better.
+
+---
+
+## 7. Port Binding
+
+The application should expose itself via a port.
+
+Spring Boot
+
+```properties
+server.port=8080
+```
+
+Application runs independently.
+
+```
+localhost:8080
+```
+
+Container platforms simply map ports.
+
+---
+
+## 8. Concurrency
+
+Scale by adding more process instances.
+
+```
+Load Balancer
+      │
+ ┌────┴────┐
+ │         │
+App-1   App-2
+ │         │
+App-3   App-4
+```
+
+Instead of making one server larger, add more application instances.
+
+---
+
+## 9. Disposability
+
+Applications should start quickly and shut down gracefully.
+
+Spring Boot
+
+```java
+@PreDestroy
+public void cleanup() {
+    executor.shutdown();
+}
+```
+
+Benefits
+
+- Fast deployments
+- Auto Scaling
+- Kubernetes rolling updates
+- ECS deployments
+
+---
+
+## 10. Dev/Prod Parity
+
+Development, QA, and Production should be as similar as possible.
+
+Avoid
+
+```
+Dev → MySQL
+
+Prod → Oracle
+```
+
+Better
+
+```
+Dev → PostgreSQL
+
+QA → PostgreSQL
+
+Prod → PostgreSQL
+```
+
+Use Docker to maintain identical environments.
+
+---
+
+## 11. Logs
+
+Treat logs as event streams.
+
+Don't save logs inside the application.
+
+❌ Bad
+
+```
+logs/app.log
+```
+
+✅ Good
+
+```
+stdout
+
+↓
+
+CloudWatch
+
+↓
+
+ELK
+
+↓
+
+Splunk
+```
+
+Spring Boot
+
+```java
+log.info("User created successfully");
+```
+
+Container platforms collect logs automatically.
+
+---
+
+## 12. Admin Processes
+
+Run administrative tasks as one-off processes.
+
+Examples
+
+- Database migration
+- Cleanup jobs
+- Batch processing
+- Data correction
+
+Example
+
+```
+Flyway Migration
+
+↓
+
+Application Starts
+```
+
+or
+
+```
+java -jar app.jar migrate
+```
+
+---
+
+# Real-World Spring Boot + AWS Example
+
+```
+GitHub
+    │
+    ▼
+CodePipeline
+    │
+    ▼
+Maven Build
+    │
+    ▼
+Docker Image
+    │
+    ▼
+Amazon ECR
+    │
+    ▼
+Amazon ECS
+    │
+    ▼
+Spring Boot Application
+    │
+    ▼
+CloudWatch Logs
+```
+
+Configurations come from
+
+- AWS Systems Manager Parameter Store
+- AWS Secrets Manager
+- Environment Variables
+
+Sessions stored in
+
+- Redis
+
+Database
+
+- PostgreSQL
+
+---
+
+# Interview Questions
+
+### 1. What is a 12-Factor App?
+
+A methodology for building cloud-native, scalable, maintainable, and portable applications by following 12 best practices.
+
+---
+
+### 2. Why is Config stored in Environment Variables?
+
+- Keeps secrets out of code
+- Different configuration for different environments
+- Easy deployment without code changes
+
+---
+
+### 3. Why should applications be Stateless?
+
+Stateless applications can be scaled horizontally because any instance can handle any request.
+
+---
+
+### 4. Why shouldn't applications store logs in files?
+
+Containers are ephemeral.
+
+Logs should be streamed to centralized systems like CloudWatch, ELK, or Splunk.
+
+---
+
+### 5. How does Spring Boot support the 12-Factor App?
+
+- Externalized configuration (`application.properties`, environment variables)
+- Embedded server (Port Binding)
+- Actuator for monitoring
+- Stateless REST APIs
+- Docker-friendly packaging
+- Easy integration with cloud services
+
+---
+
+# Mapping to Spring Boot
+
+| 12-Factor Principle | Spring Boot Feature |
+|----------------------|---------------------|
+| Codebase | Git |
+| Dependencies | Maven / Gradle |
+| Config | Environment Variables, Config Server |
+| Backing Services | MySQL, PostgreSQL, Redis, Kafka |
+| Build | Maven / Gradle |
+| Release | Docker Image |
+| Run | Spring Boot JAR |
+| Processes | Stateless REST APIs |
+| Port Binding | Embedded Tomcat |
+| Concurrency | Kubernetes / ECS Scaling |
+| Logs | SLF4J + CloudWatch / ELK |
+| Admin Processes | Flyway, Liquibase, Batch Jobs |
+
+---
+
+# Interview One-Liner
+
+> **The 12-Factor App is a cloud-native methodology that defines 12 best practices for building scalable, portable, and maintainable applications. Spring Boot naturally supports these principles through externalized configuration, stateless services, embedded servers, centralized logging, and container-friendly deployments.**
+
+---
 ## 3. How micro services interact with each other?
 	We can use RestTemplate or Webclient-builder. 
 	But we should not use them as it has boilerplate-code(lot of code needs to write for a small work) to call and get the response.
