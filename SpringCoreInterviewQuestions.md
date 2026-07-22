@@ -277,12 +277,36 @@ or
 ---
 
 # 14. What is Circular Dependency?
-
+A Circular Dependency occurs when two or more Spring beans depend on each other, creating a cycle that prevents the Spring container from constructing them.
 Example
 
 ```
 A → B
 B → A
+```
+
+```
+@Service
+public class AService {
+
+    private final BService bService;
+
+    public AService(BService bService) {
+        this.bService = bService;
+    }
+}
+```
+
+```
+@Service
+public class BService {
+
+    private final AService aService;
+
+    public BService(AService aService) {
+        this.aService = aService;
+    }
+}
 ```
 
 Constructor Injection causes
@@ -294,7 +318,7 @@ BeanCurrentlyInCreationException
 Solutions
 
 - Redesign
-- @Lazy
+- @Lazy: @Lazy delays the creation of BService until it is actually used.
 - Setter Injection
 
 ---
