@@ -748,8 +748,67 @@ List<EmployeeDto> findEmployees();
 	Class Level Annotation. Makes a class Rest Controller. 
 	@RestController = @Controller + @ResponseBody
 	
-	
-	
+---
+ ### Diff between @Controller and @RestController:	
+ 	| `@Controller`                               | `@RestController`                        |
+	| ------------------------------------------- | ---------------------------------------- |
+	| Used for Spring MVC applications            | Used for REST APIs                       |
+	| Returns a View (JSP, Thymeleaf, HTML)       | Returns JSON/XML directly                |
+	| Requires `@ResponseBody` to return JSON     | `@ResponseBody` is applied automatically |
+	| Mainly used in traditional web applications | Mainly used in RESTful microservices     |
+
+@Controller
+
+	Used when your application renders web pages.
+
+	Example
+```
+@Controller
+public class HomeController {
+
+    @GetMapping("/home")
+    public String home() {
+        return "home";
+    }
+}
+```
+Spring looks for:
+
+home.jsp
+
+or
+
+home.html
+
+The returned "home" is interpreted as a view name, not response data.
+
+Returning JSON from @Controller
+
+If you want to return JSON from a @Controller, you must use @ResponseBody.
+```
+@Controller
+public class UserController {
+
+    @GetMapping("/users")
+    @ResponseBody
+    public User getUser() {
+        return new User(1, "Ashutosh");
+    }
+}
+```
+```
+Response
+
+{
+   "id":1,
+   "name":"Ashutosh"
+}
+```
+Without @ResponseBody, Spring would try to find a view named "User" or use the returned string as a view name.
+
+@RestController = @Controller + @ResponseBody
+
+---	
 # Spring MVC and Rest Annotations:-
 1. @RequestMapping:
 		
