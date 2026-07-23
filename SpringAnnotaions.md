@@ -81,16 +81,37 @@
 	
 	
 # Bean Life cycle:
-	1. Instantiation
-	2. Populate properties
-	3. BeanNameAware(setBeanName())
-	4. BeanFactoryAware(setBeanFactory())
-	5. Pre-Initialization BeanPostProcessor
-	6. InitializingBean(after property set)
-	7. Custom Init-method
-	8. Post-initialization BeanPostProcessor
-	9. Bean is ready to use
-	10. Destruction
+	Application Starts
+	        │
+	        ▼
+	Instantiate Bean
+	        │
+	        ▼
+	Populate Dependencies (Dependency Injection)
+	        │
+	        ▼
+	Aware Interfaces (Optional)
+	        │
+	        ▼
+	BeanPostProcessor (Before Initialization)
+	        │
+	        ▼
+	@PostConstruct / afterPropertiesSet() / initMethod()
+	        │
+	        ▼
+	BeanPostProcessor (After Initialization)
+	        │
+	        ▼
+	Bean Ready for Use
+	        │
+	        ▼
+	Application Running
+	        │
+	        ▼
+	@PreDestroy / destroy() / destroyMethod()
+	        │
+	        ▼
+	Bean Destroyed
 -- -----------------------------------------
 ## Transaction propagation:
 	
