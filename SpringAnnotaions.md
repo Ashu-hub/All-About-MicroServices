@@ -840,4 +840,360 @@ Without @ResponseBody, Spring would try to find a view named "User" or use the r
 	2. path parameters are used to identify a specific resource or resources.
 ### Ref:- https://springframework.guru/spring-framework-annotations/
 		  https://howtodoinjava.com/spring-core/spring-annotations/
-		  
+
+
+---
+# @Transactional in Spring
+
+## What is `@Transactional`?
+
+`@Transactional` is used to **manage database transactions automatically**.
+
+It ensures that **all database operations within a method either succeed together or fail together (rollback).**
+
+---
+
+## Why do we need `@Transactional`?
+
+Suppose you're transferring money.
+
+Steps:
+
+1. Deduct ₹1000 from Account A
+2. Add ₹1000 to Account B
+
+Without Transaction
+
+```text
+Deduct from A  ✅
+
+Add to B ❌ (Exception)
+
+Money Lost!
+```
+
+With Transaction
+
+```text
+Deduct from A
+      ↓
+Add to B (Exception)
+      ↓
+Rollback
+      ↓
+A's balance restored
+```
+
+This ensures **Atomicity (ACID)**.
+
+---
+
+## Example
+
+```java
+@Service
+public class BankService {
+
+    @Transactional
+    public void transfer(Long fromId, Long toId, double amount) {
+
+        accountRepository.withdraw(fromId, amount);
+
+        accountRepository.deposit(toId, amount);
+    }
+}
+```
+
+If `deposit()` fails, Spring automatically rolls back the `withdraw()` operation.
+
+---
+
+# How does `@Transactional` work internally?
+
+Spring uses **Proxy-based AOP**.
+
+```text
+Client
+   │
+   ▼
+Spring Proxy
+   │
+   ▼
+Start Transaction
+   │
+   ▼
+Business Method
+   │
+   ├── Success → Commit
+   │
+   └── Exception → Rollback
+```
+
+The proxy performs:
+
+- Begin Transaction
+- Execute Method
+- Commit (Success)
+- Rollback (Failure)
+
+---
+
+# Where can we use `@Transactional`?
+
+## Method Level (Most Common)
+
+```java
+@Transactional
+public void saveUser() {
+
+}
+```
+
+Only this method runs inside a transaction.
+
+---
+
+## Class Level
+
+```java
+@Service
+@Transactional
+public class UserService {
+
+}
+```
+
+All public methods become transactional.
+
+---
+
+# Rollback Rules
+
+## Default Behavior
+
+Spring **rolls back only on unchecked exceptions** (`RuntimeException` and `Error`).
+
+```java
+@Transactional
+public void save() {
+    throw new RuntimeException();
+}
+```
+
+✅ Transaction is rolled back.
+
+---
+
+Checked Exception
+
+```java
+@Transactional
+public void save() throws IOException {
+    throw new IOException();
+}
+```
+
+❌ Transaction is **NOT** rolled back by default.
+
+To rollback for checked exceptions:
+
+```java
+@Transactional(rollbackFor = IOException.class)
+public void save() throws IOException {
+
+}
+```
+
+---
+
+# Important Attributes
+
+## 1. `readOnly`
+
+Used for read-only operations.
+
+```java
+@Transactional(readOnly = true)
+public List<User> getUsers() {
+
+}
+```
+
+### Benefits
+
+- Better performance
+- Disables dirty checking
+- Optimized by some databases
+
+---
+
+## 2. `rollbackFor`
+
+Rollback for checked exceptions.
+
+```java
+@Transactional(rollbackFor = Exception.class)
+```
+
+---
+
+## 3. `propagation`
+
+Controls transaction behavior when one transactional method calls another.
+
+Example:
+
+```java
+@Transactional(propagation = Propagation.REQUIRES_NEW)
+```
+
+### Common Propagation Types
+
+| Propagation | Description |
+|------------|-------------|
+| REQUIRED (Default) | Join existing transaction or create a new one |
+| REQUIRES_NEW | Suspend current transaction and start a new one |
+| SUPPORTS | Join if transaction exists, else execute without transaction |
+| MANDATORY | Must have an existing transaction, otherwise throws exception |
+| NEVER | Execute only if no transaction exists |
+| NOT_SUPPORTED | Suspend existing transaction and execute non-transactionally |
+| NESTED | Creates a nested transaction using savepoints |
+
+---
+
+## 4. `isolation`
+
+Controls concurrency and prevents database anomalies.
+
+```java
+@Transactional(isolation = Isolation.READ_COMMITTED)
+```
+
+Common Isolation Levels:
+
+- READ_UNCOMMITTED
+- READ_COMMITTED
+- REPEATABLE_READ
+- SERIALIZABLE
+
+---
+
+## 5. `timeout`
+
+Rollback transaction if it exceeds the specified time.
+
+```java
+@Transactional(timeout = 10)
+```
+
+Timeout after 10 seconds.
+
+---
+
+# Common Interview Questions
+
+## Q1. How does `@Transactional` work internally?
+
+It is implemented using **Spring AOP (Proxy Pattern)**.
+
+The proxy:
+
+- Starts the transaction
+- Executes the business method
+- Commits on success
+- Rolls back on failure
+
+---
+
+## Q2. Why doesn't `@Transactional` work on private methods?
+
+Spring uses **proxy-based AOP**.
+
+Private methods cannot be intercepted by the proxy.
+
+---
+
+## Q3. Why doesn't self-invocation work?
+
+```java
+@Service
+public class UserService {
+
+    public void methodA() {
+        methodB();   // Internal call
+    }
+
+    @Transactional
+    public void methodB() {
+
+    }
+}
+```
+
+`methodB()` is called directly, bypassing the Spring proxy.
+
+As a result, **no transaction is created**.
+
+---
+
+## Q4. Which exceptions trigger rollback by default?
+
+| Exception Type | Rollback? |
+|---------------|-----------|
+| RuntimeException | ✅ Yes |
+| Error | ✅ Yes |
+| Checked Exception | ❌ No |
+
+Use:
+
+```java
+@Transactional(rollbackFor = Exception.class)
+```
+
+to rollback on checked exceptions.
+
+---
+
+## Q5. What is the default propagation?
+
+**Propagation.REQUIRED**
+
+Behavior:
+
+- Join an existing transaction if available.
+- Otherwise, create a new transaction.
+
+---
+
+## Q6. What is the difference between `readOnly=true` and a normal transaction?
+
+| Normal Transaction | ReadOnly Transaction |
+|--------------------|----------------------|
+| Read + Write | Read Only |
+| Dirty Checking Enabled | Dirty Checking Disabled |
+| Can Modify Data | Should Not Modify Data |
+| Slightly Slower | Better Performance |
+
+---
+
+## Q7. Why should `@Transactional` be placed on the Service layer?
+
+Because a service method typically contains **multiple database operations** that must either all succeed or all fail together, ensuring business consistency.
+
+---
+
+# Best Practices
+
+- ✅ Use `@Transactional` at the **Service layer**, not the Controller.
+- ✅ Keep transactions as short as possible.
+- ✅ Use `readOnly = true` for query methods.
+- ✅ Avoid calling `@Transactional` methods within the same class.
+- ✅ Configure `rollbackFor` if checked exceptions should trigger rollback.
+
+---
+
+# Interview One-Liner
+
+> **`@Transactional` provides declarative transaction management in Spring. It is implemented using proxy-based AOP, which starts a transaction before executing the method, commits it on success, and rolls it back on failure (by default for unchecked exceptions), ensuring data consistency and ACID compliance.**
+
+---
