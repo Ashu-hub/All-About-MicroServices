@@ -621,6 +621,16 @@ The remaining propagation types (`MANDATORY`, `NOT_SUPPORTED`, `NEVER`, `NESTED`
 
 	@EntityGraph optimizes fetching by forcing Hibernate to fetch entity in a single query. Instead of trigerring multiple lazy loading queries(N+1) problems.
 
+### DTO projection"
+```
+@Query("""
+SELECT new com.example.dto.EmployeeDto(
+        e.id,
+        e.name)
+FROM Employee e
+""")
+List<EmployeeDto> findEmployees();
+```
 
 # How would you reduce latency in a GET API returning large transaction history for a dashboard without pagination?
 	A GET API returns a customer's transaction history for a dashboard. It is slow because the customer has millions of transactions. How would you reduce latency?
