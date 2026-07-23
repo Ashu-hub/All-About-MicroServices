@@ -731,9 +731,16 @@ List<EmployeeDto> findEmployees();
 # Spring Boot Annotations:-
 
 1. @EnableAutoConfiguration:-
-	It Automatically configures your spring application based on the dependencies provides in the class path
+	It Automatically configures your spring application based on the dependencies provides in the class path.
+	Internally, Spring Boot Auto Configuration follows this pipeline:
+	
+	@EnableAutoConfiguration is activated.
+	Spring Boot discovers candidate auto-configuration classes.
+	Each class evaluates a set of @Conditional... annotations.
+	Matching configuration classes register beans.
+	Any user-defined beans take precedence over the auto-configured ones.
 
-2.	@SpringBootApplication
+3.	@SpringBootApplication
 	It is entry point of Spring Boot Application. It actually scans the whole package and sub packages.
 	It is combination of below 3 annotations:-
 	@ComponentScan
@@ -741,10 +748,10 @@ List<EmployeeDto> findEmployees();
 	@Configuration
 
 
-3. [@ResponseBody:](https://www.baeldung.com/spring-request-response-body)
+4. [@ResponseBody:](https://www.baeldung.com/spring-request-response-body)
 	The @ResponseBody annotation tells a controller that the object returned is automatically serialized into JSON and passed back into the HttpResponse object.
 
-4. @RestController - 
+5. @RestController - 
 	Class Level Annotation. Makes a class Rest Controller. 
 	@RestController = @Controller + @ResponseBody
 	
