@@ -1197,3 +1197,328 @@ Because a service method typically contains **multiple database operations** tha
 > **`@Transactional` provides declarative transaction management in Spring. It is implemented using proxy-based AOP, which starts a transaction before executing the method, commits it on success, and rolls it back on failure (by default for unchecked exceptions), ensuring data consistency and ACID compliance.**
 
 ---
+# Isolation in `@Transactional`
+
+## What is Isolation?
+
+**Isolation** defines **how one transaction is isolated from other concurrent transactions**.
+
+It determines **whether one transaction can see changes made by another transaction before they are committed**, helping prevent issues like:
+
+- Dirty Read
+- Non-Repeatable Read
+- Phantom Read
+
+Example:
+
+```java
+@Transactional(isolation = Isolation.READ_COMMITTED)
+public void updateBalance() {
+    // Business logic
+}
+```
+
+---
+
+# Why do we need Isolation?
+
+Suppose two users access the same bank account simultaneously.
+
+```text
+Account Balance = ₹10,000
+```
+
+Two transactions start:
+
+- **Transaction A** → Withdraws ₹2,000
+- **Transaction B** → Reads the balance
+
+Depending on the isolation level, Transaction B may see:
+
+- Old balance (₹10,000)
+- Updated balance (₹8,000)
+- Even an uncommitted balance (which is dangerous)
+
+Isolation controls this behavior.
+
+---
+
+# Problems Solved by Isolation
+
+## 1. Dirty Read
+
+### Definition
+
+A transaction reads data that has been modified by another transaction **but has not yet been committed**.
+
+### Example
+
+Initial Salary = ₹3000
+
+```text
+Transaction A
+------------------------
+Update Salary = 5000
+(Not Committed)
+```
+
+Meanwhile
+
+```text
+Transaction B
+------------------------
+Reads Salary = 5000
+```
+
+Now Transaction A rolls back.
+
+```text
+Salary becomes 3000
+```
+
+Transaction B has already read an invalid value.
+
+❌ This is called a **Dirty Read**.
+
+---
+
+## 2. Non-Repeatable Read
+
+### Definition
+
+A transaction reads the **same row twice** but gets different values because another transaction committed an update in between.
+
+### Example
+
+```text
+Transaction A
+
+Read Salary = 3000
+```
+
+Meanwhile
+
+```text
+Transaction B
+
+Update Salary = 5000
+
+Commit
+```
+
+Transaction A reads again.
+
+```text
+Salary = 5000
+```
+
+Same row, different values.
+
+❌ This is a **Non-Repeatable Read**.
+
+---
+
+## 3. Phantom Read
+
+### Definition
+
+A transaction executes the **same query twice** but gets a different number of rows because another transaction inserted or deleted rows.
+
+### Example
+
+Initially
+
+```text
+SELECT * FROM Employee WHERE Salary > 5000
+
+Rahul
+Amit
+```
+
+Meanwhile
+
+```text
+Transaction B
+
+INSERT John (Salary = 7000)
+
+Commit
+```
+
+Transaction A executes the same query again.
+
+```text
+Rahul
+Amit
+John
+```
+
+A new row has appeared.
+
+❌ This is a **Phantom Read**.
+
+---
+
+# Isolation Levels
+
+## 1. READ_UNCOMMITTED
+
+```java
+@Transactional(isolation = Isolation.READ_UNCOMMITTED)
+```
+
+### Prevents
+
+- None
+
+### Allows
+
+- ❌ Dirty Read
+- ❌ Non-Repeatable Read
+- ❌ Phantom Read
+
+**Fastest but least safe.**
+
+---
+
+## 2. READ_COMMITTED ⭐ (Most Common)
+
+```java
+@Transactional(isolation = Isolation.READ_COMMITTED)
+```
+
+### Prevents
+
+- ✅ Dirty Read
+
+### Allows
+
+- ❌ Non-Repeatable Read
+- ❌ Phantom Read
+
+A transaction only sees **committed data**.
+
+**Default in PostgreSQL, Oracle, SQL Server.**
+
+---
+
+## 3. REPEATABLE_READ
+
+```java
+@Transactional(isolation = Isolation.REPEATABLE_READ)
+```
+
+### Prevents
+
+- ✅ Dirty Read
+- ✅ Non-Repeatable Read
+
+### Allows
+
+- ❌ Phantom Read
+
+Once a row is read, subsequent reads within the same transaction return the same value.
+
+**Default in MySQL (InnoDB).**
+
+---
+
+## 4. SERIALIZABLE
+
+```java
+@Transactional(isolation = Isolation.SERIALIZABLE)
+```
+
+### Prevents
+
+- ✅ Dirty Read
+- ✅ Non-Repeatable Read
+- ✅ Phantom Read
+
+Transactions execute **one after another**, providing the highest consistency.
+
+**Safest but slowest** due to increased locking and reduced concurrency.
+
+---
+
+# Comparison Table
+
+| Isolation Level | Dirty Read | Non-Repeatable Read | Phantom Read |
+|-----------------|------------|---------------------|--------------|
+| READ_UNCOMMITTED | ❌ Allowed | ❌ Allowed | ❌ Allowed |
+| READ_COMMITTED | ✅ Prevented | ❌ Allowed | ❌ Allowed |
+| REPEATABLE_READ | ✅ Prevented | ✅ Prevented | ❌ Allowed |
+| SERIALIZABLE | ✅ Prevented | ✅ Prevented | ✅ Prevented |
+
+---
+
+# Which Isolation Level Should You Use?
+
+| Scenario | Recommended Isolation |
+|----------|------------------------|
+| General CRUD Applications | READ_COMMITTED |
+| Banking & Financial Transactions | REPEATABLE_READ or SERIALIZABLE |
+| Reporting requiring strict consistency | SERIALIZABLE |
+| High-throughput applications | READ_COMMITTED |
+
+---
+
+# Important Interview Point
+
+**Does Spring implement isolation?**
+
+**No.**
+
+Spring only passes the isolation level to the **database** through the transaction manager.
+
+The **database engine** (MySQL, PostgreSQL, Oracle, SQL Server, etc.) enforces the isolation behavior.
+
+---
+
+# Common Interview Questions
+
+## Q1. What is Isolation?
+
+Isolation determines **how concurrent transactions interact** and controls whether one transaction can see another transaction's changes before they are committed.
+
+---
+
+## Q2. Which isolation level is most commonly used?
+
+**READ_COMMITTED**
+
+It provides a good balance between **performance** and **data consistency**.
+
+---
+
+## Q3. Which isolation level is the safest?
+
+**SERIALIZABLE**
+
+It prevents:
+
+- Dirty Read
+- Non-Repeatable Read
+- Phantom Read
+
+---
+
+## Q4. What problems do isolation levels solve?
+
+- Dirty Read
+- Non-Repeatable Read
+- Phantom Read
+
+---
+
+## Q5. Does `@Transactional` guarantee isolation?
+
+`@Transactional` requests a specific isolation level, but the **actual implementation is handled by the underlying database**.
+
+---
+
+# Interview One-Liner
+
+> **Isolation defines how concurrent transactions interact with each other. It controls the visibility of changes between transactions and prevents anomalies such as Dirty Reads, Non-Repeatable Reads, and Phantom Reads. Spring specifies the isolation level, while the underlying database enforces it.**
+
+---
