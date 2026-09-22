@@ -1071,6 +1071,28 @@ Example:
 ## 4. `isolation`
 
 Controls concurrency and prevents database anomalies.
+When multiple transactions run at the same time, isolation determines what data one transaction is allowed to see from another transaction.
+
+### Why do we need isolation?
+
+Imagine two transactions accessing the same account:
+Initial balance = ₹10,000
+
+Transaction A              Transaction B
+     |                           |
+     | Read ₹10,000              |
+     |                           |
+     |                           | Read ₹10,000
+     |                           |
+     | Deduct ₹7,000             |
+     |                           |
+     |                           | Deduct ₹5,000
+     |                           |
+
+If both transactions operate without proper isolation, you can get incorrect results.
+Isolation controls these concurrency problems.
+
+
 
 ```java
 @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -1078,10 +1100,90 @@ Controls concurrency and prevents database anomalies.
 
 Common Isolation Levels:
 
-- READ_UNCOMMITTED
-- READ_COMMITTED
-- REPEATABLE_READ
-- SERIALIZABLE
+- READ_UNCOMMITTED: The transaction can read data that another transaction has modified but not committed yet. This can cause a: Dirty Read(A transaction reads uncommitted data from another transaction, which may later be rolled back.)
+  Usually avoided for business-critical transactions.
+  
+- READ_COMMITTED: A transaction can only read committed data. Therefore, dirty reads are prevented.
+  But there's a problem: Non-repeatable read
+	But there's a problem: Non-repeatable read
+	
+	Transaction B:
+
+	```
+	SELECT balance → 1000
+	```
+	Transaction A updates and commits:
+	```
+	UPDATE balance = 500
+	COMMIT
+	```
+	Transaction B executes the same query again:
+	```
+	SELECT balance → 500
+	```
+	Same transaction, same query, different result.
+	
+	That's a non-repeatable read.
+
+  
+- REPEATABLE_READ: This guarantees that if your transaction reads a row, repeated reads of that row give a consistent result within the transaction, subject to database-specific implementation/details.
+  
+- SERIALIZABLE : The database makes concurrent transactions behave as if they were executed serially, though the implementation may use locks or MVCC mechanisms depending on the DB.
+
+  Advantage
+	Very strong consistency.
+	
+  Disadvantage
+	
+	Potentially:	
+	More locking/contention
+	Lower concurrency
+	More deadlocks/timeouts
+	Reduced throughput
+	
+	So you generally don't use SERIALIZABLE everywhere.
+
+
+| Isolation        |  Dirty Read | Non-repeatable Read | Phantom Read |
+| ---------------- | ----------: | ------------------: | -----------: |
+| READ UNCOMMITTED |  ❌ Possible |          ❌ Possible |   ❌ Possible |
+| READ COMMITTED   | ✅ Prevented |          ❌ Possible |   ❌ Possible |
+| REPEATABLE READ  | ✅ Prevented |         ✅ Prevented | DB-dependent |
+| SERIALIZABLE     | ✅ Prevented |         ✅ Prevented |  ✅ Prevented |
+
+You can configure isolation at the transaction level:
+
+```
+@Transactional(
+    isolation = Isolation.READ_COMMITTED
+)
+public void processPayment() {
+    // business logic
+}
+```
+---
+##  How isolation is different from propagation:
+
+Isolation controls How one transaction interacts with other concurrent transactions.
+Propagation controles What happens when one transactional method calls another transactional method.
+
+### "What happens if methodA has SERIALIZABLE and calls methodB which has READ_COMMITTED?"
+
+```
+@Transactional(isolation = Isolation.SERIALIZABLE)
+public void methodA() {
+
+    methodB();
+}
+
+@Transactional(isolation = Isolation.READ_COMMITTED)
+public void methodB() {
+    // database operation
+}
+```
+
+If methodB uses the default REQUIRED propagation, it joins methodA's existing transaction. Therefore there is only one transaction, and the isolation level is SERIALIZABLE. methodB's READ_COMMITTED doesn't create a new transaction or change the existing transaction's isolation. If methodB uses REQUIRES_NEW, Spring suspends methodA's transaction and creates a new transaction for methodB, which can have its own isolation level.”
+
 
 ---
 
