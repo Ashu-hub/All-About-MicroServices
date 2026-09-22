@@ -917,6 +917,9 @@ If `deposit()` fails, Spring automatically rolls back the `withdraw()` operation
 
 # How does `@Transactional` work internally?
 
+“@Transactional is implemented through Spring's transaction infrastructure, typically using an AOP proxy and transaction interceptor. When a transactional method is called through the proxy, Spring's transaction manager starts a new transaction or joins an existing one according to the propagation setting. It also applies settings such as isolation, timeout and read-only. The target method then executes within that transaction. If it completes successfully, Spring commits the transaction; if a rollback-triggering exception occurs, Spring rolls it back. With JPA/Hibernate, the persistence context and dirty checking operate within that transaction, and SQL is flushed before commit.”
+
+
 Spring uses **Proxy-based AOP**.
 
 ```text
