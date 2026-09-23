@@ -859,7 +859,9 @@ Without @ResponseBody, Spring would try to find a view named "User" or use the r
 It ensures that **all database operations within a method either succeed together or fail together (rollback).**
 
 ---
+Q) what is diff type of proxy?
 
+---
 ## Why do we need `@Transactional`?
 
 Suppose you're transferring money.
